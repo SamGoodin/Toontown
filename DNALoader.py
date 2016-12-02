@@ -1,21 +1,23 @@
-from direct.showbase.ShowBase import ShowBase
 from DNAParser import *
 from DNAStorage import *
 
-class Test(ShowBase):
+class DNALoader:
 
-    def __init__(self):
-        ShowBase.__init__(self)
-        self.dnaStore = DNAStorage("phase_4/dna/storage_TT.pdna")
-        dnaBulk = DNABulkLoader("phase_4/dna/storage_TT.pdna", "phase_4/dna/storage_TT_sz.pdna")
+    def __init__(self, storage, pgStorage, szStorage, szDNA):
+        self.dnaStore = DNAStorage()
+        dnaBulk = DNABulkLoader(self.dnaStore, storage)
         dnaBulk.loadDNAFiles()
-        node = loadDNAFile("phase_4/dna/storage_TT.pdna", 'phase_4/dna/toontown_central_sz.pdna')
+        dnaBulkA = DNABulkLoader(self.dnaStore, pgStorage)
+        dnaBulkA.loadDNAFiles()
+        dnaBulk1 = DNABulkLoader(self.dnaStore, szStorage)
+        dnaBulk1.loadDNAFiles()
+        node = loadDNAFile(self.dnaStore, szDNA)
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))
             self.geom.reparentTo(hidden)
         else:
             self.geom = hidden.attachNewNode(node)
-        self.makeDictionaries("phase_4/dna/storage_TT.pdna")
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.holidayPropTransforms = {}
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
@@ -27,12 +29,17 @@ class Test(ShowBase):
         if gsg:
             self.geom.prepareScene(gsg)
         self.geom.flattenMedium()
+        for i in self.nodeList:
+            self.enterAnimatedProps(i)
+
+    def returnGeom(self):
+        return self.geom
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
         for i in xrange(dnaStore.getNumDNAVisGroups()):
             groupFullName = dnaStore.getDNAVisGroupName(i)
-            groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
+            groupName = groupFullName.split(':', 1)[0]
             groupNode = self.geom.find('**/' + groupFullName)
             if groupNode.isEmpty():
                 self.notify.error('Could not find visgroup')
@@ -46,6 +53,25 @@ class Test(ShowBase):
         for i in xrange(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
+    def importModule(self, dcImports, moduleName, importSymbols):
+        module = __import__(moduleName, globals(), locals(), importSymbols)
+
+        if importSymbols:
+            if importSymbols == ['*']:
+                if hasattr(module, "__all__"):
+                    importSymbols = module.__all__
+                else:
+                    importSymbols = module.__dict__.keys()
+            for symbolName in importSymbols:
+                if hasattr(module, symbolName):
+                    dcImports[symbolName] = getattr(module, symbolName)
+                else:
+                    raise Exception('Symbol %s not defined in module %s.' % (symbolName, moduleName))
+        else:
+            components = moduleName.split('.')
+            dcImports[components[0]] = module
+
+
     def createAnimatedProps(self, nodeList):
         self.animPropDict = {}
         for i in nodeList:
@@ -58,7 +84,7 @@ class Test(ShowBase):
                 else:
                     className = animPropNode.getName()[14:-8]
                 symbols = {}
-                base.cr.importModule(symbols, 'toontown.hood', [className])
+                self.importModule(symbols, 'hood.folder', [className])
                 classObj = getattr(symbols[className], className)
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
@@ -70,7 +96,7 @@ class Test(ShowBase):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}
-                base.cr.importModule(symbols, 'toontown.hood', [className])
+                self.importModule(symbols, 'hood.folder', [className])
                 classObj = getattr(symbols[className], className)
                 interactivePropObj = classObj(interactivePropNode)
                 animPropList = self.animPropDict.get(i)
@@ -79,3 +105,7 @@ class Test(ShowBase):
                 animPropList.append(interactivePropObj)
 
         return
+
+    def enterAnimatedProps(self, zoneNode):
+        for animProp in self.animPropDict.get(zoneNode, ()):
+            animProp.enter()

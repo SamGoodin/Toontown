@@ -1,5 +1,6 @@
 from pandac.PandaModules import *
 from direct.task import Task
+from DNALoader import *
 
 import random
 from direct.showbase.DirectObject import DirectObject
@@ -27,9 +28,15 @@ class TTC(DirectObject):
 
     def __init__(self, toon, startPosHpr=1):
         DirectObject.__init__(self)
+        self.ls = LoadingScreen()
+        self.accept('tick', self.tick)
         self.toon = toon
         self.music = None
         self.sky = None
+        self.storageFile = 'phase_4/dna/storage.pdna'
+        self.pgStorageFile = 'phase_4/dna/storage_TT.pdna'
+        self.szStorageFile = 'phase_4/dna/storage_TT_sz.pdna'
+        self.szDNAFile = 'phase_4/dna/toontown_central_sz.pdna'
         base.cTrav = CollisionTraverser()
         base.camera.hide()
         if startPosHpr == 1:
@@ -38,21 +45,30 @@ class TTC(DirectObject):
             spawn = startPosHpr
         self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
 
+    def tick(self):
+        self.ls.tick()
+
     def load(self, sky=1):
-        self.ttc = loader.loadModel("phase_15/hood/toontown_central")
-        self.ttc.setTransparency(TransparencyAttrib.MBinary, 1)
-        self.ttc.setHpr(-90, 0, 0)
+        self.ls.begin(100)
+        dna = DNALoader(self.storageFile, self.pgStorageFile, self.szStorageFile, self.szDNAFile)
+        self.ttc = dna.returnGeom()
+        self.ttc.reparentTo(render)
+        self.ls.tick()
+        bank = self.ttc.find('**/*toon_landmark_TT_bank_DNARoot')
+        doorTrigger = bank.find('**/door_trigger*')
+        doorTrigger.setY(doorTrigger.getY() - 1.5)
         if sky == 1:
             pass
         else:
             self.setupSky()
+        self.ls.tick()
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
         base.playMusic(self.music, looping=1)
-        self.ttc.reparentTo(render)
         base.taskMgr.add(self.sillyStreet, 'sillyStreet')
         base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
         base.taskMgr.add(self.loopyLane, 'loopyLane')
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
+        self.ls.end()
 
     def setupSky(self):
         self.sky = loader.loadModel("phase_3.5/models/props/TT_sky.bam")

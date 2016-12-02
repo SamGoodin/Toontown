@@ -36,16 +36,12 @@ class Messenger(DirectObject.DirectObject):
         self.startMenu.loadStartMenu()
 
     def unloadMakeAToon(self):
-        ls = LoadingScreen()
-        ls.begin(100)
         self.toon = self.MAT.getToon()
         self.MAT.exit()
         self.MAT.unload()
         del self.MAT
-        ls.tick()
         ttc = TTC(self.toon)
         ttc.load(0)
-        ls.tick()
         geom = self.toon.getGeomNode()
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
@@ -54,7 +50,6 @@ class Messenger(DirectObject.DirectObject):
         self.toonClass.setupCameraPositions()
         self.toon = self.toonClass.setupControls(self.toon)
         self.shtikerBook()
-        ls.end()
 
     def shtikerBook(self):
         self.book = DirectFrame()

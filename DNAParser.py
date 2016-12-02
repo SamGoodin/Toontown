@@ -8,28 +8,28 @@ class DNABulkLoader:
         self.dnaFiles = files
 
     def loadDNAFiles(self):
-        for file in self.dnaFiles:
-            print 'Reading DNA file...', file
-            loadDNABulk(self.dnaStorage, file)
+        print 'Reading DNA file...', self.dnaFiles
+        loadDNABulk(self.dnaStorage, self.dnaFiles)
+        messenger.send('tick')
         del self.dnaStorage
         del self.dnaFiles
 
-def loadDNABulk(dnaStorage, file):
-    dnaLoader = DNALoader.DNALoader()
+def loadDNABulk(dnaStorage, kill):
+    dnaLoader = DNALoader.DNALoader(base)
     if __debug__:
-        file = '../resources/' + file
+        file = kill
     else:
-        file = '/' + file
+        file = kill
     dnaLoader.loadDNAFile(dnaStorage, file)
     dnaLoader.destroy()
 
 def loadDNAFile(dnaStorage, file):
     print 'Reading DNA file...', file
-    dnaLoader = DNALoader.DNALoader()
+    dnaLoader = DNALoader.DNALoader(base)
     if __debug__:
-        file = '../resources/' + file
+        file = file
     else:
-        file = '/' + file
+        file = file
     node = dnaLoader.loadDNAFile(dnaStorage, file)
     dnaLoader.destroy()
     if node.node().getNumChildren() > 0:
@@ -39,9 +39,9 @@ def loadDNAFile(dnaStorage, file):
 def loadDNAFileAI(dnaStorage, file):
     dnaLoader = DNALoader.DNALoader()
     if __debug__:
-        file = '../resources/' + file
+        file = file
     else:
-        file = '/' + file
+        file = file
     data = dnaLoader.loadDNAFileAI(dnaStorage, file)
     dnaLoader.destroy()
     return data

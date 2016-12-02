@@ -1,15 +1,39 @@
-from direct.showbase.ShowBase import ShowBase
 from pandac.PandaModules import *
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.distributed.PyDatagram import PyDatagram
 from direct.stdpy.file import *
+from direct.showbase import Loader
+
+import DNAUtil
 import DNAError
+import DNAAnimBuilding
+import DNAAnimProp
+import DNACornice
+import DNADoor
+import DNAFlatBuilding
+import DNAFlatDoor
+import DNAGroup
+import DNAInteractiveProp
+import DNALandmarkBuilding
+import DNANode
+import DNAProp
+import DNASign
+import DNASignBaseline
+import DNASignGraphic
+import DNASignText
+import DNAStreet
+import DNAVisGroup
+import DNAWall
+import DNAWindows
+import DNABattleCell
+import DNASuitPoint
+
 
 import zlib
 import sys
 sys.setrecursionlimit(10000)
 
-'''compClassTable = {
+compClassTable = {
 1: DNAGroup.DNAGroup,
 2: DNAVisGroup.DNAVisGroup,
 3: DNANode.DNANode,
@@ -29,7 +53,7 @@ sys.setrecursionlimit(10000)
 17: DNADoor.DNADoor,
 18: DNAFlatDoor.DNAFlatDoor,
 19: DNAStreet.DNAStreet
-}'''
+}
 
 childlessComps = (
 7, # DNASignText
@@ -40,9 +64,10 @@ childlessComps = (
 19 # DNAStreet
 )
 
-class DNALoader:
+class DNALoader(Loader.Loader):
 
-    def __init__(self):
+    def __init__(self, base):
+        Loader.Loader.__init__(self, base)
         self.dnaStorage = None
         self.prop = None
 
@@ -50,15 +75,29 @@ class DNALoader:
         del self.dnaStorage
         del self.prop
 
-    def loadDNAFile(self, dnaStorage, file):
-        self.loadDNAFileBase(dnaStorage, file)
+    def pdnaModel(self, *args, **kw):
+        ret = Loader.Loader.loadModel(self, *args, **kw)
+        if ret:
+            gsg = base.win.getGsg()
+            if gsg:
+                ret.prepareScene(gsg)
+        return ret
+
+    def pdnaTexture(self, texturePath, alphaPath = None, okMissing = False):
+        return Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing=okMissing)
+
+    def pdnaFont(self, *args, **kw):
+        return Loader.Loader.loadFont(self, *args, **kw)
+
+    def loadDNAFile(self, dnaStorage, kill):
+        self.loadDNAFileBase(dnaStorage, kill)
         nodePath = NodePath(PandaNode('dna'))
         self.prop.traverse(nodePath, self.dnaStorage)
         return nodePath
 
-    def loadDNAFileBase(self, dnaStorage, file):
+    def loadDNAFileBase(self, dnaStorage, kill):
         self.dnaStorage = dnaStorage
-        dnaFile = open(file, 'rb')
+        dnaFile = open(kill, 'rb')
         dnaData = dnaFile.read()
         dg = PyDatagram(dnaData)
         dgi = PyDatagramIterator(dg)
@@ -125,14 +164,14 @@ class DNALoader:
         for _ in xrange(numTextures):
             code = DNAUtil.dgiExtractString8(dgi)
             filename = DNAUtil.dgiExtractString8(dgi)
-            self.dnaStorage.storeTexture(code, loader.pdnaTexture(filename, okMissing=True))
+            self.dnaStorage.storeTexture(code, self.pdnaTexture(filename, okMissing=True))
 
         # Fonts
         numFonts = dgi.getUint16()
         for _ in xrange(numFonts):
             code = DNAUtil.dgiExtractString8(dgi)
             filename = DNAUtil.dgiExtractString8(dgi)
-            self.dnaStorage.storeFont(code, loader.pdnaFont(filename))
+            self.dnaStorage.storeFont(code, self.pdnaFont(filename))
 
         # Nodes
         self.handleNode(dgi, target=self.dnaStorage.storeNode)
@@ -186,7 +225,7 @@ class DNALoader:
             code = DNAUtil.dgiExtractString8(dgi)
             file = DNAUtil.dgiExtractString8(dgi)
             node = DNAUtil.dgiExtractString8(dgi)
-            np = NodePath(loader.pdnaModel(file))
+            np = NodePath(self.pdnaModel(file))
             if node:
                 newNode = np.find('**/' + node).copyTo(NodePath())
                 np.removeNode()
@@ -194,5 +233,3 @@ class DNALoader:
             np.setTag('DNACode', code)
             np.setTag('DNARoot', node)
             target(np, code)
-
-Game().run()
