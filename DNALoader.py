@@ -47,6 +47,10 @@ class DNALoader:
             self.nodeList.append(groupNode)
 
         self.removeLandmarkBlockNodes()
+        self.dnaStore.resetPlaceNodes()
+        self.dnaStore.resetDNAGroups()
+        self.dnaStore.resetDNAVisGroups()
+        self.dnaStore.resetDNAVisGroupsAI()
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
@@ -106,6 +110,26 @@ class DNALoader:
 
         return
 
+    def deleteAnimatedProps(self):
+        for zoneNode, animPropList in self.animPropDict.items():
+            for animProp in animPropList:
+                animProp.delete()
+
+        del self.animPropDict
+
+    def exitAnimatedProps(self, zoneNode):
+        for animProp in self.animPropDict.get(zoneNode, ()):
+            animProp.exit()
+
     def enterAnimatedProps(self, zoneNode):
         for animProp in self.animPropDict.get(zoneNode, ()):
             animProp.enter()
+
+    def unload(self):
+        ModelPool.garbageCollect()
+        TexturePool.garbageCollect()
+        for i in self.nodeList:
+            self.exitAnimatedProps(i)
+        self.deleteAnimatedProps()
+        self.geom.removeNode()
+        del self.geom
