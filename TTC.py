@@ -51,7 +51,7 @@ class TTC(DirectObject):
 
     def load(self, sky=1):
         self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorageFile, self.szStorageFile, self.szDNAFile)
+        self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
         self.ttc = self.dna.returnGeom()
         self.ttc.reparentTo(render)
         self.ls.tick()
@@ -65,31 +65,49 @@ class TTC(DirectObject):
         self.ls.tick()
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
         base.playMusic(self.music, looping=1)
-        #base.taskMgr.add(self.sillyStreet, 'sillyStreet')
-        #base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
-        #base.taskMgr.add(self.loopyLane, 'loopyLane')
+        base.taskMgr.add(self.sillyStreet, 'sillyStreet')
+        base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
+        base.taskMgr.add(self.loopyLane, 'loopyLane')
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
         self.ls.end()
 
     def setupSky(self):
         self.sky = loader.loadModel("phase_3.5/models/props/TT_sky.bam")
+        self.sky.setTag('sky', 'Regular')
+        self.sky.setScale(1.0)
+        self.sky.setFogOff()
+        self.sky.setDepthTest(True)
+        self.sky.setDepthWrite(False)
+        self.sky.setBin('background', 100)
+        self.sky.find('**/Sky').reparentTo(self.sky, -1)
         self.sky.reparentTo(render)
-        self.sky.setScale(5, 5, 5)
-        Clouds1 = self.sky.find("**/cloud1")
-        Clouds2 = self.sky.find("**/cloud2")
-        Clouds1.setScale(0.6, 0.6, 0.6)
-        Clouds2.setScale(0.9, 0.9, 0.9)
-        Clouds1Spin = Clouds1.hprInterval(360, Vec3(60, 0, 0))
-        Clouds1Spin.loop()
-        Clouds2Spin = Clouds2.hprInterval(360, Vec3(-60, 0, 0))
-        Clouds2Spin.loop()
-        Clouds1.setTransparency(TransparencyAttrib.MBinary, 1)
-        Clouds2.setTransparency(TransparencyAttrib.MBinary, 1)
+        self.sky.setZ(0.0)
+        self.sky.setHpr(0, 0, 0)
+        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
+        self.sky.node().setEffect(ce)
+        skyTrackTask = Task.Task(self.cloudSkyTrack)
+        skyTrackTask.h = 0
+        skyTrackTask.cloud1 = self.sky.find('**/cloud1')
+        skyTrackTask.cloud2 = self.sky.find('**/cloud2')
+        if not skyTrackTask.cloud1.isEmpty() and not skyTrackTask.cloud2.isEmpty():
+            taskMgr.add(skyTrackTask, 'skyTrack')
+        else:
+            notify.warning("Couln't find clouds!")
+
+    def cloudSkyTrack(self, task):
+        task.h += globalClock.getDt() * 0.25
+        if task.cloud1.isEmpty() or task.cloud2.isEmpty():
+            notify.warning("Couln't find clouds!")
+            return Task.done
+
+        task.cloud1.setH(task.h)
+        task.cloud2.setH(-task.h * 0.8)
+        return Task.cont
 
     def unload(self):
-        #base.taskMgr.remove('sillyStreet')
-        #base.taskMgr.remove('punchlinePlace')
-        #base.taskMgr.remove('loopyLane')
+        base.taskMgr.remove('sillyStreet')
+        base.taskMgr.remove('punchlinePlace')
+        base.taskMgr.remove('loopyLane')
         base.taskMgr.remove('goofySpeedway')
         self.ignoreAll()
         self.music.stop()
@@ -111,155 +129,186 @@ class TTC(DirectObject):
         return task.cont
 
     def sillyStreet(self, task):
-        if self.toon.getX() <= -155 and self.toon.getX() >= -164:
-            loadingScreen = LoadingScreen()
-            loadingScreen.begin(100)
-            self.unload()
-            loadingScreen.tick()
-            self.toon.setPos(-90.8546, -100.658, -0.475494)
-            self.toon.setHpr(92.6896, 0, 0)
-            SillyStreet(self.toon).load()
-            loadingScreen.end()
-            return task.done
-        else:
-            return task.cont
+        if self.toon.getX() <= 35 and self.toon.getX() >= 21:
+            if self.toon.getY() <= -155 and self.toon.getY() >= -164:
+                SillyStreet(self.toon).load()
+                self.unload()
+                self.toon.setPosHpr(-91.9644, -100.045, -0.47204, 82.325, 0, 0)
+                return task.done
+        return task.cont
 
     def punchlinePlace(self, task):
-        if self.toon.getX() <= 102 and self.toon.getX() >= 100:
-            if self.toon.getY() <= 54 and self.toon.getY() >= 37:
-                loadingScreen = LoadingScreen()
-                loadingScreen.begin(100)
+        if self.toon.getX() <= -36 and self.toon.getX() >= -54:
+            if self.toon.getY() <= 102 and self.toon.getY() >= 99:
+                PunchlinePlace(self.toon).load()
                 self.unload()
-                loadingScreen.tick()
                 self.toon.setPos(4.39313, 22.2804, -0.478364)
                 self.toon.setHpr(269.45, 0, 0)
-                PunchlinePlace(self.toon).load()
-                loadingScreen.end()
                 return task.done
         return task.cont
 
     def loopyLane(self, task):
-        if self.toon.getX() <= 12 and self.toon.getX() >= -4:
-            if self.toon.getY() <= 154 and self.toon.getY() >= 153:
-                loadingScreen = LoadingScreen()
-                loadingScreen.begin(100)
+        if self.toon.getX() <= -152 and self.toon.getX() >= -154:
+            if self.toon.getY() <= 12.5 and self.toon.getY() >= -4.3:
+                LoopyLane(self.toon).load()
                 self.unload()
-                loadingScreen.tick()
                 self.toon.setPos(-76.0011, 96.14, -0.47921)
                 self.toon.setHpr(-271.592, 0, 0)
-                LoopyLane(self.toon).load()
-                loadingScreen.end()
                 return task.done
         return task.cont
 
-class SillyStreet:
+class SillyStreet(DirectObject):
 
     def __init__(self, toon):
+        DirectObject.__init__(self)
+        self.ls = LoadingScreen()
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
-        self.streetFile = "phase_15/street/TTC_silly_street"
-        self.street = None
+        self.storageFile = 'phase_4/dna/storage.pdna'
+        self.pgStorage = 'phase_4/dna/storage_TT.pdna'
+        self.townStorage = 'phase_5/dna/storage_town.pdna'
+        self.streetStorage = 'phase_5/dna/storage_TT_town.pdna'
+        self.streetDNAFile = 'phase_5/dna/toontown_central_2100.pdna'
+
+    def tick(self):
+        self.ls.tick()
 
     def load(self):
-        self.street = loader.loadModel(self.streetFile)
+        self.ls.begin(100)
+        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
+        self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
+        self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
+        self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.ls.end()
 
     def unload(self):
         base.taskMgr.remove('ttcTunnel')
+        self.ignoreAll()
         self.music.stop()
         del self.music
         self.street.removeNode()
         del self.street
+        self.dna.unload()
+        del self.dna
+        self.ls.destroy()
+        del self.ls
 
     def ttc(self, task):
-        if self.toon.getX() <= -83 and self.toon.getX() >= -85:
-            if self.toon.getY() <= -91 and self.toon.getY() >= -108:
-                ls = LoadingScreen()
-                ls.begin(100)
+        if self.toon.getX() <= -82 and self.toon.getX() >= -84:
+            if self.toon.getY() <= -90 and self.toon.getY() >= -109:
+                TTC(self.toon, (33.7737, -151.822, 3.02757, -24.1596, 0, 0)).load()
                 self.unload()
-                ls.tick()
-                TTC(self.toon, (-151.514, -32.8979, 3.02421, 247.186, 0, 0)).load()
-                ls.end()
                 return task.done
         return task.cont
 
-class PunchlinePlace:
+class PunchlinePlace(DirectObject):
 
     def __init__(self, toon):
+        DirectObject.__init__(self)
+        self.ls = LoadingScreen()
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
-        self.streetFile = "phase_15/street/TTC_punchline_place"
-        self.street = None
+        self.storageFile = 'phase_4/dna/storage.pdna'
+        self.pgStorage = 'phase_4/dna/storage_TT.pdna'
+        self.townStorage = 'phase_5/dna/storage_town.pdna'
+        self.streetStorage = 'phase_5/dna/storage_TT_town.pdna'
+        self.streetDNAFile = 'phase_5/dna/toontown_central_2300.pdna'
+
+    def tick(self):
+        self.ls.tick()
 
     def load(self):
-        self.street = loader.loadModel(self.streetFile)
+        self.ls.begin(100)
+        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
+        self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
-        self.music = base.loadMusic(self.musicFile)
+        self.ls.tick()
+        self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
+        self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.ls.end()
 
     def unload(self):
         base.taskMgr.remove('ttcTunnel')
+        self.ignoreAll()
         self.music.stop()
         del self.music
         self.street.removeNode()
         del self.street
+        self.dna.unload()
+        del self.dna
+        self.ls.destroy()
+        del self.ls
 
     def ttc(self, task):
-        if self.toon.getX() <= -4.5 and self.toon.getX() >= -5:
-            if self.toon.getY() <= 29 and self.toon.getY() >= 12:
-                ls = LoadingScreen()
-                ls.begin(100)
+        if self.toon.getX() <= -5 and self.toon.getX() >= -6:
+            if self.toon.getY() <= 28 and self.toon.getY() >= 12:
+                TTC(self.toon, (-47.3624, 92.1697, 0.527566, 172.46, 0, 0)).load()
                 self.unload()
-                ls.tick()
-                TTC(self.toon, (91.4972, 43.8591, 0.522909, 440.311, 0, 0)).load()
-                ls.end()
                 return task.done
         return task.cont
 
-class LoopyLane:
+class LoopyLane(DirectObject):
 
     def __init__(self, toon):
+        DirectObject.__init__(self)
+        self.ls = LoadingScreen()
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
-        self.streetFile = "phase_15/street/TTC_loopy_lane"
-        self.street = None
+        self.storageFile = 'phase_4/dna/storage.pdna'
+        self.pgStorage = 'phase_4/dna/storage_TT.pdna'
+        self.townStorage = 'phase_5/dna/storage_town.pdna'
+        self.streetStorage = 'phase_5/dna/storage_TT_town.pdna'
+        self.streetDNAFile = 'phase_5/dna/toontown_central_2200.pdna'
+
+    def tick(self):
+        self.ls.tick()
 
     def load(self):
-        self.street = loader.loadModel(self.streetFile)
+        self.ls.begin(100)
+        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
+        self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
-        self.music = base.loadMusic(self.musicFile)
+        self.ls.tick()
+        self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
+        self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.ls.end()
 
     def unload(self):
         base.taskMgr.remove('ttcTunnel')
+        self.ignoreAll()
         self.music.stop()
         del self.music
         self.street.removeNode()
         del self.street
+        self.dna.unload()
+        del self.dna
+        self.ls.destroy()
+        del self.ls
 
     def ttc(self, task):
-        if self.toon.getX() <= -72 and self.toon.getX() >= -73:
-            if self.toon.getY() <= 103 and self.toon.getY() >= 87.5:
-                ls = LoadingScreen()
-                ls.begin(100)
+        if self.toon.getX() <= -69 and self.toon.getX() >= -70.1:
+            if self.toon.getY() <= 103 and self.toon.getY() >= 87:
+                TTC(self.toon, (-145.759, 4.73623, 0.527567, -86.817, 0, 0)).load()
                 self.unload()
-                ls.tick()
-                TTC(self.toon, (6.59755, 144.358, 0.519495, -183.679, 0, 0)).load()
-                ls.end()
                 return task.done
         return task.cont
 
-class GoofySpeedway:
+class GoofySpeedway(DirectObject):
 
     def __init__(self, toon):
+        DirectObject.__init__(self)
+        self.ls = LoadingScreen()
         self.toon = toon
         self.musicFile = "phase_6/audio/bgm/GS_SZ.ogg"
         self.music = None
@@ -267,19 +316,19 @@ class GoofySpeedway:
         self.pgStorageFile = 'phase_6/dna/storage_GS.pdna'
         self.szStorageFile = 'phase_6/dna/storage_GS_sz.pdna'
         self.szDNAFile = 'phase_6/dna/goofy_speedway_sz.pdna'
-        self.ls = LoadingScreen()
 
     def tick(self):
         self.ls.tick()
 
     def load(self):
         self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorageFile, self.szStorageFile, self.szDNAFile)
+        self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
+        self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
         blimp = self.street.find('**/GS_blimp')
         blimp.setPos(-70, 250, -70)
@@ -297,19 +346,22 @@ class GoofySpeedway:
 
     def unload(self):
         base.taskMgr.remove('ttcTunnel')
+        self.ignoreAll()
         self.music.stop()
         del self.music
         self.street.removeNode()
         del self.street
+        self.rotateBlimp.finish()
+        del self.rotateBlimp
+        self.dna.unload()
+        del self.dna
+        self.ls.destroy()
+        del self.ls
 
     def ttc(self, task):
-        if self.toon.getX() <= 8.0 and self.toon.getX() >= -8.0:
-            if self.toon.getY() <= 85.5 and self.toon.getY() >= 85.2:
-                ls = LoadingScreen()
-                ls.begin(100)
+        if self.toon.getX() <= 8.3 and self.toon.getX() >= -8.3:
+            if self.toon.getY() <= 83.5 and self.toon.getY() >= 83.2:
+                TTC(self.toon, (31.0937, 153.423, 3.02421, -149.957, 0, 0)).load()
                 self.unload()
-                ls.tick()
-                TTC(self.toon, (153.96, -33.3484, 3.0229, 118.076, 0, 0)).load()
-                ls.end()
                 return task.done
         return task.cont

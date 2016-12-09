@@ -1,5 +1,8 @@
 from pandac.PandaModules import *
 from DNAError import DNAError
+from DNASuitPoint import DNASuitPoint
+from DNASuitPath import DNASuitPath
+from DNASuitEdge import DNASuitEdge
 
 class DNAStorage:
     def __init__(self):

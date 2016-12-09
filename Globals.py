@@ -160,3 +160,26 @@ TipDict = {"TIP_NONE": ('',),
                'Enter Goofy Speedway through the tire-shaped tunnel in Toontown Central Playground.',
                'Earn Laff points at Goofy Speedway.',
                'Goofy Speedway has six different race tracks. ')}
+
+WelcomeValleyToken = 0
+WelcomeValleyBegin = 22000
+WelcomeValleyEnd = 61000
+DonaldsDock = 1000
+ToontownCentral = 2000
+TheBrrrgh = 3000
+MinniesMelodyland = 4000
+DaisyGardens = 5000
+OutdoorZone = 6000
+FunnyFarm = 7000
+GoofySpeedway = 8000
+DonaldsDreamland = 9000
+InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
+ 1: '',
+ 2: '',
+ 3: '',
+ 4: 'Super Throw!',
+ 5: 'Super Squirt!',
+ 6: ''}
+HYDRANTS_BUFF_BATTLES = 64
+MAILBOXES_BUFF_BATTLES = 65
+TRASHCANS_BUFF_BATTLES = 66
