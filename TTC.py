@@ -1,6 +1,7 @@
 from pandac.PandaModules import *
 from direct.task import Task
 from DNALoader import *
+import Sky
 
 import random
 from direct.showbase.DirectObject import DirectObject
@@ -33,6 +34,7 @@ class TTC(DirectObject):
         self.toon = toon
         self.music = None
         self.sky = None
+        self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
         self.storageFile = 'phase_4/dna/storage.pdna'
         self.pgStorageFile = 'phase_4/dna/storage_TT.pdna'
@@ -58,10 +60,8 @@ class TTC(DirectObject):
         bank = self.ttc.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
         doorTrigger.setY(doorTrigger.getY() - 1.5)
-        if sky == 1:
-            pass
-        else:
-            self.setupSky()
+        self.sky = Sky.Sky()
+        self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
         base.playMusic(self.music, looping=1)
@@ -71,39 +71,6 @@ class TTC(DirectObject):
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
         self.ls.end()
 
-    def setupSky(self):
-        self.sky = loader.loadModel("phase_3.5/models/props/TT_sky.bam")
-        self.sky.setTag('sky', 'Regular')
-        self.sky.setScale(1.0)
-        self.sky.setFogOff()
-        self.sky.setDepthTest(True)
-        self.sky.setDepthWrite(False)
-        self.sky.setBin('background', 100)
-        self.sky.find('**/Sky').reparentTo(self.sky, -1)
-        self.sky.reparentTo(render)
-        self.sky.setZ(0.0)
-        self.sky.setHpr(0, 0, 0)
-        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
-        self.sky.node().setEffect(ce)
-        skyTrackTask = Task.Task(self.cloudSkyTrack)
-        skyTrackTask.h = 0
-        skyTrackTask.cloud1 = self.sky.find('**/cloud1')
-        skyTrackTask.cloud2 = self.sky.find('**/cloud2')
-        if not skyTrackTask.cloud1.isEmpty() and not skyTrackTask.cloud2.isEmpty():
-            taskMgr.add(skyTrackTask, 'skyTrack')
-        else:
-            notify.warning("Couln't find clouds!")
-
-    def cloudSkyTrack(self, task):
-        task.h += globalClock.getDt() * 0.25
-        if task.cloud1.isEmpty() or task.cloud2.isEmpty():
-            notify.warning("Couln't find clouds!")
-            return Task.done
-
-        task.cloud1.setH(task.h)
-        task.cloud2.setH(-task.h * 0.8)
-        return Task.cont
-
     def unload(self):
         base.taskMgr.remove('sillyStreet')
         base.taskMgr.remove('punchlinePlace')
@@ -112,6 +79,8 @@ class TTC(DirectObject):
         self.ignoreAll()
         self.music.stop()
         del self.music
+        self.sky.unload()
+        del self.sky
         self.ttc.removeNode()
         del self.ttc
         self.dna.unload()
@@ -165,6 +134,8 @@ class SillyStreet(DirectObject):
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
+        self.sky = None
+        self.skyFile = "phase_3.5/models/props/TT_sky"
         self.storageFile = 'phase_4/dna/storage.pdna'
         self.pgStorage = 'phase_4/dna/storage_TT.pdna'
         self.townStorage = 'phase_5/dna/storage_town.pdna'
@@ -180,6 +151,9 @@ class SillyStreet(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
+        self.sky = Sky.Sky()
+        self.sky.setupSky(self.skyFile)
+        self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
         self.ls.tick()
@@ -191,6 +165,8 @@ class SillyStreet(DirectObject):
         self.ignoreAll()
         self.music.stop()
         del self.music
+        self.sky.unload()
+        del self.sky
         self.street.removeNode()
         del self.street
         self.dna.unload()
@@ -214,6 +190,8 @@ class PunchlinePlace(DirectObject):
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
+        self.sky = None
+        self.skyFile = "phase_3.5/models/props/TT_sky"
         self.storageFile = 'phase_4/dna/storage.pdna'
         self.pgStorage = 'phase_4/dna/storage_TT.pdna'
         self.townStorage = 'phase_5/dna/storage_town.pdna'
@@ -229,6 +207,9 @@ class PunchlinePlace(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
+        self.sky = Sky.Sky()
+        self.sky.setupSky(self.skyFile)
+        self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
         self.ls.tick()
@@ -240,6 +221,8 @@ class PunchlinePlace(DirectObject):
         self.ignoreAll()
         self.music.stop()
         del self.music
+        self.sky.unload()
+        del self.sky
         self.street.removeNode()
         del self.street
         self.dna.unload()
@@ -263,6 +246,8 @@ class LoopyLane(DirectObject):
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
         self.music = None
+        self.sky = None
+        self.skyFile = "phase_3.5/models/props/TT_sky"
         self.storageFile = 'phase_4/dna/storage.pdna'
         self.pgStorage = 'phase_4/dna/storage_TT.pdna'
         self.townStorage = 'phase_5/dna/storage_town.pdna'
@@ -278,6 +263,9 @@ class LoopyLane(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
+        self.sky = Sky.Sky()
+        self.sky.setupSky(self.skyFile)
+        self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
         self.ls.tick()
@@ -289,6 +277,8 @@ class LoopyLane(DirectObject):
         self.ignoreAll()
         self.music.stop()
         del self.music
+        self.sky.unload()
+        del self.sky
         self.street.removeNode()
         del self.street
         self.dna.unload()
@@ -312,6 +302,8 @@ class GoofySpeedway(DirectObject):
         self.toon = toon
         self.musicFile = "phase_6/audio/bgm/GS_SZ.ogg"
         self.music = None
+        self.sky = None
+        self.skyFile = "phase_3.5/models/props/TT_sky"
         self.storageFile = 'phase_4/dna/storage.pdna'
         self.pgStorageFile = 'phase_6/dna/storage_GS.pdna'
         self.szStorageFile = 'phase_6/dna/storage_GS_sz.pdna'
@@ -325,6 +317,9 @@ class GoofySpeedway(DirectObject):
         self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
+        self.ls.tick()
+        self.sky = Sky.Sky()
+        self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
         base.playMusic(self.music, looping=1)
@@ -349,6 +344,8 @@ class GoofySpeedway(DirectObject):
         self.ignoreAll()
         self.music.stop()
         del self.music
+        self.sky.unload()
+        del self.sky
         self.street.removeNode()
         del self.street
         self.rotateBlimp.finish()

@@ -8,4 +8,4 @@ sync-video true
 show-frame-rate-meter true
 cursor-filename phase_3/etc/toonmono.cur
 default-model-extension .bam
-audio-volume 0.0
+audio-volume 1.0
