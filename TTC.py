@@ -31,6 +31,7 @@ class TTC(DirectObject):
         DirectObject.__init__(self)
         self.ls = LoadingScreen()
         self.accept('tick', self.tick)
+        self.accept('unloadTTC', self.unload)
         self.toon = toon
         self.music = None
         self.sky = None
