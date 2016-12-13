@@ -9,3 +9,4 @@ show-frame-rate-meter true
 cursor-filename phase_3/etc/toonmono.cur
 default-model-extension .bam
 audio-volume 0.0
+model-path Resources/
