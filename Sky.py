@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
 from direct.task import Task
-import TTC
+from pandac.PandaModules import *
+
 
 class Sky:
 

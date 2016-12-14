@@ -4,11 +4,11 @@ from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 
 import Globals
-import MakeAToon
 import Toon
-from Places.Estate.Estate import Estate
 from StartMenu import StartMenu
-from TTC import TTC
+from hood.places.estate.Estate import Estate
+from hood.places.TTC import TTC
+from makeatoon import MakeAToon
 
 
 class Messenger(DirectObject.DirectObject):
@@ -43,7 +43,7 @@ class Messenger(DirectObject.DirectObject):
         self.MAT.unload()
         del self.MAT
         ttc = TTC(self.toon)
-        ttc.load(0)
+        self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
