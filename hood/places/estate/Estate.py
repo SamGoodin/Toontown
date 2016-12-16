@@ -4,6 +4,7 @@ import Sky
 from LoadingScreen import LoadingScreen
 from dna.DNALoader import *
 from hood.places.estate import HouseGlobals
+import random, math
 
 
 class Estate(DirectObject):
@@ -45,7 +46,7 @@ class Estate(DirectObject):
             posHpr = HouseGlobals.houseDrops[i]
             self.houseNode[i] = self.estate.attachNewNode('esHouse_' + str(i))
             self.houseNode[i].setPosHpr(*posHpr)
-            print 'idk'
+            self.houseNode[i].show()
 
     def loadSunMoon(self):
         self.sun = loader.loadModel('phase_4/models/props/sun.bam')
