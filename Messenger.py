@@ -4,7 +4,7 @@ from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 
 import Globals
-import Toon
+from Toon import Toon
 from StartMenu import StartMenu
 from hood.places.estate.Estate import Estate
 from hood.places.TTC import TTC
@@ -48,7 +48,7 @@ class Messenger(DirectObject.DirectObject):
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
         base.camera.reparentTo(self.toon)
-        self.toonClass = Toon.Toon()
+        self.toonClass = Toon()
         self.toonClass.setupCameraPositions()
         self.toon = self.toonClass.setupControls(self.toon)
         self.shtikerBook()

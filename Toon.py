@@ -1,12 +1,23 @@
-from direct.actor.Actor import Actor
 import random
-from pandac.PandaModules import *
-import Globals
-from panda3d.core import *
-from direct.controls.GravityWalker import GravityWalker
 from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
+from direct.actor.Actor import Actor
+from toon.ShadowCaster import ShadowCaster
+from direct.distributed import DistributedSmoothNode
+from direct.controls import ControlManager
+from direct.controls.GhostWalker import GhostWalker
+from direct.controls.GravityWalker import GravityWalker
+from direct.controls.ObserverWalker import ObserverWalker
+from direct.controls.SwimWalker import SwimWalker
+from direct.controls.TwoDWalker import TwoDWalker
 from direct.task import Task
+from panda3d.core import *
+from direct.distributed.ClockDelta import *
+from direct.fsm.ClassicFSM import ClassicFSM
+from direct.fsm.State import State
+
+import Globals
+
 
 
 allColorsList = [(1.0, 1.0, 1.0, 1.0),
@@ -365,10 +376,20 @@ LegsAnimDict = {}
 animList = (('neutral', 'neutral'), ('run', 'run'))
 
 
-class Toon(Actor):
+class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
+    sleepTimeout = base.config.GetInt('sleep-timeout', 120)
+
 
     def __init__(self):
+        self.DistributedAvatar_initialized = 0
         Actor.__init__(self)
+        ShadowCaster.__init__(self)
+        DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
+        self.initializeDropShadow()
+        self.cTrav = CollisionTraverser('base.cTrav')
+        base.pushCTrav(self.cTrav)
+        self.cTrav.setRespectPrevTransform(1)
+        self.controlManager = ControlManager.ControlManager(True, False)
         self.head = None
         self.legs = None
         self.torso = None
@@ -378,7 +399,96 @@ class Toon(Actor):
         self.headColor = None
         self.torsoColor = None
         self.legColor = None
-        self.accept("0", self.getToonStuff)
+        self.avatarControlsEnabled = None
+        self.runTimeout = 2.5
+        self.sleepFlag = 0
+        self.isDisguised = 0
+        self.movingFlag = 0
+        self.swimmingFlag = 0
+        self.hp = 100
+        self.animMultiplier = 1.0
+        self.animFSM = ClassicFSM('Toon', [State('neutral', self.enterNeutral, self.exitNeutral)],
+                                  'off', 'off')
+        animStateList = self.animFSM.getStates()
+        self.animFSM.enterInitialState()
+        self.cheesyEffect = None
+        self.standWalkRunReverse = None
+
+    def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        anim = 'neutral'
+        self.toon.pose(anim, int(self.getNumFrames(anim) * self.randGen.random()))
+        self.toon.loop(anim, restart=0)
+        self.toon.setPlayRate(animMultiplier, anim)
+        self.playingAnim = anim
+        self.toon.setActiveShadow(1)
+
+    def exitNeutral(self):
+        self.toon.stop()
+
+    def setSpeed(self, forwardSpeed, rotateSpeed):
+        self.forwardSpeed = forwardSpeed
+        self.rotateSpeed = rotateSpeed
+        action = None
+        if self.standWalkRunReverse != None:
+            if forwardSpeed >= Globals.RunCutOff:
+                action = Globals.RUN_INDEX
+            elif forwardSpeed > Globals.WalkCutOff:
+                action = Globals.WALK_INDEX
+            elif forwardSpeed < -Globals.WalkCutOff:
+                action = Globals.REVERSE_INDEX
+            elif rotateSpeed != 0.0:
+                action = Globals.WALK_INDEX
+            else:
+                action = Globals.STAND_INDEX
+            anim, rate = self.standWalkRunReverse[action]
+            self.motion.enter()
+            self.motion.setState(anim, rate)
+            if anim != self.playingAnim:
+                self.playingAnim = anim
+                self.playingRate = rate
+                self.stop()
+                self.loop(anim)
+                self.setPlayRate(rate, anim)
+                if self.isDisguised:
+                    rightHand = self.suit.rightHand
+                    numChildren = rightHand.getNumChildren()
+                    if numChildren > 0:
+                        anim = 'tray-' + anim
+                        if anim == 'tray-run':
+                            anim = 'tray-walk'
+                    self.suit.stop()
+                    self.suit.loop(anim)
+                    self.suit.setPlayRate(rate, anim)
+            elif rate != self.playingRate:
+                self.playingRate = rate
+                if not self.isDisguised:
+                    self.setPlayRate(rate, anim)
+                else:
+                    self.suit.setPlayRate(rate, anim)
+            showWake, wakeWaterHeight = ZoneUtil.getWakeInfo()
+            if showWake and self.getZ(render) < wakeWaterHeight and abs(forwardSpeed) > Globals.WalkCutOff:
+                currT = globalClock.getFrameTime()
+                deltaT = currT - self.lastWakeTime
+                if action == Globals.RUN_INDEX and deltaT > Globals.WakeRunDelta or deltaT > Globals.WakeWalkDelta:
+                    self.getWake().createRipple(wakeWaterHeight, rate=1, startFrame=4)
+                    self.lastWakeTime = currT
+        return action
+
+    def enterOff(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        self.setActiveShadow(0)
+        self.playingAnim = None
+        return
+
+    def exitOff(self):
+        pass
+
+    def enterRun(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        self.toon.loop('run')
+        self.toon.setPlayRate(animMultiplier, 'run')
+        self.setActiveShadow(1)
+
+    def exitRun(self):
+        self.stop()
 
     def getColorList(self):
         return allColorsList
@@ -634,151 +744,242 @@ class Toon(Actor):
             toon.getPart('legs').setScale(.9)
         return toon
 
-    def setupControls(self, toon):
-        wallBitmask = BitMask32(1)
-        floorBitmask = BitMask32(2)
-        base.cTrav = CollisionTraverser()
-        walkControls = GravityWalker(legacyLifter=True)
+    def getAirborneHeight(self, toon):
+        height = toon.getPos(self.shadowPlacer.shadowNodePath)
+        return height.getZ() + 0.025
+
+    def setupControls(self, toon, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
+                      wallBitmask = Globals.WallBitmask, floorBitmask = Globals.FloorBitmask,
+                      ghostBitmask = Globals.GhostBitmask):
+        walkControls = GravityWalker(legacyLifter=False)
         walkControls.setWallBitMask(wallBitmask)
         walkControls.setFloorBitMask(floorBitmask)
-        walkControls.setWalkSpeed(48.0, 64.0, 32.0, 320.0)
-        walkControls.initializeCollisions(base.cTrav, toon, floorOffset=0.025, reach=4.0)
-        walkControls.setAirborneHeightFunc(3.2375 + 0.025000000000000001)
-        walkControls.enableAvatarControls()
-        toon.physControls = walkControls
-        self.toon = toon
+        walkControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
+        walkControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        self.controlManager.add(walkControls, 'walk')
+        self.physControls = walkControls
+        twoDControls = TwoDWalker()
+        twoDControls.setWallBitMask(wallBitmask)
+        twoDControls.setFloorBitMask(floorBitmask)
+        twoDControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
+        twoDControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        self.controlManager.add(twoDControls, 'twoD')
+        swimControls = SwimWalker()
+        swimControls.setWallBitMask(wallBitmask)
+        swimControls.setFloorBitMask(floorBitmask)
+        swimControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
+        swimControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        self.controlManager.add(swimControls, 'swim')
+        ghostControls = GhostWalker()
+        ghostControls.setWallBitMask(ghostBitmask)
+        ghostControls.setFloorBitMask(floorBitmask)
+        ghostControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
+        ghostControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        self.controlManager.add(ghostControls, 'ghost')
+        observerControls = ObserverWalker()
+        observerControls.setWallBitMask(ghostBitmask)
+        observerControls.setFloorBitMask(floorBitmask)
+        observerControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
+        observerControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        self.controlManager.add(observerControls, 'observer')
+        self.controlManager.use('walk', toon)
+        self.accept('arrow_up', self.startRunWatch)
+        self.accept('arrow_up-up', self.stopRunWatch)
+        self.accept('control-arrow_up', self.startRunWatch)
+        self.accept('control-arrow_up-up', self.stopRunWatch)
+        self.accept('alt-arrow_up', self.startRunWatch)
+        self.accept('alt-arrow_up-up', self.stopRunWatch)
+        self.accept('shift-arrow_up', self.startRunWatch)
+        self.accept('shift-arrow_up-up', self.stopRunWatch)
+        self.soundRun = base.loadSfx('phase_3.5/audio/sfx/AV_footstep_runloop.ogg')
+        self.soundWalk = base.loadSfx('phase_3.5/audio/sfx/AV_footstep_walkloop.ogg')
+        self.enableAvatarControls()
+        self.startTrackAnimToSpeed()
+        self.setWalkSpeedNormal()
+        return toon
 
-        self.keyMap = {'left': 0, 'right': 0, 'forward': 0, 'backward': 0, 'control': 0}
+    def startTrackAnimToSpeed(self):
+        taskName = 'trackAnimToSpeed'
+        taskMgr.remove(taskName)
+        task = Task.Task(self.trackAnimToSpeed)
+        self.lastMoved = globalClock.getFrameTime()
+        self.lastState = None
+        self.lastAction = None
+        self.trackAnimToSpeed(task)
+        taskMgr.add(self.trackAnimToSpeed, taskName, 35)
+        return
 
-        self.setWatchKey('arrow_up', 'forward', 'forward')
-        self.setWatchKey('control-arrow_up', 'forward', 'forward')
-        self.setWatchKey('alt-arrow_up', 'forward', 'forward')
-        self.setWatchKey('shift-arrow_up', 'forward', 'forward')
-        self.setWatchKey('arrow_down', 'reverse', 'backward')
-        self.setWatchKey('control-arrow_down', 'reverse', 'backward')
-        self.setWatchKey('alt-arrow_down', 'reverse', 'backward')
-        self.setWatchKey('shift-arrow_down', 'reverse', 'backward')
-        self.setWatchKey('arrow_left', 'turnLeft', 'left')
-        self.setWatchKey('control-arrow_left', 'turnLeft', 'left')
-        self.setWatchKey('alt-arrow_left', 'turnLeft', 'left')
-        self.setWatchKey('shift-arrow_left', 'turnLeft', 'left')
-        self.setWatchKey('arrow_right', 'turnRight', 'right')
-        self.setWatchKey('control-arrow_right', 'turnRight', 'right')
-        self.setWatchKey('alt-arrow_right', 'turnRight', 'right')
-        self.setWatchKey('shift-arrow_right', 'turnRight', 'right')
-        self.setWatchKey('control', 'jump', 'control')
+    def stopTrackAnimToSpeed(self):
+        taskName = self.taskName('trackAnimToSpeed')
+        taskMgr.remove(taskName)
+        self.stopSound()
 
-        self.movingNeutral, self.movingForward = (False, False)
-        self.movingRotation, self.movingBackward = (False, False)
-        self.movingJumping = False
-        base.taskMgr.add(self.handleMovement, 'controlManager')
-        self.getToonStuff()
-        return self.toon
+    def setWalkSpeedNormal(self):
+        self.controlManager.setSpeeds(Globals.ToonForwardSpeed, Globals.ToonJumpForce,
+                                      Globals.ToonReverseSpeed, Globals.ToonRotateSpeed)
 
-    def setWatchKey(self, key, input, keyMapName):
-        def watchKey(active=True):
-            if active == True:
-                inputState.set(input, True)
-                self.keyMap[keyMapName] = 1
-            else:
-                inputState.set(input, False)
-                self.keyMap[keyMapName] = 0
-
-        base.accept(key, watchKey, [True])
-        base.accept(key + '-up', watchKey, [False])
-
-    def setMovementAnimation(self, loopName, toon, playRate=1.0):
-        if 'jump' in loopName:
-            self.movingJumping = True
-            self.movingForward = False
-            self.movingNeutral = False
-            self.movingRotation = False
-            self.movingBackward = False
-        elif loopName == 'run':
-            self.movingJumping = False
-            self.movingForward = True
-            self.movingNeutral = False
-            self.movingRotation = False
-            self.movingBackward = False
-        elif loopName == 'walk':
-            self.movingJumping = False
-            self.movingForward = False
-            self.movingNeutral = False
-            if playRate == -1.0:
-                self.movingBackward = True
-                self.movingRotation = False
-            else:
-                self.movingBackward = False
-                self.movingRotation = True
-        elif loopName == 'neutral':
-            self.movingJumping = False
-            self.movingForward = False
-            self.movingNeutral = True
-            self.movingRotation = False
-            self.movingBackward = False
+    def trackAnimToSpeed(self, task):
+        speed, rotSpeed, slideSpeed = self.controlManager.getSpeeds()
+        if speed != 0.0 or rotSpeed != 0.0 or inputState.isSet('jump'):
+            if not self.movingFlag:
+                self.movingFlag = 1
+        elif self.movingFlag:
+            self.movingFlag = 0
+            self.startLookAround()
+        if self.movingFlag or self.hp <= 0:
+            self.wakeUp()
+        elif not self.sleepFlag:
+            now = globalClock.getFrameTime()
+            if now - self.lastMoved > self.sleepTimeout:
+                self.gotoSleep()
+        state = None
+        if self.sleepFlag:
+            state = 'Sleep'
+        elif self.hp > 0:
+            state = 'Happy'
         else:
-            self.movingJumping = False
-            self.movingForward = False
-            self.movingNeutral = False
-            self.movingRotation = False
-            self.movingBackward = False
-        ActorInterval(toon, loopName, playRate=playRate).loop()
-
-    def handleMovement(self, task):
-        if self.keyMap['control'] == 1:
-            if self.keyMap['forward'] or self.keyMap['backward'] or self.keyMap['left'] or self.keyMap['right']:
-                if self.movingJumping == False:
-                    if self.toon.physControls.isAirborne:
-                        self.setMovementAnimation('running-jump-idle', self.toon, 1.0)
-                    else:
-                        if self.keyMap['forward']:
-                            if self.movingForward == False:
-                                self.setMovementAnimation('run', self.toon, 1.0)
-                        elif self.keyMap['backward']:
-                            if self.movingBackward == False:
-                                self.setMovementAnimation('walk', self.toon, -1.0)
-                        elif self.keyMap['left'] or self.keyMap['right']:
-                            if self.movingRotation == False:
-                                self.setMovementAnimation('walk', self.toon, 1.0)
-                else:
-                    if not self.toon.physControls.isAirborne:
-                        if self.keyMap['forward']:
-                            if self.movingForward == False:
-                                self.setMovementAnimation('run', self.toon, 1.0)
-                        elif self.keyMap['backward']:
-                            if self.movingBackward == False:
-                                self.setMovementAnimation('walk', self.toon, -1.0)
-                        elif self.keyMap['left'] or self.keyMap['right']:
-                            if self.movingRotation == False:
-                                self.setMovementAnimation('walk', self.toon, 1.0)
+            state = 'Sad'
+        if state != self.lastState:
+            self.lastState = state
+            self.b_setAnimState(state, self.animMultiplier)
+            if state == 'Sad':
+                self.setWalkSpeedSlow()
             else:
-                if self.movingJumping == False:
-                    if self.toon.physControls.isAirborne:
-                        self.setMovementAnimation('jump-idle', self.toon, 1.0)
-                    else:
-                        if self.movingNeutral == False:
-                            self.setMovementAnimation('neutral', self.toon, 1.0)
-                else:
-                    if not self.toon.physControls.isAirborne:
-                        if self.movingNeutral == False:
-                            self.setMovementAnimation('neutral', self.toon, 1.0)
-        elif self.keyMap['forward'] == 1:
-            if self.movingForward == False:
-                if not self.toon.physControls.isAirborne:
-                    self.setMovementAnimation('run', self.toon, 1.0)
-        elif self.keyMap['backward'] == 1:
-            if self.movingBackward == False:
-                if not self.toon.physControls.isAirborne:
-                    self.setMovementAnimation('walk', self.toon, -1.0)
-        elif self.keyMap['left'] or self.keyMap['right']:
-            if self.movingRotation == False:
-                if not self.toon.physControls.isAirborne:
-                    self.setMovementAnimation('walk', self.toon, 1.0)
+                self.setWalkSpeedNormal()
+        if self.cheesyEffect == Globals.CEFlatProfile or self.cheesyEffect == Globals.CEFlatPortrait:
+            needH = None
+            if rotSpeed > 0.0:
+                needH = -10
+            elif rotSpeed < 0.0:
+                needH = 10
+            elif speed != 0.0:
+                needH = 0
+            if needH != None and self.lastNeedH != needH:
+                node = self.getGeomNode().getChild(0)
+                lerp = Sequence(LerpHprInterval(node, 0.5, Vec3(needH, 0, 0), blendType='easeInOut'),
+                                name='cheesy-lerp-hpr', autoPause=1)
+                lerp.start()
+                self.lastNeedH = needH
         else:
-            if not self.toon.physControls.isAirborne:
-                if self.movingNeutral == False:
-                    self.setMovementAnimation('neutral', self.toon, 1.0)
+            self.lastNeedH = None
+        action = self.setSpeed(speed, rotSpeed)
+        if action != self.lastAction:
+            self.lastAction = action
+            if self.emoteTrack:
+                self.emoteTrack.finish()
+                self.emoteTrack = None
+            if action == Globals.WALK_INDEX or action == Globals.REVERSE_INDEX:
+                self.walkSound()
+            elif action == Globals.RUN_INDEX:
+                self.runSound()
+            else:
+                self.stopSound()
         return Task.cont
+
+    def hasTrackAnimToSpeed(self):
+        taskName = self.taskName('trackAnimToSpeed')
+        return taskMgr.hasTaskNamed(taskName)
+
+    def enableAvatarControls(self):
+        if self.avatarControlsEnabled:
+            return
+        self.avatarControlsEnabled = 1
+        self.setupAnimationEvents()
+        self.controlManager.enable()
+
+    def setupAnimationEvents(self):
+        self.accept('jumpStart', self.jumpStart, [])
+        self.accept('jumpHardLand', self.jumpHardLand, [])
+        self.accept('jumpLand', self.jumpLand, [])
+
+    def stopJumpLandTask(self):
+        if self.jumpLandAnimFixTask:
+            self.jumpLandAnimFixTask.remove()
+            self.jumpLandAnimFixTask = None
+        return
+
+    def jumpStart(self):
+        if not self.sleepFlag and self.hp > 0:
+            self.b_setAnimState('jumpAirborne', 1.0)
+            self.stopJumpLandTask()
+
+    def returnToWalk(self, task):
+        if self.sleepFlag:
+            state = 'Sleep'
+        elif self.hp > 0:
+            state = 'Happy'
+        else:
+            state = 'Sad'
+        self.b_setAnimState(state, 1.0)
+        return Task.done
+
+    def runSound(self):
+        self.soundWalk.stop()
+        base.playSfx(self.soundRun, looping=1)
+
+    def walkSound(self):
+        self.soundRun.stop()
+        base.playSfx(self.soundWalk, looping=1)
+
+    def stopSound(self):
+        self.soundRun.stop()
+        self.soundWalk.stop()
+
+    if 1:
+        def jumpLandAnimFix(self, jumpTime):
+            if self.playingAnim != 'run' and self.playingAnim != 'walk':
+                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
+
+        def jumpHardLand(self):
+            if self.allowHardLand():
+                self.b_setAnimState('jumpLand', 1.0)
+                self.stopJumpLandTask()
+                self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
+            if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()
+
+        def jumpLand(self):
+            self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
+            if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()
+
+    def startRunWatch(self):
+
+        def setRun(ignored):
+            messenger.send('running-on')
+        taskMgr.doMethodLater(self.runTimeout, setRun, 'runWatch')
+        return Task.cont
+
+    def stopRunWatch(self):
+        taskMgr.remove('runWatch')
+        messenger.send('running-off')
+        return Task.cont
+
+    def b_setAnimState(self, animName, animMultiplier=1.0, callback=None, extraArgs=[]):
+        self.d_setAnimState(animName, animMultiplier, None, extraArgs)
+        self.setAnimState(animName, animMultiplier, None, None, callback, extraArgs)
+        return
+
+    def d_setAnimState(self, animName, animMultiplier=1.0, timestamp=None, extraArgs=[]):
+        timestamp = globalClockDelta.getFrameNetworkTime()
+        #self.sendUpdate('setAnimState', [animName, animMultiplier, timestamp])
+
+    def setAnimState(self, animName, animMultiplier=1.0, timestamp=None, animType=None, callback=None, extraArgs=[]):
+        if not animName or animName == 'None':
+            return
+        if timestamp == None:
+            ts = 0.0
+        else:
+            ts = globalClockDelta.localElapsedTime(timestamp)
+        if base.config.GetBool('check-invalid-anims', True):
+            if animMultiplier > 1.0 and animName in ['neutral']:
+                animMultiplier = 1.0
+        if self.animFSM.getStateNamed(animName):
+            self.animFSM.request(animName, [animMultiplier,
+                                            ts,
+                                            callback,
+                                            extraArgs])
+        return
 
     def setupCameraPositions(self):
         camHeight = max(2.0, 3.0)
