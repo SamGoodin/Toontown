@@ -19,6 +19,8 @@ class MyApp(ShowBase):
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         self.loader.loadMusic("phase_3/audio/bgm/tti_theme.ogg").play()
+        self.toon = None
+        self.toonClass = None
         self.go()
 
     def go(self):

@@ -39,6 +39,7 @@ class Messenger(DirectObject.DirectObject):
 
     def unloadMakeAToon(self):
         self.toon = self.MAT.getToon()
+        base.toon = self.toon
         self.MAT.exit()
         self.MAT.unload()
         del self.MAT
@@ -48,9 +49,8 @@ class Messenger(DirectObject.DirectObject):
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
         base.camera.reparentTo(self.toon)
-        self.toonClass = Toon()
-        self.toonClass.setupCameraPositions()
-        self.toon = self.toonClass.setupControls(self.toon)
+        base.toonClass.setupCameraPositions()
+        base.toon = base.toonClass.setupControls(base.toon)
         self.shtikerBook()
 
     def shtikerBook(self):

@@ -366,13 +366,19 @@ BoyShorts = ['phase_3/maps/desat_shorts_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_racing04.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_racing05.jpg']
 
-LoadedAnims = {}
-
 LegDict = {'s': '/models/char/tt_a_chr_dgs_shorts_legs_',
            'm': '/models/char/tt_a_chr_dgm_shorts_legs_',
            'l': '/models/char/tt_a_chr_dgl_shorts_legs_'}
 
-LegsAnimDict = {}
+LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_legs_neutral"},
+                 'dgm': {'neutral': "phase_3/models/char/tt_a_chr_dgm_shorts_legs_neutral"},
+                 'dgs': {'neutral': "phase_3/models/char/tt_a_chr_dgs_shorts_legs_neutral"}}
+TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral"},
+                 'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral"},
+                 'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral"}}
+HeadAnimDict =  {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral"},
+                 'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral"},
+                 'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral"}}
 animList = (('neutral', 'neutral'), ('run', 'run'))
 
 
@@ -386,44 +392,102 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         ShadowCaster.__init__(self)
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
         self.initializeDropShadow()
-        self.cTrav = CollisionTraverser('base.cTrav')
-        base.pushCTrav(self.cTrav)
-        self.cTrav.setRespectPrevTransform(1)
         self.controlManager = ControlManager.ControlManager(True, False)
         self.head = None
         self.legs = None
         self.torso = None
-        self.example = None
+        self.forceJumpIdle = False
         self.toon = None
+        self.sleepCallback = None
         self.animalType = None
         self.headColor = None
         self.torsoColor = None
+        self.__lookName = 'look-'
         self.legColor = None
         self.avatarControlsEnabled = None
+        self.jumpLandAnimFixTask = None
+        self.effectTrack = None
+        self.emoteTrack = None
         self.runTimeout = 2.5
         self.sleepFlag = 0
         self.isDisguised = 0
         self.movingFlag = 0
         self.swimmingFlag = 0
+        self.forwardSpeed = 0.0
+        self.rotateSpeed = 0.0
         self.hp = 100
         self.animMultiplier = 1.0
-        self.animFSM = ClassicFSM('Toon', [State('neutral', self.enterNeutral, self.exitNeutral)],
+        self.animFSM = ClassicFSM('Toon', [State('off', self.enterOff, self.exitOff),
+                                           State('neutral', self.enterNeutral, self.exitNeutral),
+                                           State('run', self.enterRun, self.exitRun),
+                                           State('jump', self.enterJump, self.exitJump),
+                                           State('jumpAirborne', self.enterJumpAirborne, self.exitJumpAirborne),
+                                           State('Happy', self.enterHappy, self.exitHappy)
+                                           ],
                                   'off', 'off')
         animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
         self.cheesyEffect = None
         self.standWalkRunReverse = None
+        self.accept('arrow_up', self.enterRun)
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
-        self.toon.pose(anim, int(self.getNumFrames(anim) * self.randGen.random()))
-        self.toon.loop(anim, restart=0)
-        self.toon.setPlayRate(animMultiplier, anim)
+        self.pose(anim, int(self.getNumFrames(anim) * self.randGen.random()))
+        self.loop(anim, restart=0)
+        self.setPlayRate(animMultiplier, anim)
         self.playingAnim = anim
-        self.toon.setActiveShadow(1)
+        self.setActiveShadow(1)
 
     def exitNeutral(self):
-        self.toon.stop()
+        self.stop()
+
+    def enterHappy(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('neutral', 1.0),
+                                    ('walk', 1.0),
+                                    ('run', 1.0),
+                                    ('walk', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        self.setActiveShadow(1)
+        return
+
+    def exitHappy(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        #self.motion.exit()
+        return
+
+    def enterJumpAirborne(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        if not self.isDisguised:
+            if self.playingAnim == 'neutral' or self.forceJumpIdle:
+                anim = 'jump-idle'
+            else:
+                anim = 'running-jump-idle'
+            self.playingAnim = anim
+            self.setPlayRate(animMultiplier, anim)
+            self.loop(anim)
+        self.setActiveShadow(1)
+
+    def exitJumpAirborne(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterJump(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        if not self.isDisguised:
+            if self.playingAnim == 'neutral':
+                anim = 'jump'
+            else:
+                anim = 'running-jump'
+            self.playingAnim = anim
+            self.setPlayRate(animMultiplier, anim)
+            self.play(anim)
+        self.setActiveShadow(1)
+
+    def exitJump(self):
+        self.stop()
+        self.playingAnim = 'neutral'
 
     def setSpeed(self, forwardSpeed, rotateSpeed):
         self.forwardSpeed = forwardSpeed
@@ -441,8 +505,8 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
             else:
                 action = Globals.STAND_INDEX
             anim, rate = self.standWalkRunReverse[action]
-            self.motion.enter()
-            self.motion.setState(anim, rate)
+            #self.motion.enter()
+            #self.motion.setState(anim, rate)
             if anim != self.playingAnim:
                 self.playingAnim = anim
                 self.playingRate = rate
@@ -465,7 +529,7 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
                     self.setPlayRate(rate, anim)
                 else:
                     self.suit.setPlayRate(rate, anim)
-            showWake, wakeWaterHeight = ZoneUtil.getWakeInfo()
+            showWake, wakeWaterHeight = (None, None)
             if showWake and self.getZ(render) < wakeWaterHeight and abs(forwardSpeed) > Globals.WalkCutOff:
                 currT = globalClock.getFrameTime()
                 deltaT = currT - self.lastWakeTime
@@ -483,8 +547,8 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         pass
 
     def enterRun(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        self.toon.loop('run')
-        self.toon.setPlayRate(animMultiplier, 'run')
+        self.loop('run')
+        self.setPlayRate(animMultiplier, 'run')
         self.setActiveShadow(1)
 
     def exitRun(self):
@@ -499,35 +563,22 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
     def getShortsList(self):
         return BoyShorts
 
-    def createDog(self, head, headAnim, torso, legs, legsName, gender):
-        toon = Actor(
-
-            {"head": head,
-             "torso": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_1000",
-             "legs": legs},
-
-            {"head": {"neutral": "phase_3/models/char/tt_a_chr_" + headAnim + "_" + gender + "_head_neutral",
-                      "run": "phase_3/models/char/tt_a_chr_" + headAnim + "_" + gender + "_head_run",
-                      "walk": "phase_3.5/models/char/tt_a_chr_" + headAnim + "_" + gender + "_head_walk",
-                      "running-jump-idle": "phase_3.5/models/char/tt_a_chr_" + headAnim + "_" + gender + "_head_leap_zhang",
-                      "jump-idle": "phase_3.5/models/char/tt_a_chr_" + headAnim + "_" + gender + "_head_jump-zhang"},
-             "torso": {"neutral": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_neutral",
-                       "run": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_run",
-                       "walk": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_walk",
-                       "running-jump-idle": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_leap_zhang",
-                       "jump-idle": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_jump-zhang",
-                       "book": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_book"},
-             "legs": {"neutral": "phase_3/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_neutral",
-                      "run": "phase_3/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_run",
-                      "walk": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_walk",
-                      "running-jump-idle": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_leap_zhang",
-                      "jump-idle": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_jump-zhang",
-                      "book": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_book"}
-             }
-        )
-        return toon
-
-    def createOther(self, head, torso, legs, legsName, gender):
+    def createOther(self, head, torso, torsoName, legs, legsName, headName=None):
+        print head
+        self.loadModel(head, 'head')
+        self.loadModel(torso, 'torso', '1000', True)
+        self.loadModel(legs, 'legs', '1000', True)
+        self.showPart('head', '1000')
+        self.showPart('torso', '1000')
+        self.showPart('legs', '1000')
+        self.loadAnims(LegsAnimDict[legsName], 'legs', '1000')
+        self.loadAnims(TorsoAnimDict[torsoName], 'torso', '1000')
+        if headName:
+            self.loadAnims(HeadAnimDict[headName], 'head', '1000')
+        self.findAllMatches('**/boots_short').stash()
+        self.findAllMatches('**/boots_long').stash()
+        self.findAllMatches('**/shoes').stash()
+        '''
         toon = Actor(
 
             {"head": head,
@@ -548,21 +599,23 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
                       "book": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_book"}
              }
         )
-        return toon
+        return toon'''
 
-    def createToon(self, head1, torso, legs, gender):
-        self.toon = None
+    def createToon(self, headName, torso, legs):
+        print headName, torso, legs
         legsName = legs
-        legs = loader.loadModel("phase_3/models/char/tt_a_chr_" + legs + "_" + gender + "_legs_1000")
+        torsoName = torso
+        legs = loader.loadModel("phase_3/models/char/tt_a_chr_" + legs + "_shorts_legs_1000")
         otherParts = legs.findAllMatches('**/boots*') + legs.findAllMatches('**/shoes')
         for partNum in range(0, otherParts.getNumPaths()):
             otherParts.getPath(partNum).removeNode()
-        if head1 == "dgl" or head1 == "dgm" or head1 == "dgs":
-            head = "phase_3/models/char/tt_a_chr_" + head1 + "_" + gender + "_head_1000"
-            self.toon = self.createDog(head, head1, torso, legs, legsName, gender)
+        torsoModel = loader.loadModel("phase_3/models/char/tt_a_chr_" + torso + "_shorts_torso_1000")
+        if headName == "dgl" or headName == "dgm" or headName == "dgs":
+            head = "phase_3/models/char/tt_a_chr_" + headName + "_shorts_head_1000"
+            self.createOther(head, torsoModel, torsoName, legs, legsName, headName)
         else:
-            head = loader.loadModel("phase_3/models/char/" + head1 + "-heads-1000")
-            otherParts = head.findAllMatches('**/*long*')
+            head = "phase_3/models/char/" + headName + "-heads-1000"
+            '''otherParts = head.findAllMatches('**/*long*')
             for partNum in range(0, otherParts.getNumPaths()):
                 otherParts.getPath(partNum).removeNode()
             ntrlMuzzle = head.find('**/*muzzle*neutral')
@@ -570,34 +623,31 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
             for partNum in range(0, otherParts.getNumPaths()):
                 part = otherParts.getPath(partNum)
                 if part != ntrlMuzzle:
-                    otherParts.getPath(partNum).removeNode()
-            self.toon = self.createOther(head, torso, legs, legsName, gender)
-
-        self.toon.attach("head", "torso", "def_head")
-        self.toon.attach("torso", "legs", "joint_hips")
-        return self.toon
+                    otherParts.getPath(partNum).removeNode()'''
+            self.createOther(head, torsoModel, torsoName, legs, legsName)
+        self.attach("head", "torso", "def_head")
+        self.attach("torso", "legs", "joint_hips")
+        return self
 
     def createRandomBoy(self):
-        self.toon = None
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
         self.animalType = choice
         self.bodyType = random.choice(['dgl', 'dgm', 'dgs'])
         self.legsType = random.choice(['dgl', 'dgm', 'dgs'])
         if choice is not 'dog':
-            self.toon = self.createToon(choice, self.bodyType, self.legsType, 'shorts')
+            self.createToon(choice, self.bodyType, self.legsType)
         else:
             self.dogHead = random.choice(["dgl", "dgm", "dgs"])
-            self.toon = self.createToon(self.dogHead, self.bodyType, self.legsType, 'shorts')
-        self.toon = self.setRandomColor(self.toon)
-        self.toon = self.generateRandomClothing(self.toon)
-        self.toon = self.rescaleToon(self.toon)
-        return self.toon
+            self.createToon(self.dogHead, self.bodyType, self.legsType)
+        self.setRandomColor()
+        self.generateRandomClothing()
+        self.rescaleToon()
 
     def getDogHead(self):
         return self.dogHead
 
     def getToon(self):
-        return self.toon
+        return self
 
     def getAnimalType(self):
         return self.animalType
@@ -608,99 +658,72 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
     def getLegsType(self):
         return self.legsType
 
-    def createExample(self):
-        self.example = None
-        self.example = Actor(
-            {"head": "phase_3/models/char/tt_a_chr_dgl_shorts_head_1000",
-             "torso": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_1000",
-             "legs": "phase_3/models/char/tt_a_chr_dgl_shorts_legs_1000"},
+    def setRandomColor(self):
+        self.setRandomHeadColor(self.animalType)
+        self.setRandomTorsoColor()
+        self.setRandomLegsColor()
 
-            {"head": {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral",
-                      "run": "phase_3/models/char/tt_a_chr_dgl_shorts_head_run"},
-             "torso": {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_neutral",
-                       "run": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_run"},
-             "legs": {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_legs_neutral",
-                      "run": "phase_3/models/char/tt_a_chr_dgl_shorts_legs_run"}
-             }
-        )
-        
-        self.example.attach("head", "torso", "def_head")
-        self.example.attach("torso", "legs", "joint_hips")
-        return self.example
-
-    def setRandomColor(self, toon):
-        toon = self.setRandomHeadColor(toon, self.animalType)
-        toon = self.setRandomTorsoColor(toon)
-        toon = self.setRandomLegsColor(toon)
-        return toon
-
-    def getHeadColor(self, toon):
-        parts = toon.find('**/head*')
+    def getHeadColor(self):
+        parts = self.find('**/head*')
         return parts.getColor()
 
-    def setRandomHeadColor(self, toon, animalType):
+    def setRandomHeadColor(self, animalType):
         self.headColor = random.choice(allColorsList)
-        parts = toon.findAllMatches('**/head*')
+        parts = self.findAllMatches('**/head*')
         parts.setColor(self.headColor)
         if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or \
                         animalType == 'mouse' or animalType == 'pig':
-            parts = toon.findAllMatches('**/ear?-*')
+            parts = self.findAllMatches('**/ear?-*')
             parts.setColor(self.headColor)
-        return toon
 
-    def setHeadColor(self, toon, animalType, color):
-        parts = toon.findAllMatches('**/head*')
+    def setHeadColor(self, animalType, color):
+        parts = self.findAllMatches('**/head*')
         parts.setColor(color)
         if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or \
                         animalType == 'mouse' or animalType == 'pig':
-            parts = toon.findAllMatches('**/ear?-*')
+            parts = self.findAllMatches('**/ear?-*')
             parts.setColor(color)
-        return toon
 
     def getTorsoColor(self):
         return self.torsoColor
 
-    def setRandomTorsoColor(self, toon):
-        torso = toon.getPart('torso')
+    def setRandomTorsoColor(self):
+        torso = self.getPart('torso')
         self.torsoColor = random.choice(allColorsList)
         for pieceName in ('arms', 'neck'):
             piece = torso.find('**/' + pieceName)
             piece.setColor(self.torsoColor)
         hands = torso.find('**/hands')
         hands.setColor(1, 1, 1, 1)
-        return toon
 
-    def setTorsoColor(self, toon, color):
-        torso = toon.getPart('torso')
+    def setTorsoColor(self, color):
+        torso = self.getPart('torso')
         self.torsoColor = color
         for pieceName in ('arms', 'neck'):
             piece = torso.find('**/' + pieceName)
             piece.setColor(self.torsoColor)
         hands = torso.find('**/hands')
         hands.setColor(1, 1, 1, 1)
-        return toon
 
     def getLegColor(self):
         return self.legColor
 
-    def setRandomLegsColor(self, toon):
-        legs = toon.getPart('legs')
+    def setRandomLegsColor(self):
+        legs = self.getPart('legs')
         self.legColor = random.choice(allColorsList)
         for pieceName in ('legs', 'feet'):
             piece = legs.find('**/%s;+s' % pieceName)
             piece.setColor(self.legColor)
-        return toon
 
-    def setLegsColor(self, toon, color):
-        legs = toon.getPart('legs')
+    def setLegsColor(self, color):
+        legs = self.getPart('legs')
         self.legColor = color
         for pieceName in ('legs', 'feet'):
             piece = legs.find('**/%s;+s' % pieceName)
             piece.setColor(self.legColor)
-        return toon
 
-    def generateRandomClothing(self, toon):
-        torso = toon.getPart('torso')
+    def generateRandomClothing(self):
+        torso = self.getPart('torso')
         shirt = torso.findAllMatches('**/torso-top')
         sleeves = torso.findAllMatches('**/sleeves')
         bottom = torso.findAllMatches('**/torso-bot')
@@ -714,10 +737,9 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         shirt.setTexture(shirtTexture, 1)
         sleeves.setTexture(sleeveTexture, 1)
         bottom.setTexture(bottomTexture, 1)
-        return toon
 
-    def setShirt(self, toon, shirt1):
-        torso = toon.getPart('torso')
+    def setShirt(self, shirt1):
+        torso = self.getPart('torso')
         shirt = torso.findAllMatches('**/torso-top')
         sleeves = torso.findAllMatches('**/sleeves')
         self.shirtChoice = shirt1
@@ -725,64 +747,61 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         sleeveTexture = loader.loadTexture(Shirts[self.shirtChoice])
         shirt.setTexture(shirtTexture, 1)
         sleeves.setTexture(sleeveTexture, 1)
-        return toon
 
-    def setShorts(self, toon, shorts):
-        torso = toon.getPart('torso')
+    def setShorts(self, shorts):
+        torso = self.getPart('torso')
         bottom = torso.findAllMatches('**/torso-bot')
         self.shortsChoice = shorts
         bottomTexture = loader.loadTexture(BoyShorts[self.shortsChoice])
         bottom.setTexture(bottomTexture, 1)
-        return toon
 
-    def rescaleToon(self, toon):
+    def rescaleToon(self):
         bodyScale = Globals.toonBodyScales[self.animalType]
         headScale = Globals.toonHeadScales[self.animalType]
-        toon.getGeomNode().setScale(bodyScale * 1.34)
-        toon.getPart('head').setScale(headScale)
+        self.getGeomNode().setScale(bodyScale * 1.34)
+        self.getPart('head').setScale(headScale)
         if self.legsType == 'dgl':
-            toon.getPart('legs').setScale(.9)
-        return toon
+            self.getPart('legs').setScale(.9)
 
-    def getAirborneHeight(self, toon):
-        height = toon.getPos(self.shadowPlacer.shadowNodePath)
+    def getAirborneHeight(self):
+        height = self.getPos(self.shadowPlacer.shadowNodePath)
         return height.getZ() + 0.025
 
-    def setupControls(self, toon, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
+    def setupControls(self, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
                       wallBitmask = Globals.WallBitmask, floorBitmask = Globals.FloorBitmask,
                       ghostBitmask = Globals.GhostBitmask):
         walkControls = GravityWalker(legacyLifter=False)
         walkControls.setWallBitMask(wallBitmask)
         walkControls.setFloorBitMask(floorBitmask)
         walkControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
-        walkControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        walkControls.setAirborneHeightFunc(self.getAirborneHeight())
         self.controlManager.add(walkControls, 'walk')
         self.physControls = walkControls
         twoDControls = TwoDWalker()
         twoDControls.setWallBitMask(wallBitmask)
         twoDControls.setFloorBitMask(floorBitmask)
         twoDControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
-        twoDControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        twoDControls.setAirborneHeightFunc(self.getAirborneHeight())
         self.controlManager.add(twoDControls, 'twoD')
         swimControls = SwimWalker()
         swimControls.setWallBitMask(wallBitmask)
         swimControls.setFloorBitMask(floorBitmask)
         swimControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
-        swimControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        swimControls.setAirborneHeightFunc(self.getAirborneHeight())
         self.controlManager.add(swimControls, 'swim')
         ghostControls = GhostWalker()
         ghostControls.setWallBitMask(ghostBitmask)
         ghostControls.setFloorBitMask(floorBitmask)
         ghostControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
-        ghostControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        ghostControls.setAirborneHeightFunc(self.getAirborneHeight())
         self.controlManager.add(ghostControls, 'ghost')
         observerControls = ObserverWalker()
         observerControls.setWallBitMask(ghostBitmask)
         observerControls.setFloorBitMask(floorBitmask)
         observerControls.initializeCollisions(self.cTrav, self, avatarRadius, floorOffset, reach)
-        observerControls.setAirborneHeightFunc(self.getAirborneHeight(toon))
+        observerControls.setAirborneHeightFunc(self.getAirborneHeight())
         self.controlManager.add(observerControls, 'observer')
-        self.controlManager.use('walk', toon)
+        self.controlManager.use('walk', self)
         self.accept('arrow_up', self.startRunWatch)
         self.accept('arrow_up-up', self.stopRunWatch)
         self.accept('control-arrow_up', self.startRunWatch)
@@ -796,7 +815,6 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         self.enableAvatarControls()
         self.startTrackAnimToSpeed()
         self.setWalkSpeedNormal()
-        return toon
 
     def startTrackAnimToSpeed(self):
         taskName = 'trackAnimToSpeed'
@@ -875,6 +893,15 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
             else:
                 self.stopSound()
         return Task.cont
+
+    def wakeUp(self):
+        if self.sleepCallback != None:
+            taskMgr.remove('sleepwatch')
+            self.startSleepWatch(self.sleepCallback)
+        self.lastMoved = globalClock.getFrameTime()
+        if self.sleepFlag:
+            self.sleepFlag = 0
+        return
 
     def hasTrackAnimToSpeed(self):
         taskName = self.taskName('trackAnimToSpeed')
@@ -993,8 +1020,23 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         base.taskMgr.add(self.updateOnScreenDebug, 'UpdateOSD')
 
     def updateOnScreenDebug(self, task):
-        onScreenDebug.add('Avatar Pos', self.toon.getPos())
-        onScreenDebug.add('Avatar HPR', self.toon.getHpr())
+        onScreenDebug.add('Avatar Pos', self.getPos())
+        onScreenDebug.add('Avatar HPR', self.getHpr())
 
         return Task.cont
+
+    def startLookAround(self):
+        taskMgr.remove(self.__lookName)
+        t = random.Random().random() * 5.0 + 2.0
+        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
+
+    def __lookAround(self, task):
+        #self.findSomethingToLookAt()
+        t = random.Random().random() * 4.0 + 3.0
+        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
+        return Task.done
+
+    def stopLookAround(self):
+        taskMgr.remove(self.__lookName)
+        self.stopStareAt()
 

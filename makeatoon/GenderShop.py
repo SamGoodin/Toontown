@@ -6,9 +6,7 @@ from Toon import Toon
 class GenderShop:
 
     def __init__(self, makeAToon):
-        self.toon = None
-        self.toonClass = Toon()
-        #self.toonClass.__init__()
+        self.toon = Toon()
         self.makeAToon = makeAToon
 
     def showButtons(self):
@@ -58,7 +56,7 @@ class GenderShop:
     def createRandomBoy(self):
         if self.toon:
             self.toon.delete()
-        self.toon = self.toonClass.createRandomBoy()
+        self.toon.createRandomBoy()
         self.toon.reparentTo(render)
         self.toon.loop("neutral")
         self.toon.setHpr(180, 0, 0)

@@ -12,7 +12,7 @@ from NameShop import NameShop
 class MakeAToon:
 
     def __init__(self):
-        self.toonClass = Toon.Toon()
+        base.toonClass = Toon.Toon()
         self.gs = GenderShop(self)
         self.bs = None
         self.cos = None
@@ -123,6 +123,7 @@ class MakeAToon:
         self.ns = NameShop()
         self.ns.load()
         self.ns.enter(self.toon, [], 0)
+        base.toon = self.toon
         self.guiNextButton.hide()
 
     def exitNameShop(self):
