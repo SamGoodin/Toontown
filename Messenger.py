@@ -4,7 +4,7 @@ from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 
 import Globals
-from Toon import Toon
+from toon.Toon import Toon
 from StartMenu import StartMenu
 from hood.places.estate.Estate import Estate
 from hood.places.TTC import TTC

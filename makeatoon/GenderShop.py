@@ -1,12 +1,12 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 import Globals
-from Toon import Toon
+from toon import Toon
 
 class GenderShop:
 
     def __init__(self, makeAToon):
-        self.toon = Toon()
+        self.toon = Toon.Toon()
         self.makeAToon = makeAToon
 
     def showButtons(self):

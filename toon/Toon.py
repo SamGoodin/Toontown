@@ -382,16 +382,14 @@ HeadAnimDict =  {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_hea
 animList = (('neutral', 'neutral'), ('run', 'run'))
 
 
-class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
+class Toon(Actor):
     sleepTimeout = base.config.GetInt('sleep-timeout', 120)
 
 
     def __init__(self):
-        self.DistributedAvatar_initialized = 0
-        Actor.__init__(self)
-        ShadowCaster.__init__(self)
-        DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
-        self.initializeDropShadow()
+        print 'work'
+        Actor.__init__(self, None, None, other=None, flattenable=0, setFinal=1)
+        #DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
         self.controlManager = ControlManager.ControlManager(True, False)
         self.head = None
         self.legs = None
@@ -539,7 +537,7 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         return action
 
     def enterOff(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        self.setActiveShadow(0)
+        #self.setActiveShadow(0)
         self.playingAnim = None
         return
 
@@ -564,8 +562,17 @@ class Toon(Actor, ShadowCaster, DistributedSmoothNode.DistributedSmoothNode):
         return BoyShorts
 
     def createOther(self, head, torso, torsoName, legs, legsName, headName=None):
-        print head
-        self.loadModel(head, 'head')
+        self.setLODNode()
+        levelOneIn = base.config.GetInt('lod1-in', 20)
+        levelOneOut = base.config.GetInt('lod1-out', 0)
+        levelTwoIn = base.config.GetInt('lod2-in', 80)
+        levelTwoOut = base.config.GetInt('lod2-out', 20)
+        levelThreeIn = base.config.GetInt('lod3-in', 280)
+        levelThreeOut = base.config.GetInt('lod3-out', 80)
+        self.addLOD(1000, levelOneIn, levelOneOut)
+        #self.addLOD(500, levelTwoIn, levelTwoOut)
+        #self.addLOD(250, levelThreeIn, levelThreeOut)
+        self.loadModel(head, 'head', '1000', True)
         self.loadModel(torso, 'torso', '1000', True)
         self.loadModel(legs, 'legs', '1000', True)
         self.showPart('head', '1000')

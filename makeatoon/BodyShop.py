@@ -3,7 +3,7 @@ from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 import Globals
 import random
-from Toon import Toon
+from toon.Toon import Toon
 HeadList = ['cat',
  'dog',
  'rabbit',
