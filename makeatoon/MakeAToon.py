@@ -2,7 +2,7 @@ import Globals
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.actor.Actor import Actor
-import Toon
+from toon import Toon
 from GenderShop import GenderShop
 from ColorShop import ColorShop
 from BodyShop import BodyShop
@@ -12,7 +12,6 @@ from NameShop import NameShop
 class MakeAToon:
 
     def __init__(self):
-        base.toonClass = Toon.Toon()
         self.gs = GenderShop(self)
         self.bs = None
         self.cos = None

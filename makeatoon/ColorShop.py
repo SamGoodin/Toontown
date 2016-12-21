@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-from Toon import Toon
+from toon.Toon import Toon
 import random
 
 
