@@ -387,7 +387,6 @@ class Toon(Actor):
 
 
     def __init__(self):
-        print 'work'
         Actor.__init__(self, None, None, other=None, flattenable=0, setFinal=1)
         #DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
         self.controlManager = ControlManager.ControlManager(True, False)
@@ -427,7 +426,7 @@ class Toon(Actor):
         self.animFSM.enterInitialState()
         self.cheesyEffect = None
         self.standWalkRunReverse = None
-        self.accept('arrow_up', self.enterRun)
+        #self.accept('arrow_up', self.enterRun)
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -561,30 +560,56 @@ class Toon(Actor):
     def getShortsList(self):
         return BoyShorts
 
-    def createOther(self, head, torso, torsoName, legs, legsName, headName=None):
+    def setLODs(self):
         self.setLODNode()
         levelOneIn = base.config.GetInt('lod1-in', 20)
         levelOneOut = base.config.GetInt('lod1-out', 0)
-        levelTwoIn = base.config.GetInt('lod2-in', 80)
+        '''levelTwoIn = base.config.GetInt('lod2-in', 80)
         levelTwoOut = base.config.GetInt('lod2-out', 20)
         levelThreeIn = base.config.GetInt('lod3-in', 280)
-        levelThreeOut = base.config.GetInt('lod3-out', 80)
+        levelThreeOut = base.config.GetInt('lod3-out', 80)'''
         self.addLOD(1000, levelOneIn, levelOneOut)
-        #self.addLOD(500, levelTwoIn, levelTwoOut)
-        #self.addLOD(250, levelThreeIn, levelThreeOut)
-        self.loadModel(head, 'head', '1000', True)
-        self.loadModel(torso, 'torso', '1000', True)
-        self.loadModel(legs, 'legs', '1000', True)
-        self.showPart('head', '1000')
-        self.showPart('torso', '1000')
-        self.showPart('legs', '1000')
-        self.loadAnims(LegsAnimDict[legsName], 'legs', '1000')
-        self.loadAnims(TorsoAnimDict[torsoName], 'torso', '1000')
-        if headName:
-            self.loadAnims(HeadAnimDict[headName], 'head', '1000')
+        '''self.addLOD(500, levelTwoIn, levelTwoOut)
+        self.addLOD(250, levelThreeIn, levelThreeOut)'''
+
+    def generateToonLegs(self, legsName):
+        LegDict = {'dgs': '/models/char/tt_a_chr_dgs_shorts_legs_',
+                   'dgm': '/models/char/tt_a_chr_dgm_shorts_legs_',
+                   'dgl': '/models/char/tt_a_chr_dgl_shorts_legs_'}
+        fileRoot = LegDict[legsName]
+        self.loadModel('phase_3' + fileRoot + '1000', 'legs')
+        self.showPart('legs')
+        self.loadAnims(LegsAnimDict[legsName], 'legs')
         self.findAllMatches('**/boots_short').stash()
         self.findAllMatches('**/boots_long').stash()
         self.findAllMatches('**/shoes').stash()
+        return
+
+    def generateToonTorso(self, torsoName):
+        TorsoDict = {
+            'dgs': '/models/char/tt_a_chr_dgs_shorts_torso_',
+            'dgm': '/models/char/tt_a_chr_dgm_shorts_torso_',
+            'dgl': '/models/char/tt_a_chr_dgl_shorts_torso_'}
+        fileRoot = TorsoDict[torsoName]
+        self.loadModel(fileRoot + '1000', 'torso', copy=True)
+        self.showPart('torso')
+        self.loadAnims(TorsoAnimDict[torsoName], 'torso')
+        print self.getPart('torso').getPos()
+        return
+
+    def generateToonHead(self, head, headName=None):
+        self.loadModel(head + "1000", 'head')
+        self.showPart('head')
+        if headName:
+            self.loadAnims(HeadAnimDict[headName], 'head')
+        return
+
+    def createOther(self, head, torso, torsoName, legs, legsName, headName=None):
+        self.generateToonLegs(legsName)
+        self.generateToonTorso(torsoName)
+        self.generateToonHead(head, headName)
+        '''self.attach('head', 'torso', 'def_head')
+        self.attach('torso', 'legs', 'joint_hips')'''
         '''
         toon = Actor(
 
@@ -609,19 +634,15 @@ class Toon(Actor):
         return toon'''
 
     def createToon(self, headName, torso, legs):
-        print headName, torso, legs
         legsName = legs
         torsoName = torso
         legs = loader.loadModel("phase_3/models/char/tt_a_chr_" + legs + "_shorts_legs_1000")
-        otherParts = legs.findAllMatches('**/boots*') + legs.findAllMatches('**/shoes')
-        for partNum in range(0, otherParts.getNumPaths()):
-            otherParts.getPath(partNum).removeNode()
         torsoModel = loader.loadModel("phase_3/models/char/tt_a_chr_" + torso + "_shorts_torso_1000")
         if headName == "dgl" or headName == "dgm" or headName == "dgs":
-            head = "phase_3/models/char/tt_a_chr_" + headName + "_shorts_head_1000"
+            head = "phase_3/models/char/tt_a_chr_" + headName + "_shorts_head_"
             self.createOther(head, torsoModel, torsoName, legs, legsName, headName)
         else:
-            head = "phase_3/models/char/" + headName + "-heads-1000"
+            head = "phase_3/models/char/" + headName + "-heads-"
             '''otherParts = head.findAllMatches('**/*long*')
             for partNum in range(0, otherParts.getNumPaths()):
                 otherParts.getPath(partNum).removeNode()
@@ -632,8 +653,6 @@ class Toon(Actor):
                 if part != ntrlMuzzle:
                     otherParts.getPath(partNum).removeNode()'''
             self.createOther(head, torsoModel, torsoName, legs, legsName)
-        self.attach("head", "torso", "def_head")
-        self.attach("torso", "legs", "joint_hips")
         return self
 
     def createRandomBoy(self):
@@ -698,9 +717,9 @@ class Toon(Actor):
         torso = self.getPart('torso')
         self.torsoColor = random.choice(allColorsList)
         for pieceName in ('arms', 'neck'):
-            piece = torso.find('**/' + pieceName)
+            piece = self.find('**/' + pieceName)
             piece.setColor(self.torsoColor)
-        hands = torso.find('**/hands')
+        hands = self.find('**/hands')
         hands.setColor(1, 1, 1, 1)
 
     def setTorsoColor(self, color):
@@ -719,7 +738,7 @@ class Toon(Actor):
         legs = self.getPart('legs')
         self.legColor = random.choice(allColorsList)
         for pieceName in ('legs', 'feet'):
-            piece = legs.find('**/%s;+s' % pieceName)
+            piece = self.find('**/%s;+s' % pieceName)
             piece.setColor(self.legColor)
 
     def setLegsColor(self, color):
@@ -731,9 +750,9 @@ class Toon(Actor):
 
     def generateRandomClothing(self):
         torso = self.getPart('torso')
-        shirt = torso.findAllMatches('**/torso-top')
-        sleeves = torso.findAllMatches('**/sleeves')
-        bottom = torso.findAllMatches('**/torso-bot')
+        shirt = self.findAllMatches('**/torso-top')
+        sleeves = self.findAllMatches('**/sleeves')
+        bottom = self.findAllMatches('**/torso-bot')
         sizeofShirts = len(Shirts)
         self.shirtChoice = random.randrange(0, sizeofShirts)
         shirtTexture = loader.loadTexture(Shirts[self.shirtChoice])
@@ -766,9 +785,9 @@ class Toon(Actor):
         bodyScale = Globals.toonBodyScales[self.animalType]
         headScale = Globals.toonHeadScales[self.animalType]
         self.getGeomNode().setScale(bodyScale * 1.34)
-        self.getPart('head').setScale(headScale)
+        '''self.getPart('head').setScale(headScale)
         if self.legsType == 'dgl':
-            self.getPart('legs').setScale(.9)
+            self.getPart('legs').setScale(.9)'''
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
