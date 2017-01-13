@@ -60,27 +60,17 @@ class GenderShop:
             self.toon = Toon()
         self.toon.createRandomBoy()
         self.toon.reparentTo(render)
-        self.toon.loop("neutral")
-        self.toon.setHpr(180, 0, 0)
+        self.toon.loop('neutral')
+        self.toon.setPos(Point3(-1.62, -3.49, 0))
+        self.toon.setHpr(Point3(180, 0, 0))
         self.makeAToon.setNextButtonState(DGG.NORMAL)
+        self.makeAToon.setToon(self.toon)
 
     def enter(self):
         self.boyButton.show()
 
     def exit(self):
         self.boyButton.hide()
-
-    def getToon(self):
-        return self.toonClass.getToon()
-
-    def getAnimalType(self):
-        return self.toonClass.getAnimalType()
-
-    def getBodyType(self):
-        return self.toonClass.getBodyType()
-
-    def getLegsType(self):
-        return self.toonClass.getLegsType()
 
     def killToon(self):
         if self.toon:

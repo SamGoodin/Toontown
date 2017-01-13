@@ -34,6 +34,9 @@ class MakeAToon:
         self.guiCancelButton.show()
         self.enterGenderShop()
 
+    def setToon(self, toon):
+        self.toon = toon
+
     def enterGenderShop(self):
         self.shop = "gs"
         self.genderWalls.reparentTo(self.squishJoint)
@@ -52,20 +55,13 @@ class MakeAToon:
 
     def exitGenderShop(self):
         self.gs.exit()
-        self.toon = self.gs.getToon()
-        self.toonPosition = self.toon.getPos()
-        self.toonScale = self.toon.getScale()
-        self.toonHpr = self.toon.getHpr()
-        self.toonType = self.gs.getAnimalType()
-        self.bodyType = self.gs.getBodyType()
-        self.legsType = self.gs.getLegsType()
 
     def enterBodyShop(self):
         self.shop = "bs"
         self.guiTopBar['text'] = "Choose Your Type"
         self.guiTopBar['text_fg'] = (0.0, 0.98, 0.5, 1)
         self.guiTopBar['text_scale'] = 0.18
-        self.bs = BodyShop(self, self.toon, self.toonType, self.bodyType, self.legsType)
+        self.bs = BodyShop(self, self.toon)
         self.bs.load()
         self.bs.enter()
         self.guiNextButton.show()
@@ -76,7 +72,7 @@ class MakeAToon:
         self.setNextButtonState(DGG.NORMAL)
 
     def exitBodyShop(self):
-        self.toon = self.bs.exit()
+        self.bs.exit()
 
     def enterColorShop(self):
         self.shop = "cos"
@@ -85,12 +81,13 @@ class MakeAToon:
         self.guiTopBar['text_scale'] = .18
         self.setBackButtonState(DGG.NORMAL)
         self.setNextButtonState(DGG.NORMAL)
-        self.cos = ColorShop(self, self.toonType)
+        self.cos = ColorShop(self, self.toon.species)
         self.cos.load()
         self.cos.enter(self.toon)
 
     def exitColorShop(self):
-        self.toon = self.cos.exit()
+        self.cos.exit()
+        self.cos.unload()
 
     def enterClothingShop(self):
         self.shop = "cls"
@@ -101,12 +98,11 @@ class MakeAToon:
         self.cls.load()
         self.cls.enter()
         self.guiNextButton.show()
-        self.toon.setScale(self.toonScale)
-        self.toon.setPos(self.toonPosition)
-        self.toon.setHpr(self.toonHpr)
+        self.toon.setPos(Point3(-1.62, -3.49, 0))
+        self.toon.setHpr(Point3(180, 0, 0))
 
     def exitClothingShop(self):
-        self.toon = self.cls.exit()
+        self.cls.exit()
         self.cls.unload()
 
     def enterNameShop(self):

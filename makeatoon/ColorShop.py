@@ -9,13 +9,12 @@ class ColorShop:
     def __init__(self, makeAToon, toonType):
         self.makeAToon = makeAToon
         self.toon = None
-        self.toonClass = Toon()
         self.animalType = toonType
 
     def enter(self, toon):
         base.disableMouse()
         self.toon = toon
-        self.colorList = self.toonClass.getColorList()
+        self.colorList = self.toon.getColorList()
         self.length = len(self.colorList)
         self.entireColorChoice = random.randint(0, self.length-1)
         self.headChoice = random.randint(0, self.length-1)
@@ -77,7 +76,7 @@ class ColorShop:
 
     def changeHeadColor(self, offset, firstTime):
         newColor = self.colorList[self.headChoice]
-        self.toon = self.toonClass.setHeadColor(self.toon, self.animalType, newColor)
+        self.toon.setHeadColor(self.animalType, newColor)
 
     def swapBodyColor(self, offset, firstTime=False):
         self.changeBodyColor(offset, firstTime)
@@ -95,7 +94,7 @@ class ColorShop:
         if not firstTime:
             self.bodyChoice += offset
         newColor = self.colorList[self.bodyChoice]
-        self.toon = self.toonClass.setTorsoColor(self.toon, newColor)
+        self.toon.setTorsoColor(newColor)
 
     def swapLegColor(self, offset, firstTime=False):
         self.changeLegColor(offset, firstTime)
@@ -113,7 +112,7 @@ class ColorShop:
         if not firstTime:
             self.legsChoice += offset
         newColor = self.colorList[self.legsChoice]
-        self.toon = self.toonClass.setLegsColor(self.toon, newColor)
+        self.toon.setLegsColor(newColor)
 
     def load(self):
         self.gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
@@ -234,4 +233,3 @@ class ColorShop:
 
     def exit(self):
         self.parentFrame.hide()
-        return self.toon
