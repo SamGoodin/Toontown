@@ -196,3 +196,15 @@ WalkCutOff = 0.5
 RunCutOff = 8.0
 WakeRunDelta = 0.1
 WakeWalkDelta = 0.2
+GlobalDialogColor = (1,
+ 1,
+ 0.75,
+ 1)
+
+def setDefaultDialogGeom(string):
+    global defaultDialogGeom
+    defaultDialogGeom = string
+
+def getDefaultDialogGeom():
+    global defaultDialogGeom
+    return defaultDialogGeom

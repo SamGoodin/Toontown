@@ -687,6 +687,7 @@ class Toon(Actor, ShadowCaster):
 
     def createRandomBoy(self):
         toonData = {}
+        toonData['toon'] = []
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
         self.species = choice
         self.bodyType = random.choice(['dgl', 'dgm', 'dgs'])
@@ -694,8 +695,14 @@ class Toon(Actor, ShadowCaster):
         self.createAdvancedToon(choice, self.bodyType, self.legsType)
         self.setRandomColor()
         self.generateRandomClothing()
-        toonData['toon1'].append({
-
+        toonData['toon'].append({
+            'species': self.species,
+            'head': self.headStyle,
+            'torso': self.bodyType,
+            'legs': self.legsType,
+            'headColor': self.headColor,
+            'torsoColor': self.torsoColor,
+            'legColor': self.legColor
         })
         self.rescaleToon()
         self.initializeDropShadow()
