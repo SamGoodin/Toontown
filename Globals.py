@@ -201,8 +201,8 @@ GlobalDialogColor = (1,
  0.75,
  1)
 RPdirectFrame = (1.75, 1, 0.75)
-RPskipScale = 0.2
-RPskipPos = (0, -.28)
+RPskipScale = 0.5
+RPskipPos = (0, .3)
 
 def setDefaultDialogGeom(string):
     global defaultDialogGeom
