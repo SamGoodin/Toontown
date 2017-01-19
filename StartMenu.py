@@ -1,6 +1,8 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 import Globals
+import os.path
+import json
 
 POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0, 0, 0.346533),
@@ -41,6 +43,12 @@ class StartMenu:
         self.unloadStartMenu()
 
     def loadStartMenu(self):
+        if os.path.isfile("data/ToonData.json"):
+            #File exists
+            pass
+        else:
+            #File Doesn't
+            pass
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()

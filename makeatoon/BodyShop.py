@@ -54,13 +54,12 @@ LegsAnims = {'dgs': {'neutral': 'phase_3/models/char/tt_a_chr_dgs_shorts_legs_ne
 
 class BodyShop:
 
-    def __init__(self, makeAToon, toon, toonType, bodyType, legsType):
+    def __init__(self, makeAToon, toon):
         self.makeAToon = makeAToon
         self.toon = toon
-        self.headIndex = HeadList.index(toonType)
-        self.bodyIndex = BodyList.index(bodyType)
-        self.legsIndex = LegsList.index(legsType)
-        self.toonClass = Toon()
+        self.headIndex = HeadList.index(self.toon.species)
+        self.bodyIndex = BodyList.index(self.toon.torsoStyle)
+        self.legsIndex = LegsList.index(self.toon.legStyle)
 
     def load(self):
         self.gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
@@ -197,15 +196,12 @@ class BodyShop:
         otherParts = newLegs.findAllMatches('**/boots*') + newLegs.findAllMatches('**/shoes')
         for partNum in range(0, otherParts.getNumPaths()):
             otherParts.getPath(partNum).removeNode()
-
-        print newLegs
-        print newLegsChoice
         self.toon.loadModel(newLegs, 'legs')
         self.toon.loadAnims(LegsAnims[newLegsChoice], 'legs')
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral')
-        self.toon = self.setRandomLegsColor(self.toon)
+        self.toon.setRandomLegsColor()
         if self.legsIndex == 0:
             self.legLButton['state'] = DGG.DISABLED
         else:
@@ -224,13 +220,12 @@ class BodyShop:
         otherParts = newLegs.findAllMatches('**/boots*') + newLegs.findAllMatches('**/shoes')
         for partNum in range(0, otherParts.getNumPaths()):
             otherParts.getPath(partNum).removeNode()
-
         self.toon.loadModel(newLegs, 'legs')
         self.toon.loadAnims(LegsAnims[newLegsChoice], 'legs')
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral')
-        self.toon = self.setRandomLegsColor(self.toon)
+        self.toon.setRandomLegsColor()
         if self.legsIndex == len(LegsList) - 1:
             self.legRButton['state'] = DGG.DISABLED
         else:
@@ -249,8 +244,8 @@ class BodyShop:
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral', 0)
-        self.toon = self.setRandomTorsoColor(self.toon)
-        self.toon = self.setRandomClothing(self.toon)
+        self.toon.setRandomTorsoColor()
+        self.toon.generateRandomClothing()
         if self.bodyIndex == 0:
             self.torsoLButton['state'] = DGG.DISABLED
         else:
@@ -269,8 +264,8 @@ class BodyShop:
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral', 0)
-        self.toon = self.setRandomTorsoColor(self.toon)
-        self.toon = self.setRandomClothing(self.toon)
+        self.toon.setRandomTorsoColor()
+        self.toon.generateRandomClothing()
         if self.bodyIndex == len(BodyList) - 1:
             self.torsoRButton['state'] = DGG.DISABLED
         else:
@@ -300,7 +295,7 @@ class BodyShop:
 
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
-        self.toon = self.setRandomHeadColor(self.toon, newHeadChoice)
+        self.toon.setRandomHeadColor()
         if self.headIndex == 0:
             self.speciesLButton['state'] = DGG.DISABLED
         else:
@@ -327,27 +322,14 @@ class BodyShop:
                 part = otherParts.getPath(partNum)
                 if part != ntrlMuzzle:
                     otherParts.getPath(partNum).removeNode()
-
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
-        self.toon = self.setRandomHeadColor(self.toon, newHeadChoice)
+        self.toon.setRandomHeadColor()
         if self.headIndex == len(HeadList) - 1:
             self.speciesRButton['state'] = DGG.DISABLED
         else:
             self.speciesLButton['state'] = DGG.NORMAL
             self.speciesRButton['state'] = DGG.NORMAL
-
-    def setRandomHeadColor(self, toon, animalType):
-        return self.toonClass.setRandomHeadColor(toon, animalType)
-
-    def setRandomTorsoColor(self, toon):
-        return self.toonClass.setRandomTorsoColor(toon)
-
-    def setRandomLegsColor(self, toon):
-        return self.toonClass.setRandomLegsColor(toon)
-
-    def setRandomClothing(self, toon):
-        return self.toonClass.generateRandomClothing(toon)
 
     def showButtons(self):
         self.parentFrame.show()

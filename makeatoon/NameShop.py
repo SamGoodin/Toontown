@@ -4,6 +4,7 @@ import random
 import Globals
 from direct.gui import OnscreenText
 import Messenger
+from gui.MessageBox import MessageBox
 
 
 class NameShop:
@@ -438,9 +439,13 @@ class NameShop:
         name = TextEncoder().decodeText(name)
         name = name.strip()
         name = TextEncoder().encodeWtext(name)
-        self.nameEntry.enterText(name)
-        self.toon.setName(name)
-        self.enterGame()
+        if name:
+            self.nameEntry.enterText(name)
+            self.toon.setName(name)
+            self.enterGame()
+        else:
+            mb = MessageBox("Please enter a name.")
+            name = None
 
     def getToonName(self):
         return self.nameEntry.get()

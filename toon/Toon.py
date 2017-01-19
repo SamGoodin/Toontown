@@ -18,8 +18,6 @@ from direct.fsm.State import State
 
 import Globals
 
-
-
 allColorsList = [(1.0, 1.0, 1.0, 1.0),
                  (0.96875, 0.691406, 0.699219, 1.0),
                  (0.933594, 0.265625, 0.28125, 1.0),
@@ -370,26 +368,92 @@ LegDict = {'s': '/models/char/tt_a_chr_dgs_shorts_legs_',
            'm': '/models/char/tt_a_chr_dgm_shorts_legs_',
            'l': '/models/char/tt_a_chr_dgl_shorts_legs_'}
 
-LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_legs_neutral"},
-                 'dgm': {'neutral': "phase_3/models/char/tt_a_chr_dgm_shorts_legs_neutral"},
-                 'dgs': {'neutral': "phase_3/models/char/tt_a_chr_dgs_shorts_legs_neutral"}}
-TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral"},
-                 'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral"},
-                 'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral"}}
-HeadAnimDict =  {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral"},
-                 'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral"},
-                 'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral"}}
-animList = (('neutral', 'neutral'), ('run', 'run'))
+LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_legs_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_legs_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zhang'},
+                 'dgm': {'neutral': "phase_3/models/char/tt_a_chr_dgm_shorts_legs_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_legs_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zhang'},
+                 'dgs': {'neutral': "phase_3/models/char/tt_a_chr_dgs_shorts_legs_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_legs_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zhang'}}
+TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_torso_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zhang'},
+                 'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_torso_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_torso_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zhang'},
+                 'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_torso_neutral",
+                         'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_walk',
+                         "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_torso_run",
+                         'jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zstart',
+                         'jump': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump',
+                         'running-jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zend',
+                         'running-jump': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_running-jump',
+                         'jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zend',
+                         'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zhang',
+                         'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zstart',
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zhang'}}
+HeadAnimDict =  {'dll': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral",
+                         "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_head_run"},
+                 'dls': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral",
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_head_run"},
+                 'dsl': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral",
+                         "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_head_run"},
+                 'dss': {'neutral': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_neutral',
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_skirt_head_run"}}
+DogMuzzleDict = {'dls': 'phase_3/models/char/dogMM_Shorts-headMuzzles-1000',
+ 'dss': 'phase_3/models/char/dogMM_Skirt-headMuzzles-1000',
+ 'dsl': 'phase_3/models/char/dogSS_Shorts-headMuzzles-1000',
+ 'dll': 'phase_3/models/char/dogLL_Shorts-headMuzzles-1000'}
 
 
-class Toon(Actor):
+class Toon(Actor, ShadowCaster):
     sleepTimeout = base.config.GetInt('sleep-timeout', 120)
 
-
     def __init__(self):
-        print 'work'
-        Actor.__init__(self, None, None, other=None, flattenable=0, setFinal=1)
-        #DistributedSmoothNode.DistributedSmoothNode.__init__(self, None)
+        Actor.__init__(self)
+        ShadowCaster.__init__(self)
         self.controlManager = ControlManager.ControlManager(True, False)
         self.head = None
         self.legs = None
@@ -400,6 +464,7 @@ class Toon(Actor):
         self.animalType = None
         self.headColor = None
         self.torsoColor = None
+        self.__stareAtName = 'stareAt-'
         self.__lookName = 'look-'
         self.legColor = None
         self.avatarControlsEnabled = None
@@ -415,6 +480,8 @@ class Toon(Actor):
         self.rotateSpeed = 0.0
         self.hp = 100
         self.animMultiplier = 1.0
+        self.randGen = random.Random()
+        self.randGen.seed(random.random())
         self.animFSM = ClassicFSM('Toon', [State('off', self.enterOff, self.exitOff),
                                            State('neutral', self.enterNeutral, self.exitNeutral),
                                            State('run', self.enterRun, self.exitRun),
@@ -427,7 +494,12 @@ class Toon(Actor):
         self.animFSM.enterInitialState()
         self.cheesyEffect = None
         self.standWalkRunReverse = None
-        self.accept('arrow_up', self.enterRun)
+        self.__stareAtNode = NodePath()
+        self.__defaultStarePoint = Point3(0, 0, 0)
+        self.__stareAtPoint = self.__defaultStarePoint
+        self.__stareAtTime = 0
+        self.lookAtTrack = None
+        self.lookAtPositionCallbackArgs = None
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -454,7 +526,6 @@ class Toon(Actor):
     def exitHappy(self):
         self.standWalkRunReverse = None
         self.stop()
-        #self.motion.exit()
         return
 
     def enterJumpAirborne(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
@@ -503,8 +574,6 @@ class Toon(Actor):
             else:
                 action = Globals.STAND_INDEX
             anim, rate = self.standWalkRunReverse[action]
-            #self.motion.enter()
-            #self.motion.setState(anim, rate)
             if anim != self.playingAnim:
                 self.playingAnim = anim
                 self.playingRate = rate
@@ -537,7 +606,7 @@ class Toon(Actor):
         return action
 
     def enterOff(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
-        #self.setActiveShadow(0)
+        self.setActiveShadow(0)
         self.playingAnim = None
         return
 
@@ -561,112 +630,148 @@ class Toon(Actor):
     def getShortsList(self):
         return BoyShorts
 
-    def createOther(self, head, torso, torsoName, legs, legsName, headName=None):
-        self.setLODNode()
-        levelOneIn = base.config.GetInt('lod1-in', 20)
-        levelOneOut = base.config.GetInt('lod1-out', 0)
-        levelTwoIn = base.config.GetInt('lod2-in', 80)
-        levelTwoOut = base.config.GetInt('lod2-out', 20)
-        levelThreeIn = base.config.GetInt('lod3-in', 280)
-        levelThreeOut = base.config.GetInt('lod3-out', 80)
-        self.addLOD(1000, levelOneIn, levelOneOut)
-        #self.addLOD(500, levelTwoIn, levelTwoOut)
-        #self.addLOD(250, levelThreeIn, levelThreeOut)
-        self.loadModel(head, 'head', '1000', True)
-        self.loadModel(torso, 'torso', '1000', True)
-        self.loadModel(legs, 'legs', '1000', True)
-        self.showPart('head', '1000')
-        self.showPart('torso', '1000')
-        self.showPart('legs', '1000')
-        self.loadAnims(LegsAnimDict[legsName], 'legs', '1000')
-        self.loadAnims(TorsoAnimDict[torsoName], 'torso', '1000')
-        if headName:
-            self.loadAnims(HeadAnimDict[headName], 'head', '1000')
-        self.findAllMatches('**/boots_short').stash()
-        self.findAllMatches('**/boots_long').stash()
-        self.findAllMatches('**/shoes').stash()
-        '''
-        toon = Actor(
-
-            {"head": head,
-             "torso": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_1000",
-             "legs": legs},
-
-            {"torso": {"neutral": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_neutral",
-                       "run": "phase_3/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_run",
-                       "walk": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_walk",
-                       "running-jump-idle": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_leap_zhang",
-                       "jump-idle": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_jump-zhang",
-                       "book": "phase_3.5/models/char/tt_a_chr_" + torso + "_" + gender + "_torso_book"},
-             "legs": {"neutral": "phase_3/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_neutral",
-                      "run": "phase_3/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_run",
-                      "walk": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_walk",
-                      "running-jump-idle": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_leap_zhang",
-                      "jump-idle": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_jump-zhang",
-                      "book": "phase_3.5/models/char/tt_a_chr_" + legsName + "_" + gender + "_legs_book"}
-             }
-        )
-        return toon'''
-
-    def createToon(self, headName, torso, legs):
-        print headName, torso, legs
-        legsName = legs
-        torsoName = torso
-        legs = loader.loadModel("phase_3/models/char/tt_a_chr_" + legs + "_shorts_legs_1000")
-        otherParts = legs.findAllMatches('**/boots*') + legs.findAllMatches('**/shoes')
-        for partNum in range(0, otherParts.getNumPaths()):
-            otherParts.getPath(partNum).removeNode()
-        torsoModel = loader.loadModel("phase_3/models/char/tt_a_chr_" + torso + "_shorts_torso_1000")
-        if headName == "dgl" or headName == "dgm" or headName == "dgs":
-            head = "phase_3/models/char/tt_a_chr_" + headName + "_shorts_head_1000"
-            self.createOther(head, torsoModel, torsoName, legs, legsName, headName)
+    def createAdvancedToon(self, species, torsoType, legType):
+        HeadDict = {
+            'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
+            'dsl': 'phase_3/models/char/tt_a_chr_dgs_shorts_head_1000',
+            'dls': 'phase_3/models/char/tt_a_chr_dgm_shorts_head_1000',
+            'dll': 'phase_3/models/char/tt_a_chr_dgl_shorts_head_1000',
+            'mouse': 'phase_3/models/char/mouse-heads-1000',
+            'rabbit': 'phase_3/models/char/rabbit-heads-1000',
+            'pig': 'phase_3/models/char/pig-heads-1000',
+            'monkey': 'phase_3/models/char/monkey-heads-1000',
+            'horse': 'phase_3/models/char/horse-heads-1000',
+            'duck': 'phase_3/models/char/duck-heads-1000',
+            'cat': 'phase_3/models/char/cat-heads-1000',
+            'bear': 'phase_3/models/char/bear-heads-1000'
+        }
+        if species == "dog":
+            headType = random.choice(["dss", "dsl", "dls", "dll"])
+            head = HeadDict[headType]
         else:
-            head = "phase_3/models/char/" + headName + "-heads-1000"
-            '''otherParts = head.findAllMatches('**/*long*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                otherParts.getPath(partNum).removeNode()
-            ntrlMuzzle = head.find('**/*muzzle*neutral')
-            otherParts = head.findAllMatches('**/*muzzle*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                part = otherParts.getPath(partNum)
-                if part != ntrlMuzzle:
-                    otherParts.getPath(partNum).removeNode()'''
-            self.createOther(head, torsoModel, torsoName, legs, legsName)
+            headType = None
+            head = HeadDict[species]
+
+        TorsoDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_torso_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_torso_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_torso_1000'
+        }
+        torso = TorsoDict[torsoType]
+        self.torsoStyle = torsoType
+
+        LegDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_legs_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_legs_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_legs_1000'
+        }
+        legs = LegDict[legType]
+        self.legStyle = legType
+
+        self.loadModel(head, "head")
+        self.loadModel(torso, "torso")
+        self.loadModel(legs, "legs")
+        self.getPart("legs").findAllMatches('**/boots_short').stash()
+        self.getPart("legs").findAllMatches('**/boots_long').stash()
+        self.getPart("legs").findAllMatches('**/shoes').stash()
+        self.fixHeadShortShort()
+        self.setupMuzzles(headType)
+        bodyScale = Globals.toonBodyScales[self.species]
+        headScale = Globals.toonHeadScales[self.species]
+        self.getGeomNode().setScale(headScale[0] * bodyScale * 1.3, headScale[1] * bodyScale * 1.3,
+                                    headScale[2] * bodyScale * 1.3)
+        self.loadAnims(TorsoAnimDict[torsoType], "torso")
+        self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
         self.attach("torso", "legs", "joint_hips")
-        return self
 
     def createRandomBoy(self):
+        toonData = {}
+        toonData['toon'] = []
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
-        self.animalType = choice
+        self.species = choice
         self.bodyType = random.choice(['dgl', 'dgm', 'dgs'])
         self.legsType = random.choice(['dgl', 'dgm', 'dgs'])
-        if choice is not 'dog':
-            self.createToon(choice, self.bodyType, self.legsType)
-        else:
-            self.dogHead = random.choice(["dgl", "dgm", "dgs"])
-            self.createToon(self.dogHead, self.bodyType, self.legsType)
+        self.createAdvancedToon(choice, self.bodyType, self.legsType)
         self.setRandomColor()
         self.generateRandomClothing()
+        toonData['toon'].append({
+            'species': self.species,
+            'head': self.headStyle,
+            'torso': self.bodyType,
+            'legs': self.legsType,
+            'headColor': self.headColor,
+            'torsoColor': self.torsoColor,
+            'legColor': self.legColor
+        })
         self.rescaleToon()
+        self.initializeDropShadow()
 
-    def getDogHead(self):
-        return self.dogHead
+    def delete(self):
+        self.stop()
+        self.unloadAnims()
+        for part in self.getPartNames():
+            self.removePart(part)
+        if 'legs' in self._Actor__commonBundleHandles:
+            del self._Actor__commonBundleHandles['legs']
+        if 'torso' in self._Actor__commonBundleHandles:
+            del self._Actor__commonBundleHandles['torso']
+        if 'head' in self._Actor__commonBundleHandles:
+            del self._Actor__commomBundleHandles['head']
+        self.species = None
+        self.legsType = None
+        self.bodyType = None
 
-    def getToon(self):
-        return self
+    def fixHeadShortShort(self, copy=None):
+        otherParts = self.getPart('head').findAllMatches('**/*long*')
+        for partNum in xrange(0, otherParts.getNumPaths()):
+            if copy:
+                otherParts.getPath(partNum).removeNode()
+            else:
+                otherParts.getPath(partNum).stash()
+        self.headStyle = self.species[:1] + "ss"
+        return
 
-    def getAnimalType(self):
-        return self.animalType
+    def setupMuzzles(self, head):
+        self.__muzzles = []
+        self.__surpriseMuzzles = []
+        self.__angryMuzzles = []
+        self.__sadMuzzles = []
+        self.__smileMuzzles = []
+        self.__laughMuzzles = []
 
-    def getBodyType(self):
-        return self.bodyType
+        def hideAddNonEmptyItemToList(item, list):
+            if not item.isEmpty():
+                item.hide()
+                list.append(item)
 
-    def getLegsType(self):
-        return self.legsType
+        def hideNonEmptyItem(item):
+            if not item.isEmpty():
+                item.hide()
+
+        if self.species != 'dog':
+            muzzle = self.getPart('head').find('**/muzzle*neutral')
+        else:
+            muzzle = self.getPart('head').find('**/muzzle*')
+            muzzles = loader.loadModel(DogMuzzleDict[head])
+            if not self.getPart('head').find('**/def_head').isEmpty():
+                muzzles.reparentTo(self.getPart('head').find('**/def_head'))
+            else:
+                muzzles.reparentTo(self.getPart('head').find('**/joint_toHead'))
+        surpriseMuzzle = self.find('**/muzzle*surprise')
+        angryMuzzle = self.find('**/muzzle*angry')
+        sadMuzzle = self.find('**/muzzle*sad')
+        smileMuzzle = self.find('**/muzzle*smile')
+        laughMuzzle = self.find('**/muzzle*laugh')
+        self.__muzzles.append(muzzle)
+        hideAddNonEmptyItemToList(surpriseMuzzle, self.__surpriseMuzzles)
+        hideAddNonEmptyItemToList(angryMuzzle, self.__angryMuzzles)
+        hideAddNonEmptyItemToList(sadMuzzle, self.__sadMuzzles)
+        hideAddNonEmptyItemToList(smileMuzzle, self.__smileMuzzles)
+        hideAddNonEmptyItemToList(laughMuzzle, self.__laughMuzzles)
 
     def setRandomColor(self):
-        self.setRandomHeadColor(self.animalType)
+        self.setRandomHeadColor()
         self.setRandomTorsoColor()
         self.setRandomLegsColor()
 
@@ -674,12 +779,12 @@ class Toon(Actor):
         parts = self.find('**/head*')
         return parts.getColor()
 
-    def setRandomHeadColor(self, animalType):
+    def setRandomHeadColor(self):
         self.headColor = random.choice(allColorsList)
         parts = self.findAllMatches('**/head*')
         parts.setColor(self.headColor)
-        if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or \
-                        animalType == 'mouse' or animalType == 'pig':
+        if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
+                        self.species == 'mouse' or self.species == 'pig':
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(self.headColor)
 
@@ -698,9 +803,9 @@ class Toon(Actor):
         torso = self.getPart('torso')
         self.torsoColor = random.choice(allColorsList)
         for pieceName in ('arms', 'neck'):
-            piece = torso.find('**/' + pieceName)
+            piece = self.find('**/' + pieceName)
             piece.setColor(self.torsoColor)
-        hands = torso.find('**/hands')
+        hands = self.find('**/hands')
         hands.setColor(1, 1, 1, 1)
 
     def setTorsoColor(self, color):
@@ -719,7 +824,7 @@ class Toon(Actor):
         legs = self.getPart('legs')
         self.legColor = random.choice(allColorsList)
         for pieceName in ('legs', 'feet'):
-            piece = legs.find('**/%s;+s' % pieceName)
+            piece = self.find('**/%s;+s' % pieceName)
             piece.setColor(self.legColor)
 
     def setLegsColor(self, color):
@@ -731,9 +836,9 @@ class Toon(Actor):
 
     def generateRandomClothing(self):
         torso = self.getPart('torso')
-        shirt = torso.findAllMatches('**/torso-top')
-        sleeves = torso.findAllMatches('**/sleeves')
-        bottom = torso.findAllMatches('**/torso-bot')
+        shirt = self.findAllMatches('**/torso-top')
+        sleeves = self.findAllMatches('**/sleeves')
+        bottom = self.findAllMatches('**/torso-bot')
         sizeofShirts = len(Shirts)
         self.shirtChoice = random.randrange(0, sizeofShirts)
         shirtTexture = loader.loadTexture(Shirts[self.shirtChoice])
@@ -763,12 +868,23 @@ class Toon(Actor):
         bottom.setTexture(bottomTexture, 1)
 
     def rescaleToon(self):
-        bodyScale = Globals.toonBodyScales[self.animalType]
-        headScale = Globals.toonHeadScales[self.animalType]
-        self.getGeomNode().setScale(bodyScale * 1.34)
+        bodyScale = Globals.toonBodyScales[self.species]
+        headScale = Globals.toonHeadScales[self.species]
+        self.getGeomNode().setScale(bodyScale)
         self.getPart('head').setScale(headScale)
-        if self.legsType == 'dgl':
-            self.getPart('legs').setScale(.9)
+        self.resetHeight()
+
+    def resetHeight(self):
+        bodyScale = Globals.toonBodyScales[self.species]
+        headScale = Globals.toonHeadScales[self.species][2]
+        shoulderHeight = Globals.legHeightDict[self.legStyle] * bodyScale +\
+                         Globals.torsoHeightDict[self.torsoStyle] * bodyScale
+        height = shoulderHeight + Globals.headHeightDict[self.headStyle] * headScale
+        self.shoulderHeight = shoulderHeight
+        self.setHeight(height)
+
+    def setHeight(self, height):
+        pass
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
@@ -777,6 +893,9 @@ class Toon(Actor):
     def setupControls(self, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
                       wallBitmask = Globals.WallBitmask, floorBitmask = Globals.FloorBitmask,
                       ghostBitmask = Globals.GhostBitmask):
+        self.cTrav = CollisionTraverser('base.cTrav')
+        base.pushCTrav(self.cTrav)
+        self.cTrav.setRespectPrevTransform(1)
         walkControls = GravityWalker(legacyLifter=False)
         walkControls.setWallBitMask(wallBitmask)
         walkControls.setFloorBitMask(floorBitmask)
@@ -842,6 +961,100 @@ class Toon(Actor):
     def setWalkSpeedNormal(self):
         self.controlManager.setSpeeds(Globals.ToonForwardSpeed, Globals.ToonJumpForce,
                                       Globals.ToonReverseSpeed, Globals.ToonRotateSpeed)
+
+    def startLookAround(self):
+        taskMgr.remove(self.__lookName)
+        t = self.randGen.random() * 5.0 + 2.0
+        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
+
+    def __lookAround(self, task):
+        self.findSomethingToLookAt()
+        t = self.randGen.random() * 4.0 + 3.0
+        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
+        return Task.done
+
+    def findSomethingToLookAt(self):
+        if self.lookAtPositionCallbackArgs != None:
+            pnt = self.lookAtPositionCallbackArgs[0].getLookAtPosition(self.lookAtPositionCallbackArgs[1],
+                                                                       self.lookAtPositionCallbackArgs[2])
+            self.startStareAt(self, pnt)
+            return
+        if self.randGen.random() < 0.33:
+            lookAtPnt = self.getRandomForwardLookAtPoint()
+        else:
+            lookAtPnt = self.__defaultStarePoint
+        self.lerpLookAt(lookAtPnt, blink=1)
+        return
+
+    def getRandomForwardLookAtPoint(self):
+        x = self.randGen.choice((-0.8,
+                                 -0.5,
+                                 0,
+                                 0.5,
+                                 0.8))
+        z = self.randGen.choice((-0.5,
+                                 0,
+                                 0.5,
+                                 0.8))
+        return Point3(x, 1.5, z)
+
+    def startStareAt(self, node, point):
+        taskMgr.remove(self.__stareAtName)
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
+        self.__stareAtNode = node
+        if point != None:
+            self.__stareAtPoint = point
+        else:
+            self.__stareAtPoint = self.__defaultStarePoint
+        self.__stareAtTime = globalClock.getFrameTime()
+        taskMgr.add(self.__stareAt, self.__stareAtName)
+        return
+
+    def lerpLookAt(self, point, time=1.0, blink=0):
+        '''taskMgr.remove(self.__stareAtName)
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
+        lodNames = self.getLODNames()
+        if lodNames:
+            lodName = lodNames[0]
+        else:
+            return 0
+        head = self.getPart('head', lodName)
+        startHpr = head.getHpr()
+        startLpupil = self.__lpupil.getPos()
+        startRpupil = self.__rpupil.getPos()
+        self.__lookHeadAt(None, point, lod=lodName)
+        self.__lookPupilsAt(None, point)
+        endHpr = head.getHpr()
+        endLpupil = self.__lpupil.getPos() * 0.5
+        endRpupil = self.__rpupil.getPos() * 0.5
+        head.setHpr(startHpr)
+        self.__lpupil.setPos(startLpupil)
+        self.__rpupil.setPos(startRpupil)
+        if startHpr.almostEqual(endHpr, 10):
+            return 0
+        if blink:
+            self.blinkEyes()
+        lookToTgt_TimeFraction = 0.2
+        lookToTgtTime = time * lookToTgt_TimeFraction
+        returnToEyeCenterTime = time - lookToTgtTime - 0.5
+        origin = Point3(0, 0, 0)
+        blendType = 'easeOut'
+        self.lookAtTrack = Parallel(
+            Sequence(LerpPosInterval(self.__lpupil, lookToTgtTime, endLpupil, blendType=blendType), Wait(0.5),
+                     LerpPosInterval(self.__lpupil, returnToEyeCenterTime, origin, blendType=blendType)),
+            Sequence(LerpPosInterval(self.__rpupil, lookToTgtTime, endRpupil, blendType=blendType), Wait(0.5),
+                     LerpPosInterval(self.__rpupil, returnToEyeCenterTime, origin, blendType=blendType)),
+            name=self.__stareAtName)
+        for lodName in self.getLODNames():
+            head = self.getPart('head', lodName)
+            self.lookAtTrack.append(LerpHprInterval(head, time, endHpr, blendType='easeInOut'))
+
+        self.lookAtTrack.start()'''
+        return 1
 
     def trackAnimToSpeed(self, task):
         speed, rotSpeed, slideSpeed = self.controlManager.getSpeeds()
@@ -962,20 +1175,23 @@ class Toon(Actor):
     if 1:
         def jumpLandAnimFix(self, jumpTime):
             if self.playingAnim != 'run' and self.playingAnim != 'walk':
-                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
+                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, 'walkReturnTask')
 
         def jumpHardLand(self):
             if self.allowHardLand():
                 self.b_setAnimState('jumpLand', 1.0)
                 self.stopJumpLandTask()
                 self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+            '''if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()'''
 
         def jumpLand(self):
             self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+            '''if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()'''
+
+    def allowHardLand(self):
+        return not self.sleepFlag and self.hp > 0
 
     def startRunWatch(self):
 
@@ -1021,29 +1237,4 @@ class Toon(Actor):
         self.cameraPositions = (Point3(0.0, -10.0, camHeight - .5))
         base.camera.setPos(Point3(self.cameraPositions))
         base.camera.setHpr(defLookAt)
-
-    def getToonStuff(self):
-        onScreenDebug.enabled = True
-        base.taskMgr.add(self.updateOnScreenDebug, 'UpdateOSD')
-
-    def updateOnScreenDebug(self, task):
-        onScreenDebug.add('Avatar Pos', self.getPos())
-        onScreenDebug.add('Avatar HPR', self.getHpr())
-
-        return Task.cont
-
-    def startLookAround(self):
-        taskMgr.remove(self.__lookName)
-        t = random.Random().random() * 5.0 + 2.0
-        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
-
-    def __lookAround(self, task):
-        #self.findSomethingToLookAt()
-        t = random.Random().random() * 4.0 + 3.0
-        taskMgr.doMethodLater(t, self.__lookAround, self.__lookName)
-        return Task.done
-
-    def stopLookAround(self):
-        taskMgr.remove(self.__lookName)
-        self.stopStareAt()
 

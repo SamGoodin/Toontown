@@ -49,8 +49,8 @@ class Messenger(DirectObject.DirectObject):
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
         base.camera.reparentTo(self.toon)
-        base.toonClass.setupCameraPositions()
-        base.toon = base.toonClass.setupControls(base.toon)
+        base.toon.setupCameraPositions()
+        base.toon.setupControls()
         self.shtikerBook()
 
     def shtikerBook(self):

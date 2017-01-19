@@ -18,6 +18,7 @@ class MyApp(ShowBase):
         DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
+        Globals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.loader.loadMusic("phase_3/audio/bgm/tti_theme.ogg").play()
         self.toon = None
         self.toonClass = None

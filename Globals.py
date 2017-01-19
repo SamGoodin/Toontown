@@ -25,19 +25,13 @@ toonHeadScales = {'mouse': Point3(1.0),
  'bear': Point3(1.0),
  'pig': Point3(1.0)}
 
-legHeightDict = {'s': 1.5,
- 'm': 2.0,
- 'l': 2.75}
+legHeightDict = {'dgs': 1.5,
+ 'dgm': 2.0,
+ 'dgl': 2.75}
 
-torsoHeightDict = {'s': 1.5,
- 'm': 1.75,
- 'l': 2.25,
- 'ss': 1.5,
- 'ms': 1.75,
- 'ls': 2.25,
- 'sd': 1.5,
- 'md': 1.75,
- 'ld': 2.25}
+torsoHeightDict = {'dgs': 1.5,
+ 'dgm': 1.75,
+ 'dgl': 2.25,}
 
 headHeightDict = {'dls': 0.75,
  'dss': 0.5,
@@ -202,3 +196,18 @@ WalkCutOff = 0.5
 RunCutOff = 8.0
 WakeRunDelta = 0.1
 WakeWalkDelta = 0.2
+GlobalDialogColor = (1,
+ 1,
+ 0.75,
+ 1)
+RPdirectFrame = (1.75, 1, 0.75)
+RPskipScale = 0.5
+RPskipPos = (0, .3)
+
+def setDefaultDialogGeom(string):
+    global defaultDialogGeom
+    defaultDialogGeom = string
+
+def getDefaultDialogGeom():
+    global defaultDialogGeom
+    return defaultDialogGeom
