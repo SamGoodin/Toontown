@@ -22,7 +22,7 @@ class ClothingShop:
 
     def swapShirt(self, offset):
         self.shirtChoice += offset
-        self.toon = self.toonClass.setShirt(self.toon, self.shirtChoice)
+        self.toon.setShirt(self.shirtChoice)
         if self.shirtChoice == 0:
             self.topLButton['state'] = DGG.DISABLED
             self.topRButton['state'] = DGG.NORMAL
@@ -35,7 +35,7 @@ class ClothingShop:
 
     def swapShorts(self, offset):
         self.shortsChoice += offset
-        self.toon = self.toonClass.setShorts(self.toon, self.shortsChoice)
+        self.toon.setShorts(self.shortsChoice)
         if self.shortsChoice == 0:
             self.bottomLButton['state'] = DGG.DISABLED
             self.bottomRButton['state'] = DGG.NORMAL
@@ -118,4 +118,3 @@ class ClothingShop:
 
     def exit(self):
         self.parentFrame.hide()
-        return self.toon
