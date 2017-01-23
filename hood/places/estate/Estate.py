@@ -48,6 +48,9 @@ class Estate(DirectObject):
             self.houseNode[i].setPosHpr(*posHpr)
             self.houseNode[i].show()
 
+        houseModel = self.houseModels[0]
+        self.house = houseModel.copyTo()
+
     def loadSunMoon(self):
         self.sun = loader.loadModel('phase_4/models/props/sun.bam')
         self.moon = loader.loadModel('phase_5.5/models/props/moon.bam')

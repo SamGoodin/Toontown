@@ -487,10 +487,14 @@ class Toon(Actor, ShadowCaster):
                                            State('run', self.enterRun, self.exitRun),
                                            State('jump', self.enterJump, self.exitJump),
                                            State('jumpAirborne', self.enterJumpAirborne, self.exitJumpAirborne),
-                                           State('Happy', self.enterHappy, self.exitHappy)
+                                           State('jumpLand', self.enterJumpLand, self.exitJumpLand),
+                                           State('Happy', self.enterHappy, self.exitHappy),
+                                           '''State('OpenBook', self.enterOpenBook, self.exitOpenBook,
+                                                 ['ReadBook', 'CloseBook']),
+                                           State('ReadBook', self.enterReadBook, self.exitReadBook),
+                                           State('CloseBook', self.enterCloseBook, self.exitCloseBook),'''
                                            ],
                                   'off', 'off')
-        animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
         self.cheesyEffect = None
         self.standWalkRunReverse = None
@@ -555,6 +559,23 @@ class Toon(Actor, ShadowCaster):
         self.setActiveShadow(1)
 
     def exitJump(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterJumpLand(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        if not self.isDisguised:
+            if self.playingAnim == 'running-jump-idle':
+                anim = 'running-jump-land'
+                skipStart = 0.2
+            else:
+                anim = 'jump-land'
+                skipStart = 0.0
+            self.playingAnim = anim
+            self.setPlayRate(animMultiplier, anim)
+            self.play(anim)
+        self.setActiveShadow(1)
+
+    def exitJumpLand(self):
         self.stop()
         self.playingAnim = 'neutral'
 

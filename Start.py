@@ -5,6 +5,7 @@ from direct.showbase.ShowBase import ShowBase
 from StartMenu import StartMenu
 import Globals
 from direct.gui import DirectGuiGlobals
+from gui.MarginManager import MarginManager
 
 
 class MyApp(ShowBase):
@@ -19,10 +20,14 @@ class MyApp(ShowBase):
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         Globals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
+        self.setupMargins()
         self.loader.loadMusic("phase_3/audio/bgm/tti_theme.ogg").play()
         self.toon = None
         self.toonClass = None
         self.go()
+
+    def setupMargins(self):
+        self.marginManager = MarginManager()
 
     def go(self):
         import Messenger
