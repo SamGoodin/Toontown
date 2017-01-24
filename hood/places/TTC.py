@@ -1,7 +1,7 @@
 import random
 
 from direct.showbase.DirectObject import DirectObject
-
+import Globals
 import Sky
 from LoadingScreen import LoadingScreen
 from dna.DNALoader import *
@@ -69,6 +69,7 @@ class TTC(DirectObject):
         base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
         base.taskMgr.add(self.loopyLane, 'loopyLane')
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
+        base.setCurrentZone(Globals.TTCZone)
         self.ls.end()
 
     def unload(self):
@@ -158,6 +159,7 @@ class SillyStreet(DirectObject):
         base.playMusic(self.music, looping=1)
         self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
         self.ls.end()
 
     def unload(self):
@@ -214,6 +216,7 @@ class PunchlinePlace(DirectObject):
         base.playMusic(self.music, looping=1)
         self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
         self.ls.end()
 
     def unload(self):
@@ -270,6 +273,7 @@ class LoopyLane(DirectObject):
         base.playMusic(self.music, looping=1)
         self.ls.tick()
         base.taskMgr.add(self.ttc, 'ttcTunnel')
+        base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
         self.ls.end()
 
     def unload(self):
@@ -337,6 +341,7 @@ class GoofySpeedway(DirectObject):
         blimpBase.reparentTo(blimpRoot)
         self.rotateBlimp = blimpRoot.hprInterval(360, Vec3(360, 0, 0))
         self.rotateBlimp.loop()
+        base.setCurrentZone(Globals.TTCZone + "-" + Globals.GSZone)
         self.ls.end()
 
     def unload(self):

@@ -136,7 +136,8 @@ class Messenger(DirectObject.DirectObject):
             text='Back to Playground',
             text_scale=.055,
             text_pos=(0, -0.02),
-            textMayChange=0)
+            textMayChange=0,
+            command=self.backToPlayground)
         self.goHomeButton = DirectButton(
             parent=self.map,
             relief=None,
@@ -171,6 +172,12 @@ class Messenger(DirectObject.DirectObject):
         self.bookOpenButton.hide()
         self.bookCloseButton.show()
         self.map.show()
+        if base.currentZone == Globals.EstateZone:
+            self.safeZoneButton.show()
+            self.goHomeButton.hide()
+        elif "-" in base.currentZone:
+            self.safeZoneButton.show()
+            self.goHomeButton.show()
 
     def closeBook(self):
         base.playSfx(self.closeSound)
@@ -182,5 +189,18 @@ class Messenger(DirectObject.DirectObject):
         self.map.hide()
 
     def goHome(self):
+        self.closeBook()
+        base.setLastPlayground(base.currentZone.rsplit('-', 1)[0])
         messenger.send('unloadTTC')
         self.estate = Estate().load()
+
+    def backToPlayground(self):
+        if self.estate:
+            self.estate.unload()
+        def ttc():
+            ttc = TTC(self.toon)
+            self.ttc = ttc.load(0)
+        options = {Globals.TTCZone:  ttc}
+        options[base.lastPlayground]()
+
+

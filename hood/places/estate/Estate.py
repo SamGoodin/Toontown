@@ -4,7 +4,7 @@ import Sky
 from LoadingScreen import LoadingScreen
 from dna.DNALoader import *
 from hood.places.estate import HouseGlobals
-import random, math
+import Globals
 
 
 class Estate(DirectObject):
@@ -36,6 +36,7 @@ class Estate(DirectObject):
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
         path = self.estate.find('**/Path')
         path.setBin('ground', 10, 1)
+        base.setCurrentZone(Globals.EstateZone)
         self.ls.end()
 
     def loadHouses(self):
@@ -48,8 +49,10 @@ class Estate(DirectObject):
             self.houseNode[i].setPosHpr(*posHpr)
             self.houseNode[i].show()
 
-        houseModel = self.houseModels[0]
-        self.house = houseModel.copyTo()
+        x = 0
+        for house in self.houseModels:
+            self.house = house.copyTo(self.houseNode[x])
+            x += 1
 
     def loadSunMoon(self):
         self.sun = loader.loadModel('phase_4/models/props/sun.bam')

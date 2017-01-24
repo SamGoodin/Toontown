@@ -211,3 +211,13 @@ def setDefaultDialogGeom(string):
 def getDefaultDialogGeom():
     global defaultDialogGeom
     return defaultDialogGeom
+
+EstateZone = "Estate"
+TTCZone = "Toontown Central"
+DDZone = "Donald's Dock"
+DDLZone = "Donald's Dreamland"
+MMZone = "Minnie's Melodyland"
+BRZone = "Brrrgh"
+DGZone = "Daisy Gardens"
+GSZone = "Goofy Speedway"
+StreetZone = "-street"
