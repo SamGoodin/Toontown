@@ -488,13 +488,9 @@ class Toon(Actor, ShadowCaster):
                                            State('jump', self.enterJump, self.exitJump),
                                            State('jumpAirborne', self.enterJumpAirborne, self.exitJumpAirborne),
                                            State('jumpLand', self.enterJumpLand, self.exitJumpLand),
-                                           State('Happy', self.enterHappy, self.exitHappy),
-                                           '''State('OpenBook', self.enterOpenBook, self.exitOpenBook,
-                                                 ['ReadBook', 'CloseBook']),
-                                           State('ReadBook', self.enterReadBook, self.exitReadBook),
-                                           State('CloseBook', self.enterCloseBook, self.exitCloseBook),'''
-                                           ],
+                                           State('Happy', self.enterHappy, self.exitHappy)],
                                   'off', 'off')
+        animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
         self.cheesyEffect = None
         self.standWalkRunReverse = None
@@ -729,16 +725,14 @@ class Toon(Actor, ShadowCaster):
         self.initializeDropShadow()
 
     def delete(self):
-        self.stop()
-        self.unloadAnims()
-        for part in self.getPartNames():
-            self.removePart(part)
         if 'legs' in self._Actor__commonBundleHandles:
             del self._Actor__commonBundleHandles['legs']
         if 'torso' in self._Actor__commonBundleHandles:
             del self._Actor__commonBundleHandles['torso']
-        if 'head' in self._Actor__commonBundleHandles:
-            del self._Actor__commomBundleHandles['head']
+        self.stop()
+        self.unloadAnims()
+        for part in self.getPartNames():
+            self.removePart(part)
         self.species = None
         self.legsType = None
         self.bodyType = None

@@ -42,6 +42,7 @@ class Messenger(DirectObject.DirectObject):
         base.toon = self.toon
         self.MAT.exit()
         self.MAT.unload()
+        base.marginManager.clearMargins()
         del self.MAT
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)

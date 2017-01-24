@@ -33,3 +33,6 @@ class MarginManager:
     def removePosFromInUse(self, x):
         self.positionsInUse.remove(x)
         self.positionsNotInUse.append(x)
+
+    def clearMargins(self):
+        messenger.send('deleteMsgBox')

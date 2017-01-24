@@ -202,6 +202,7 @@ class BodyShop:
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
+        self.toon.rescaleToon()
         if self.legsIndex == 0:
             self.legLButton['state'] = DGG.DISABLED
         else:
@@ -226,6 +227,7 @@ class BodyShop:
         self.toon.attach('torso', 'legs', 'joint_hips')
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
+        self.toon.rescaleToon()
         if self.legsIndex == len(LegsList) - 1:
             self.legRButton['state'] = DGG.DISABLED
         else:
@@ -246,6 +248,7 @@ class BodyShop:
         self.toon.loop('neutral', 0)
         self.toon.setRandomTorsoColor()
         self.toon.generateRandomClothing()
+        self.toon.rescaleToon()
         if self.bodyIndex == 0:
             self.torsoLButton['state'] = DGG.DISABLED
         else:
@@ -266,6 +269,7 @@ class BodyShop:
         self.toon.loop('neutral', 0)
         self.toon.setRandomTorsoColor()
         self.toon.generateRandomClothing()
+        self.toon.rescaleToon()
         if self.bodyIndex == len(BodyList) - 1:
             self.torsoRButton['state'] = DGG.DISABLED
         else:
@@ -296,6 +300,7 @@ class BodyShop:
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.setRandomHeadColor()
+        self.toon.rescaleToon()
         if self.headIndex == 0:
             self.speciesLButton['state'] = DGG.DISABLED
         else:
@@ -325,6 +330,7 @@ class BodyShop:
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
         self.toon.setRandomHeadColor()
+        self.toon.rescaleToon()
         if self.headIndex == len(HeadList) - 1:
             self.speciesRButton['state'] = DGG.DISABLED
         else:

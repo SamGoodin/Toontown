@@ -36,20 +36,21 @@ class MessageBox(DirectFrame):
         loader.unloadModel(geom)
         loader.unloadModel(self._battleGui)
         self.setup()
+        self.accept('deleteMsgBox', self.delete)
         return
 
     def setup(self):
         if base.marginManager.getIsPositionAvailable():
             self.pos = base.marginManager.getRandomOpenPos()
             self.setPos(self.pos)
-            taskMgr.doMethodLater(10, self.delete, 'Popup')
+            taskMgr.doMethodLater(20, self.delete, 'Popup')
         else:
             self.pos = None
             taskMgr.add(self.delete, 'Popup')
 
-    def delete(self, task):
+    def delete(self):
         self.destroy()
-        return task.done
+        taskMgr.remove('Popup')
 
     def destroy(self):
         self.message = None
