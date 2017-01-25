@@ -21,6 +21,7 @@ class Estate(DirectObject):
         self.szDNAFile = 'Resources/phase_5.5/dna/estate_1.pdna'
         self.houseNode = [None] * 6
         self.houseModels = [None] * HouseGlobals.NUM_HOUSE_TYPES
+        self.accept('unloadEstate', self.unload)
 
     def load(self, sky=1):
         self.ls.begin(100)
