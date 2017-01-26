@@ -36,23 +36,21 @@ class MessageBox(DirectFrame):
         loader.unloadModel(geom)
         loader.unloadModel(self._battleGui)
         self.setup()
-        self.accept('deleteMsgBox', self.delete)
+        self.accept('deleteMsgBox', self.destroy)
         return
 
     def setup(self):
         if base.marginManager.getIsPositionAvailable():
             self.pos = base.marginManager.getRandomOpenPos()
             self.setPos(self.pos)
-            taskMgr.doMethodLater(20, self.delete, 'Popup')
+            taskMgr.doMethodLater(4, self.destroy, 'Popup')
         else:
             self.pos = None
-            taskMgr.add(self.delete, 'Popup')
+            taskMgr.add(self.destroy, 'Popup')
 
-    def delete(self):
-        self.destroy()
-        taskMgr.remove('Popup')
-
-    def destroy(self):
+    def destroy(self, task=None):
+        if taskMgr.hasTaskNamed('Popup'):
+            taskMgr.remove('Popup')
         self.message = None
         self.nodePath = None
         self.okayButton.destroy()
@@ -60,4 +58,6 @@ class MessageBox(DirectFrame):
         if self.pos:
             base.marginManager.removePosFromInUse(self.pos)
             self.pos = None
+        if task:
+            return task.done
 

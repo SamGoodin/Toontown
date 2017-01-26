@@ -21,6 +21,8 @@ class MyApp(ShowBase):
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         Globals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.setupMargins()
+        self.currentZone = None
+        self.lastPlayground = None
         self.loader.loadMusic("phase_3/audio/bgm/tti_theme.ogg").play()
         self.toon = None
         self.toonClass = None
@@ -28,6 +30,12 @@ class MyApp(ShowBase):
 
     def setupMargins(self):
         self.marginManager = MarginManager()
+
+    def setCurrentZone(self, zone):
+        self.currentZone = zone
+
+    def setLastPlayground(self, zone):
+        self.lastPlayground = zone
 
     def go(self):
         import Messenger

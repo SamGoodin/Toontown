@@ -378,7 +378,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zhang'},
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_book'},
                  'dgm': {'neutral': "phase_3/models/char/tt_a_chr_dgm_shorts_legs_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_legs_run",
@@ -389,7 +390,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zhang'},
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_book'},
                  'dgs': {'neutral': "phase_3/models/char/tt_a_chr_dgs_shorts_legs_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_legs_run",
@@ -400,7 +402,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zhang'}}
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_book'}}
 TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_torso_run",
@@ -411,7 +414,8 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zhang'},
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_book'},
                  'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_torso_run",
@@ -422,7 +426,8 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zhang'},
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_book'},
                  'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_torso_run",
@@ -433,15 +438,20 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-land': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zend',
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zstart',
-                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zhang'}}
+                         'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zhang',
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_book'}}
 HeadAnimDict =  {'dll': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral",
-                         "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_head_run"},
+                         "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_head_run",
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgl_shorts_head_book'},
                  'dls': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral",
-                         "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_head_run"},
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_head_run",
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_shorts_head_book'},
                  'dsl': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral",
-                         "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_head_run"},
+                         "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_head_run",
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgs_shorts_head_book'},
                  'dss': {'neutral': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_neutral',
-                         "run":     "phase_3/models/char/tt_a_chr_dgm_skirt_head_run"}}
+                         "run":     "phase_3/models/char/tt_a_chr_dgm_skirt_head_run",
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_book'}}
 DogMuzzleDict = {'dls': 'phase_3/models/char/dogMM_Shorts-headMuzzles-1000',
  'dss': 'phase_3/models/char/dogMM_Skirt-headMuzzles-1000',
  'dsl': 'phase_3/models/char/dogSS_Shorts-headMuzzles-1000',
@@ -460,6 +470,7 @@ class Toon(Actor, ShadowCaster):
         self.torso = None
         self.forceJumpIdle = False
         self.toon = None
+        self.__bookActors = []
         self.sleepCallback = None
         self.animalType = None
         self.headColor = None
@@ -488,7 +499,10 @@ class Toon(Actor, ShadowCaster):
                                            State('jump', self.enterJump, self.exitJump),
                                            State('jumpAirborne', self.enterJumpAirborne, self.exitJumpAirborne),
                                            State('jumpLand', self.enterJumpLand, self.exitJumpLand),
-                                           State('Happy', self.enterHappy, self.exitHappy)],
+                                           State('Happy', self.enterHappy, self.exitHappy),
+                                           State('openBook', self.enterBook, self.exitBook, ['readBook', 'closeBook']),
+                                           State('readBook', self.enterReadBook, self.exitReadBook),
+                                           State('closeBook', self.enterCloseBook, self.exitCloseBook)],
                                   'off', 'off')
         animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
@@ -527,6 +541,69 @@ class Toon(Actor, ShadowCaster):
         self.standWalkRunReverse = None
         self.stop()
         return
+
+    def enterBook(self):
+        bookTracks = Parallel()
+        for bookActor in self.getBookActors():
+            bookTracks.append(ActorInterval(bookActor, 'book', startTime=1.2, endTime=1.5))
+        bookTracks.append(ActorInterval(self, 'book', startTime=1.2, endTime=1.5))
+        self.track = Sequence(Func(self.showBooks), bookTracks, Wait(0.1), name='openBook')
+        self.track.start(0)
+        self.setActiveShadow(0)
+
+    def getBookActors(self):
+        if self.__bookActors:
+            return self.__bookActors
+        bookActor = Actor('phase_3.5/models/props/book-mod', {'book': 'phase_3.5/models/props/book-chan'})
+        bookActor2 = Actor(other=bookActor)
+        bookActor3 = Actor(other=bookActor)
+        self.__bookActors = [bookActor, bookActor2, bookActor3]
+        hands = self.getRightHands()
+        for bookActor, hand in zip(self.__bookActors, hands):
+            bookActor.reparentTo(hand)
+            bookActor.hide()
+
+        return self.__bookActors
+
+    def showBooks(self):
+        for bookActor in self.getBookActors():
+            bookActor.show()
+
+    def hideBooks(self):
+        for bookActor in self.getBookActors():
+            bookActor.hide()
+
+    def exitBook(self):
+        self.track.finish()
+        self.track = None
+        self.hideBooks()
+
+    def enterReadBook(self):
+        self.showBooks()
+        for bookActor in self.getBookActors():
+            bookActor.pingpong('book', fromFrame=38, toFrame=118)
+
+        self.pingpong('book', fromFrame=38, toFrame=118)
+        self.setActiveShadow(0)
+
+    def exitReadBook(self):
+        self.hideBooks()
+        for bookActor in self.getBookActors():
+            bookActor.stop()
+
+    def enterCloseBook(self):
+        bookTracks = Parallel()
+        for bookActor in self.getBookActors():
+            bookTracks.append(ActorInterval(bookActor, 'book', startTime=4.96, endTime=6.5))
+
+        bookTracks.append(ActorInterval(self, 'book', startTime=4.96, endTime=6.5))
+        self.track = Sequence(Func(self.showBooks), bookTracks, Func(self.hideBooks), name='closeBook')
+        self.track.start(0)
+        self.setActiveShadow(0)
+
+    def exitCloseBook(self):
+        self.track.finish()
+        self.track = None
 
     def enterJumpAirborne(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         if not self.isDisguised:
@@ -647,6 +724,9 @@ class Toon(Actor, ShadowCaster):
     def getShortsList(self):
         return BoyShorts
 
+    def getRightHands(self):
+        return self.rightHands
+
     def createAdvancedToon(self, species, torsoType, legType):
         HeadDict = {
             'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
@@ -701,6 +781,12 @@ class Toon(Actor, ShadowCaster):
         self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
         self.attach("torso", "legs", "joint_hips")
+
+        rightHand = NodePath('rightHand')
+        self.rightHands = []
+        if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
+            hand = self.getPart('torso').find('**/def_joint_right_hold')
+        self.rightHands.append(hand)
 
     def createRandomBoy(self):
         toonData = {}
