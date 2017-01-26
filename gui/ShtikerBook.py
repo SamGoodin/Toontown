@@ -1,5 +1,6 @@
 from direct.gui.DirectGui import *
 import Globals
+from direct.interval.IntervalGlobal import *
 
 class ShtikerBook(DirectFrame):
 
@@ -113,9 +114,9 @@ class ShtikerBook(DirectFrame):
         self.map.hide()
         self.safeZoneButton.hide()
         self.hide()
+        self.estate = None
 
     def openBook(self):
-        base.toon.enterBook()
         base.playSfx(self.openSound)
         base.render.hide()
         base.setBackgroundColor(0.05, 0.15, 0.4)
@@ -131,7 +132,8 @@ class ShtikerBook(DirectFrame):
             self.goHomeButton.show()
 
     def closeBook(self):
-        base.toon.enterCloseBook()
+        self.track = Sequence(Func(base.toon.enterCloseBook), Wait(2), Func(base.toon.exitCloseBook))
+        self.track.start()
         base.playSfx(self.closeSound)
         base.render.show()
         base.setBackgroundColor(Globals.defaultBackgroundColor)
@@ -142,15 +144,15 @@ class ShtikerBook(DirectFrame):
 
     def goHome(self):
         self.closeBook()
-
         base.setLastPlayground(base.currentZone.rsplit('-', 1)[0])
-        options = {Globals.TTCZone: messenger.send('unloadTTC')}
-        options[base.lastPlayground]()
+        self.unloadCurrentPlayground()
         messenger.send('loadEstate')
 
+    def unloadCurrentPlayground(self):
+        messenger.send('unloadZone')
+
     def backToPlayground(self):
-        if self.estate:
-            self.estate.unload()
+        self.unloadCurrentPlayground()
 
         def ttc():
             ttc = TTC(self.toon)

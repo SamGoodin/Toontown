@@ -575,7 +575,6 @@ class Toon(Actor, ShadowCaster):
 
     def exitBook(self):
         self.track.finish()
-        DelayDelete.cleanupDelayDeletes(self.track)
         self.track = None
         self.hideBooks()
 
@@ -604,7 +603,6 @@ class Toon(Actor, ShadowCaster):
 
     def exitCloseBook(self):
         self.track.finish()
-        DelayDelete.cleanupDelayDeletes(self.track)
         self.track = None
 
     def enterJumpAirborne(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):

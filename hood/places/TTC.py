@@ -30,7 +30,7 @@ class TTC(DirectObject):
         DirectObject.__init__(self)
         self.ls = LoadingScreen()
         self.accept('tick', self.tick)
-        self.accept('unloadTTC', self.unload)
+        self.accept('unloadZone', self.unload)
         self.toon = toon
         self.music = None
         self.sky = None
@@ -88,6 +88,7 @@ class TTC(DirectObject):
         del self.dna
         self.ls.destroy()
         del self.ls
+        self.ignore('unloadZone')
 
     def goofySpeedway(self, task):
         if self.toon.getX() <= 33.4 and self.toon.getX() >= 20.9:
@@ -142,6 +143,7 @@ class SillyStreet(DirectObject):
         self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
         self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
         self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2100.pdna'
+        self.accept('unloadZone', self.unload)
 
     def tick(self):
         self.ls.tick()
@@ -175,6 +177,7 @@ class SillyStreet(DirectObject):
         del self.dna
         self.ls.destroy()
         del self.ls
+        self.ignore('unloadZone')
 
     def ttc(self, task):
         if self.toon.getX() <= -82 and self.toon.getX() >= -84:
@@ -199,6 +202,7 @@ class PunchlinePlace(DirectObject):
         self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
         self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
         self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2300.pdna'
+        self.accept('unloadZone', self.unload)
 
     def tick(self):
         self.ls.tick()
@@ -232,6 +236,7 @@ class PunchlinePlace(DirectObject):
         del self.dna
         self.ls.destroy()
         del self.ls
+        self.ignore('unloadZone')
 
     def ttc(self, task):
         if self.toon.getX() <= -5 and self.toon.getX() >= -6:
@@ -256,6 +261,7 @@ class LoopyLane(DirectObject):
         self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
         self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
         self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2200.pdna'
+        self.accept('unloadZone', self.unload)
 
     def tick(self):
         self.ls.tick()
@@ -289,6 +295,7 @@ class LoopyLane(DirectObject):
         del self.dna
         self.ls.destroy()
         del self.ls
+        self.ignore('unloadZone')
 
     def ttc(self, task):
         if self.toon.getX() <= -69 and self.toon.getX() >= -70.1:
@@ -312,6 +319,7 @@ class GoofySpeedway(DirectObject):
         self.pgStorageFile = 'Resources/phase_6/dna/storage_GS.pdna'
         self.szStorageFile = 'Resources/phase_6/dna/storage_GS_sz.pdna'
         self.szDNAFile = 'Resources/phase_6/dna/goofy_speedway_sz.pdna'
+        self.accept('unloadZone', self.unload)
 
     def tick(self):
         self.ls.tick()
@@ -359,6 +367,7 @@ class GoofySpeedway(DirectObject):
         del self.dna
         self.ls.destroy()
         del self.ls
+        self.ignore('unloadZone')
 
     def ttc(self, task):
         if self.toon.getX() <= 8.3 and self.toon.getX() >= -8.3:

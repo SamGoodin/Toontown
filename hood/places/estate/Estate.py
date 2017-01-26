@@ -15,13 +15,15 @@ class Estate(DirectObject):
         self.music = None
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
+        self.namePlate = None
+        self.floorMat = None
         self.dna = None
         self.storageFile = 'Resources/phase_4/dna/storage.pdna'
         self.pgStorageFile = 'Resources/phase_5.5/dna/storage_estate.pdna'
         self.szDNAFile = 'Resources/phase_5.5/dna/estate_1.pdna'
         self.houseNode = [None] * 6
         self.houseModels = [None] * HouseGlobals.NUM_HOUSE_TYPES
-        self.accept('unloadEstate', self.unload)
+        self.accept('unloadZone', self.unload)
 
     def load(self, sky=1):
         self.ls.begin(100)
@@ -39,6 +41,35 @@ class Estate(DirectObject):
         path.setBin('ground', 10, 1)
         base.setCurrentZone(Globals.EstateZone)
         self.ls.end()
+
+    def unload(self):
+        if self.namePlate:
+            self.namePlate.removeNode()
+            del self.namePlate
+            self.namePlate = None
+        if self.floorMat:
+            self.floorMat.removeNode()
+            del self.floorMat
+            self.floorMat = None
+        if self.house:
+            self.house.removeNode()
+            del self.house
+        del self.skyFile
+        del self.music
+        del self.dna
+        del self.szDNAFile
+        del self.pgStorageFile
+        del self.storageFile
+        for model in self.houseModels:
+            model.removeNode()
+        del self.houseModels
+        for node in self.houseNode:
+            node.removeNode()
+        del self.houseNode
+        self.sunMoonNode.removeNode()
+        del self.sunMoonNode
+        self.ignore('unloadZone')
+
 
     def loadHouses(self):
         for i in xrange(HouseGlobals.NUM_HOUSE_TYPES):
