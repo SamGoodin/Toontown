@@ -379,7 +379,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_book'},
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_legs_teleport'},
                  'dgm': {'neutral': "phase_3/models/char/tt_a_chr_dgm_shorts_legs_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_legs_run",
@@ -391,7 +392,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_book'},
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_legs_teleport'},
                  'dgs': {'neutral': "phase_3/models/char/tt_a_chr_dgs_shorts_legs_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_legs_run",
@@ -403,7 +405,8 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_book'}}
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_teleport'}}
 TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_torso_run",
@@ -415,7 +418,8 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_book'},
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_teleport'},
                  'dgm': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_torso_run",
@@ -427,7 +431,8 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_book'},
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_torso_teleport'},
                  'dgs': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_torso_run",
@@ -439,19 +444,24 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_jump-zhang',
                          'running-jump-squat': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zstart',
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zhang',
-                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_book'}}
+                         'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_teleport'}}
 HeadAnimDict =  {'dll': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral",
                          "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_head_run",
-                         'book':    'phase_3.5/models/char/tt_a_chr_dgl_shorts_head_book'},
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgl_shorts_head_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_head_teleport'},
                  'dls': {"neutral": "phase_3/models/char/tt_a_chr_dgm_shorts_head_neutral",
                          "run":     "phase_3/models/char/tt_a_chr_dgm_shorts_head_run",
-                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_shorts_head_book'},
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_shorts_head_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgm_shorts_head_teleport'},
                  'dsl': {"neutral": "phase_3/models/char/tt_a_chr_dgs_shorts_head_neutral",
                          "run":     "phase_3/models/char/tt_a_chr_dgs_shorts_head_run",
-                         'book':    'phase_3.5/models/char/tt_a_chr_dgs_shorts_head_book'},
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgs_shorts_head_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_head_teleport'},
                  'dss': {'neutral': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_neutral',
                          "run":     "phase_3/models/char/tt_a_chr_dgm_skirt_head_run",
-                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_book'}}
+                         'book':    'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_book',
+                         'teleport': 'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_teleport'}}
 DogMuzzleDict = {'dls': 'phase_3/models/char/dogMM_Shorts-headMuzzles-1000',
  'dss': 'phase_3/models/char/dogMM_Skirt-headMuzzles-1000',
  'dsl': 'phase_3/models/char/dogSS_Shorts-headMuzzles-1000',
@@ -471,6 +481,7 @@ class Toon(Actor, ShadowCaster):
         self.forceJumpIdle = False
         self.toon = None
         self.__bookActors = []
+        self.__holeActors = []
         self.sleepCallback = None
         self.animalType = None
         self.headColor = None
@@ -502,7 +513,8 @@ class Toon(Actor, ShadowCaster):
                                            State('Happy', self.enterHappy, self.exitHappy),
                                            State('openBook', self.enterBook, self.exitBook, ['readBook', 'closeBook']),
                                            State('readBook', self.enterReadBook, self.exitReadBook),
-                                           State('closeBook', self.enterCloseBook, self.exitCloseBook)],
+                                           State('closeBook', self.enterCloseBook, self.exitCloseBook),
+                                           State('teleportOut', self.enterTeleportOut, self.exitTeleportOut)],
                                   'off', 'off')
         animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
@@ -514,6 +526,7 @@ class Toon(Actor, ShadowCaster):
         self.__stareAtTime = 0
         self.lookAtTrack = None
         self.lookAtPositionCallbackArgs = None
+        self.soundTeleport = base.loadSfx('phase_3.5/audio/sfx/AV_teleport.ogg')
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -525,6 +538,65 @@ class Toon(Actor, ShadowCaster):
 
     def exitNeutral(self):
         self.stop()
+
+    def getHoleActors(self):
+        if self.__holeActors:
+            return self.__holeActors
+        holeActor = Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
+        holeActor2 = Actor(other=holeActor)
+        holeActor3 = Actor(other=holeActor)
+        self.__holeActors = [holeActor, holeActor2, holeActor3]
+        for ha in self.__holeActors:
+            holeName = 'toon-portal'
+            ha.setName(holeName)
+
+        return self.__holeActors
+
+    def getTeleportOutTrack(self, autoFinishTrack=1):
+
+        def showHoles(holes, hands):
+            for hole, hand in zip(holes, hands):
+                hole.reparentTo(hand)
+
+        def reparentHoles(holes, toon):
+            holes[0].reparentTo(toon)
+            holes[1].detachNode()
+            holes[2].detachNode()
+            holes[0].setBin('shadow', 0)
+            holes[0].setDepthTest(0)
+            holes[0].setDepthWrite(0)
+
+        def cleanupHoles(holes):
+            holes[0].detachNode()
+            holes[0].clearBin()
+            holes[0].clearDepthTest()
+            holes[0].clearDepthWrite()
+
+        holes = self.getHoleActors()
+        hands = self.getRightHands()
+        holeTrack = Track((0.0, Func(showHoles, holes, hands)),
+                          (0.5, SoundInterval(self.soundTeleport, node=self)),
+                          (1.708, Func(reparentHoles, holes, self)), (3.4, Func(cleanupHoles, holes)))
+        trackName = 'teleportOut'
+        track = Parallel(holeTrack, name=trackName, autoFinish=autoFinishTrack)
+        for hole in holes:
+            track.append(ActorInterval(hole, 'hole', duration=3.4))
+
+        track.append(ActorInterval(self, 'teleport', duration=3.4))
+        return track
+
+    def enterTeleportOut(self, callback=None, extraArgs=[]):
+        self.track = self.getTeleportOutTrack()
+        self.track.setDoneEvent(self.track.getName())
+        self.acceptOnce(self.track.getName(), self.exitTeleportOut)
+        holeClip = PlaneNode('holeClip')
+        self.holeClipPath = self.attachNewNode(holeClip)
+        self.getGeomNode().setClipPlane(self.holeClipPath)
+        self.track.start(0)
+        self.setActiveShadow(0)
+
+    def exitTeleportOut(self):
+        self.track.finish()
 
     def enterHappy(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         self.playingAnim = None
