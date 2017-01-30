@@ -11,6 +11,10 @@ POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0.00799999, 0, -0.5481),
  Vec3(0.894907, 0, -0.445659))
 
+ButtonNames = (
+    "red", "green", "purple", "blue", "pink", "yellow"
+)
+
 
 class StartMenu:
 
@@ -26,7 +30,11 @@ class StartMenu:
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
-    def enterMakeAToon(self):
+    def enterMakeAToon(self, *args):
+        buttonName = ""
+        for arg in args:
+            buttonName += arg
+        base.buttonPressed = buttonName
         messenger.send('enterMAT')
         self.exit()
 
@@ -105,17 +113,19 @@ class AvatarChoice:
 
     def __init__(self):
         self.buttonList = []
-        self.button = None
 
     def createButtons(self):
         num = 0
         while num < 6:
-            self.button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
+            print ButtonNames[num]
+            button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
                                        text0_scale=0.1, text1_scale=0.12, text2_scale=0.12, text_pos=(0, 0), scale=1.01,
                                        pressEffect=1, rolloverSound=Globals.getRolloverSound(),
                                        clickSound=Globals.getClickSound(), pos=(POSITIONS[num]),
-                                       text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1))
-            self.buttonList.append(self.button)
+                                       text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1),
+                                  extraArgs=ButtonNames[num])
+            self.buttonList.append(button)
+            del button
             num += 1
 
     def destroy(self):

@@ -1,0 +1,30 @@
+{
+    "green": [
+        {
+            "head": "bss", 
+            "headColor": [
+                0.460938, 
+                0.378906, 
+                0.824219, 
+                1.0
+            ], 
+            "lastPlayground": "Toontown Central", 
+            "legColor": [
+                0.460938, 
+                0.378906, 
+                0.824219, 
+                1.0
+            ], 
+            "legs": "dgs", 
+            "name": "Jim", 
+            "species": "bear", 
+            "torso": "dgm", 
+            "torsoColor": [
+                0.460938, 
+                0.378906, 
+                0.824219, 
+                1.0
+            ]
+        }
+    ]
+}

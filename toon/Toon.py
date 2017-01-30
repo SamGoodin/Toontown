@@ -860,9 +860,26 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
 
-    def createRandomBoy(self):
+    def setData(self):
+        tile = base.buttonPressed
         toonData = {}
-        toonData['toon'] = []
+        toonData[tile] = []
+        toonData[tile].append({
+            'species': self.species,
+            'head': self.headStyle,
+            'torso': self.bodyType,
+            'legs': self.legsType,
+            'headColor': self.headColor,
+            'torsoColor': self.torsoColor,
+            'legColor': self.legColor,
+            'name': self.getName(),
+            'lastPlayground': Globals.TTCZone
+        })
+        import json
+        with open('data/ToonData.json', 'w') as f:
+            json.dump(toonData, f, sort_keys=True, indent=4)
+
+    def createRandomBoy(self):
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
         self.species = choice
         self.bodyType = random.choice(['dgl', 'dgm', 'dgs'])
@@ -870,15 +887,6 @@ class Toon(Actor, ShadowCaster):
         self.createAdvancedToon(choice, self.bodyType, self.legsType)
         self.setRandomColor()
         self.generateRandomClothing()
-        toonData['toon'].append({
-            'species': self.species,
-            'head': self.headStyle,
-            'torso': self.bodyType,
-            'legs': self.legsType,
-            'headColor': self.headColor,
-            'torsoColor': self.torsoColor,
-            'legColor': self.legColor
-        })
         self.rescaleToon()
         self.initializeDropShadow()
 
