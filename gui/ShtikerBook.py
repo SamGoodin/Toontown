@@ -143,7 +143,11 @@ class ShtikerBook(DirectFrame):
         self.map.hide()
 
     def goHome(self):
-        self.closeBook()
+        track = Sequence(Func(self.closeBook), Wait(2), Func(base.toon.enterTeleportOut), Wait(4),
+                         Func(self.loadEstate))
+        track.start()
+
+    def loadEstate(self):
         base.setLastPlayground(base.currentZone.rsplit('-', 1)[0])
         self.unloadCurrentPlayground()
         messenger.send('loadEstate')

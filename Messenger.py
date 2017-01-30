@@ -40,6 +40,7 @@ class Messenger(DirectObject.DirectObject):
 
     def unloadMakeAToon(self):
         self.toon = self.MAT.getToon()
+        self.toon.setData()
         base.toon = self.toon
         self.MAT.exit()
         self.MAT.unload()
