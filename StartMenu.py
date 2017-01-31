@@ -3,6 +3,7 @@ from direct.gui.DirectGui import *
 import Globals
 import os.path
 import json
+from direct.actor.Actor import Actor
 
 POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0, 0, 0.346533),
@@ -53,10 +54,16 @@ class StartMenu:
     def loadStartMenu(self):
         if os.path.isfile("data/ToonData.json"):
             #File exists
-            pass
+            fileExists = True
+            buttonsFilled = []
+            with open('data/ToonData.json') as jsonFile:
+                data = json.load(jsonFile)
+                for x in ButtonNames:
+                    buttonsFilled.append(x)
+            print buttonsFilled
         else:
             #File Doesn't
-            pass
+            fileExists = False
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -114,7 +121,7 @@ class AvatarChoice:
     def __init__(self):
         self.buttonList = []
 
-    def createButtons(self):
+    def createButtons(self, *args):
         num = 0
         while num < 6:
             print ButtonNames[num]
@@ -124,6 +131,24 @@ class AvatarChoice:
                                        clickSound=Globals.getClickSound(), pos=(POSITIONS[num]),
                                        text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1),
                                   extraArgs=ButtonNames[num])
+            button.setName(ButtonNames[num])
+            if button.getName() in args:
+                with open('data/ToonData.json') as jsonFile:
+                    data = json.load(jsonFile)
+                    for p in data[button.getName()]:
+                        headStyle = p['head']
+                        headColor = p['headColor']
+                        species = p['species']
+                        legs = p['legs']
+                        legColor = p['legColor']
+                        torso = p['torso']
+                        torsoColor = p['torsoColor']
+                        name = p['name']
+                from toon import Toon
+                self.toon = Toon()
+                self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, name)
+                button['image'] = self.toon.getHead()
+                print 'poke'
             self.buttonList.append(button)
             del button
             num += 1

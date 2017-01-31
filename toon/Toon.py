@@ -860,6 +860,74 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
 
+    def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, name):
+        HeadDict = {
+            'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
+            'dsl': 'phase_3/models/char/tt_a_chr_dgs_shorts_head_1000',
+            'dls': 'phase_3/models/char/tt_a_chr_dgm_shorts_head_1000',
+            'dll': 'phase_3/models/char/tt_a_chr_dgl_shorts_head_1000',
+            'mouse': 'phase_3/models/char/mouse-heads-1000',
+            'rabbit': 'phase_3/models/char/rabbit-heads-1000',
+            'pig': 'phase_3/models/char/pig-heads-1000',
+            'monkey': 'phase_3/models/char/monkey-heads-1000',
+            'horse': 'phase_3/models/char/horse-heads-1000',
+            'duck': 'phase_3/models/char/duck-heads-1000',
+            'cat': 'phase_3/models/char/cat-heads-1000',
+            'bear': 'phase_3/models/char/bear-heads-1000'
+        }
+        if species == "dog":
+            head = HeadDict[headType]
+        else:
+            head = HeadDict[species]
+
+        TorsoDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_torso_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_torso_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_torso_1000'
+        }
+        torso = TorsoDict[torsoType]
+        self.torsoStyle = torsoType
+
+        LegDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_legs_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_legs_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_legs_1000'
+        }
+        legs = LegDict[legType]
+        self.legStyle = legType
+
+        self.loadModel(head, "head")
+        self.loadModel(torso, "torso")
+        self.loadModel(legs, "legs")
+        self.getPart("legs").findAllMatches('**/boots_short').stash()
+        self.getPart("legs").findAllMatches('**/boots_long').stash()
+        self.getPart("legs").findAllMatches('**/shoes').stash()
+        self.fixHeadShortShort()
+        self.setupMuzzles(headType)
+        bodyScale = Globals.toonBodyScales[self.species]
+        headScale = Globals.toonHeadScales[self.species]
+        self.getGeomNode().setScale(headScale[0] * bodyScale * 1.3, headScale[1] * bodyScale * 1.3,
+                                    headScale[2] * bodyScale * 1.3)
+        self.loadAnims(TorsoAnimDict[torsoType], "torso")
+        self.loadAnims(LegsAnimDict[legType], "legs")
+        self.attach("head", "torso", "def_head")
+        self.attach("torso", "legs", "joint_hips")
+        self.setHeadColor(species, headColor)
+        self.setTorsoColor(torsoColor)
+        self.setLegsColor(legColor)
+        self.setName(name)
+
+        rightHand = NodePath('rightHand')
+        self.rightHands = []
+        if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
+            hand = self.getPart('torso').find('**/def_joint_right_hold')
+        self.rightHands.append(hand)
+
+    def getHeadForStart(self):
+        self.hidePart("legs")
+        self.hidePart("torso")
+        return self
+
     def setData(self):
         tile = base.buttonPressed
         toonData = {}
