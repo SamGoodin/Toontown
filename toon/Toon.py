@@ -861,6 +861,7 @@ class Toon(Actor, ShadowCaster):
         self.rightHands.append(hand)
 
     def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, name):
+        self.species = species
         HeadDict = {
             'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
             'dsl': 'phase_3/models/char/tt_a_chr_dgs_shorts_head_1000',
@@ -912,9 +913,9 @@ class Toon(Actor, ShadowCaster):
         self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
         self.attach("torso", "legs", "joint_hips")
-        self.setHeadColor(species, headColor)
-        self.setTorsoColor(torsoColor)
-        self.setLegsColor(legColor)
+        self.setHeadColor(tuple(headColor))
+        self.setTorsoColor(tuple(torsoColor))
+        self.setLegsColor(tuple(legColor))
         self.setName(name)
 
         rightHand = NodePath('rightHand')
@@ -924,9 +925,7 @@ class Toon(Actor, ShadowCaster):
         self.rightHands.append(hand)
 
     def getHeadForStart(self):
-        self.hidePart("legs")
-        self.hidePart("torso")
-        return self
+        return self.getPart('head')
 
     def setData(self):
         tile = base.buttonPressed
@@ -1037,11 +1036,11 @@ class Toon(Actor, ShadowCaster):
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(self.headColor)
 
-    def setHeadColor(self, animalType, color):
+    def setHeadColor(self, color):
         parts = self.findAllMatches('**/head*')
         parts.setColor(color)
-        if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or \
-                        animalType == 'mouse' or animalType == 'pig':
+        if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
+                        self.species == 'mouse' or self.species == 'pig':
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(color)
 

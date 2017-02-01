@@ -52,15 +52,15 @@ class StartMenu:
         self.unloadStartMenu()
 
     def loadStartMenu(self):
+        buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
             #File exists
             fileExists = True
-            buttonsFilled = []
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
-                for x in ButtonNames:
-                    buttonsFilled.append(x)
-            print buttonsFilled
+                for y in ButtonNames:
+                    if y in data.keys():
+                        buttonsFilled.append(y)
         else:
             #File Doesn't
             fileExists = False
@@ -94,7 +94,7 @@ class StartMenu:
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
-        self.ac.createButtons()
+        self.ac.createButtons(buttonsFilled[0])
         for button in self.ac.buttonList:
             button['command'] = self.enterMakeAToon
         gui.removeNode()
@@ -120,11 +120,12 @@ class AvatarChoice:
 
     def __init__(self):
         self.buttonList = []
+        from toon import Toon
+        self.toon = Toon.Toon()
 
     def createButtons(self, *args):
         num = 0
         while num < 6:
-            print ButtonNames[num]
             button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
                                        text0_scale=0.1, text1_scale=0.12, text2_scale=0.12, text_pos=(0, 0), scale=1.01,
                                        pressEffect=1, rolloverSound=Globals.getRolloverSound(),
@@ -132,7 +133,15 @@ class AvatarChoice:
                                        text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1),
                                   extraArgs=ButtonNames[num])
             button.setName(ButtonNames[num])
-            if button.getName() in args:
+
+            try:
+                value = args.index(button.getName())
+                print value
+            except:
+                print "broken"
+                value = None
+
+            if value != None:
                 with open('data/ToonData.json') as jsonFile:
                     data = json.load(jsonFile)
                     for p in data[button.getName()]:
@@ -144,11 +153,17 @@ class AvatarChoice:
                         torso = p['torso']
                         torsoColor = p['torsoColor']
                         name = p['name']
-                from toon import Toon
-                self.toon = Toon()
                 self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, name)
-                button['image'] = self.toon.getHead()
-                print 'poke'
+                self.head = hidden.attachNewNode('head')
+                self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
+                self.head.reparentTo(button.stateNodePath[0], 20)
+                self.head.instanceTo(button.stateNodePath[1], 20)
+                self.head.instanceTo(button.stateNodePath[2], 20)
+                head = self.toon.getHeadForStart()
+                head.reparentTo(self.head)
+                head.flattenLight()
+
+                print 'done'
             self.buttonList.append(button)
             del button
             num += 1
