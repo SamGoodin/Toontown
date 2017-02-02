@@ -25,6 +25,7 @@ class Messenger(DirectObject.DirectObject):
         self.accept('StartMenu', self.enterStartMenu)
         self.accept('exitMakeAToon', self.unloadMakeAToon)
         self.accept('loadEstate', self.loadEstate)
+        self.accept('enterGameFromStart', self.enterGameFromStart)
 
     @staticmethod
     def exit():
@@ -46,6 +47,21 @@ class Messenger(DirectObject.DirectObject):
         self.MAT.unload()
         base.marginManager.clearMargins()
         del self.MAT
+        self.enterGame()
+
+    def enterGameFromStart(self):
+        self.toon = base.toon
+        ttc = TTC(self.toon)
+        self.ttc = ttc.load(0)
+        geom = self.toon.getGeomNode()
+        geom.getChild(0).setSx(0.730000019073)
+        geom.getChild(0).setSz(0.730000019073)
+        base.camera.reparentTo(self.toon)
+        base.toon.setupCameraPositions()
+        base.toon.setupControls()
+        self.shtikerBook = ShtikerBook()
+
+    def enterGame(self):
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()

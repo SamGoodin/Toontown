@@ -39,6 +39,10 @@ class StartMenu:
         messenger.send('enterMAT')
         self.exit()
 
+    def enterGame(self, *args):
+        messenger.send('enterGameFromStart')
+        self.exit()
+
     def quit(self):
         self.exit()
         messenger.send('exit')
@@ -54,16 +58,13 @@ class StartMenu:
     def loadStartMenu(self):
         buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
-            #File exists
-            fileExists = True
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
                 for y in ButtonNames:
                     if y in data.keys():
                         buttonsFilled.append(y)
         else:
-            #File Doesn't
-            fileExists = False
+            pass
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -96,7 +97,10 @@ class StartMenu:
         self.logoutButton.hide()
         self.ac.createButtons(buttonsFilled[0])
         for button in self.ac.buttonList:
-            button['command'] = self.enterMakeAToon
+            if "-" in button.getName():
+                button['command'] = self.enterGame
+            else:
+                button['command'] = self.enterMakeAToon
         gui.removeNode()
         gui2.removeNode()
         newGui.removeNode()
@@ -153,17 +157,23 @@ class AvatarChoice:
                         torso = p['torso']
                         torsoColor = p['torsoColor']
                         name = p['name']
+                button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
+                button['text_scale'] = 0.12
+                button['text_fg'] = (1, 0.9, 0.1, 1)
                 self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, name)
+                base.toon = self.toon
                 self.head = hidden.attachNewNode('head')
                 self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
                 self.head.reparentTo(button.stateNodePath[0], 20)
                 self.head.instanceTo(button.stateNodePath[1], 20)
                 self.head.instanceTo(button.stateNodePath[2], 20)
                 head = self.toon.getHeadForStart()
+                head.getGeomNode().setDepthWrite(1)
+                head.getGeomNode().setDepthTest(1)
                 head.reparentTo(self.head)
                 head.flattenLight()
-
-                print 'done'
+                button.resetFrameSize()
+                button.setName(ButtonNames[num] + "-filled")
             self.buttonList.append(button)
             del button
             num += 1

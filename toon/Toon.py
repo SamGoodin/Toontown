@@ -880,6 +880,7 @@ class Toon(Actor, ShadowCaster):
             head = HeadDict[headType]
         else:
             head = HeadDict[species]
+        self.headType = head
 
         TorsoDict = {
             'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_torso_1000',
@@ -897,6 +898,10 @@ class Toon(Actor, ShadowCaster):
         legs = LegDict[legType]
         self.legStyle = legType
 
+        self.headColor = tuple(headColor)
+        self.torsoColor = tuple(torsoColor)
+        self.legColor = tuple(legColor)
+
         self.loadModel(head, "head")
         self.loadModel(torso, "torso")
         self.loadModel(legs, "legs")
@@ -905,10 +910,10 @@ class Toon(Actor, ShadowCaster):
         self.getPart("legs").findAllMatches('**/shoes').stash()
         self.fixHeadShortShort()
         self.setupMuzzles(headType)
-        bodyScale = Globals.toonBodyScales[self.species]
-        headScale = Globals.toonHeadScales[self.species]
-        self.getGeomNode().setScale(headScale[0] * bodyScale * 1.3, headScale[1] * bodyScale * 1.3,
-                                    headScale[2] * bodyScale * 1.3)
+        self.bodyScale = Globals.toonBodyScales[self.species]
+        self.headScale = Globals.toonHeadScales[self.species]
+        self.getGeomNode().setScale(self.headScale[0] * self.bodyScale * 1.3, self.headScale[1] * self.bodyScale * 1.3,
+                                    self.headScale[2] * self.bodyScale * 1.3)
         self.loadAnims(TorsoAnimDict[torsoType], "torso")
         self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
@@ -923,9 +928,18 @@ class Toon(Actor, ShadowCaster):
         if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
+        self.initializeDropShadow()
 
     def getHeadForStart(self):
-        return self.getPart('head')
+        head = Actor()
+        head.loadModel(self.headType, "head")
+        if self.species == 'dog':
+            head.loadAnims(HeadAnimDict[self.headStyle], 'head')
+        self.fixHeadShortShort(gui=head)
+        self.setupMuzzlesGui(self.headType, head)
+        self.setHeadColor(self.headColor, gui=head)
+        head.setScale(self.bodyScale / .75)
+        return head
 
     def setData(self):
         tile = base.buttonPressed
@@ -970,15 +984,61 @@ class Toon(Actor, ShadowCaster):
         self.legsType = None
         self.bodyType = None
 
-    def fixHeadShortShort(self, copy=None):
-        otherParts = self.getPart('head').findAllMatches('**/*long*')
-        for partNum in xrange(0, otherParts.getNumPaths()):
-            if copy:
-                otherParts.getPath(partNum).removeNode()
-            else:
-                otherParts.getPath(partNum).stash()
+    def fixHeadShortShort(self, copy=None, gui=None):
+        if gui:
+            otherParts = gui.findAllMatches('**/*long*')
+            for partNum in xrange(0, otherParts.getNumPaths()):
+                if copy:
+                    otherParts.getPath(partNum).removeNode()
+                else:
+                    otherParts.getPath(partNum).stash()
+        else:
+            otherParts = self.getPart('head').findAllMatches('**/*long*')
+            for partNum in xrange(0, otherParts.getNumPaths()):
+                if copy:
+                    otherParts.getPath(partNum).removeNode()
+                else:
+                    otherParts.getPath(partNum).stash()
         self.headStyle = self.species[:1] + "ss"
         return
+
+    def setupMuzzlesGui(self, headType, head):
+        muzzles = []
+        surpriseMuzzles = []
+        angryMuzzles = []
+        sadMuzzles = []
+        smileMuzzles = []
+        laughMuzzles = []
+
+        def hideAddNonEmptyItemToList(item, list):
+            if not item.isEmpty():
+                item.hide()
+                list.append(item)
+
+        def hideNonEmptyItem(item):
+            if not item.isEmpty():
+                item.hide()
+
+        if self.species != 'dog':
+            muzzle = head.find('**/muzzle*neutral')
+        else:
+            muzzle = head.find('**/muzzle*')
+            muzzles = loader.loadModel(DogMuzzleDict[headType])
+            if not headfind('**/def_head').isEmpty():
+                muzzles.reparentTo(head.find('**/def_head'))
+            else:
+                muzzles.reparentTo(head.find('**/joint_toHead'))
+        surpriseMuzzle = head.find('**/muzzle*surprise')
+        angryMuzzle = head.find('**/muzzle*angry')
+        sadMuzzle = head.find('**/muzzle*sad')
+        smileMuzzle = head.find('**/muzzle*smile')
+        laughMuzzle = head.find('**/muzzle*laugh')
+        muzzles.append(muzzle)
+        hideAddNonEmptyItemToList(surpriseMuzzle, surpriseMuzzles)
+        hideAddNonEmptyItemToList(angryMuzzle, angryMuzzles)
+        hideAddNonEmptyItemToList(sadMuzzle, sadMuzzles)
+        hideAddNonEmptyItemToList(smileMuzzle, smileMuzzles)
+        hideAddNonEmptyItemToList(laughMuzzle, laughMuzzles)
 
     def setupMuzzles(self, head):
         self.__muzzles = []
@@ -1036,13 +1096,21 @@ class Toon(Actor, ShadowCaster):
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(self.headColor)
 
-    def setHeadColor(self, color):
-        parts = self.findAllMatches('**/head*')
-        parts.setColor(color)
-        if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
-                        self.species == 'mouse' or self.species == 'pig':
-            parts = self.findAllMatches('**/ear?-*')
+    def setHeadColor(self, color, gui=None):
+        if gui:
+            parts = gui.findAllMatches('**/head*')
             parts.setColor(color)
+            if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
+                            self.species == 'mouse' or self.species == 'pig':
+                parts = gui.findAllMatches('**/ear?-*')
+                parts.setColor(color)
+        else:
+            parts = self.findAllMatches('**/head*')
+            parts.setColor(color)
+            if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
+                            self.species == 'mouse' or self.species == 'pig':
+                parts = self.findAllMatches('**/ear?-*')
+                parts.setColor(color)
 
     def getTorsoColor(self):
         return self.torsoColor
