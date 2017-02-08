@@ -12,6 +12,13 @@ POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0.00799999, 0, -0.5481),
  Vec3(0.894907, 0, -0.445659))
 
+NAME_POSITIONS = ((0, 0, 0.16),
+ (0, 0, 0.3),
+ (0, 0, 0.27),
+ (0, 0, 0.25),
+ (0, 0, 0.26),
+ (0, 0, 0.26))
+
 ButtonNames = (
     "red", "green", "purple", "blue", "pink", "yellow"
 )
@@ -40,8 +47,8 @@ class StartMenu:
         self.exit()
 
     def enterGame(self, *args):
-        messenger.send('enterGameFromStart')
         self.exit()
+        messenger.send('enterGameFromStart')
 
     def quit(self):
         self.exit()
@@ -58,13 +65,14 @@ class StartMenu:
     def loadStartMenu(self):
         buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
+            dataExists = True
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
                 for y in ButtonNames:
                     if y in data.keys():
                         buttonsFilled.append(y)
         else:
-            pass
+            dataExists = False
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -95,7 +103,10 @@ class StartMenu:
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
-        self.ac.createButtons(buttonsFilled[0])
+        if dataExists:
+            self.ac.createButtons(buttonsFilled[0])
+        else:
+            self.ac.createButtons()
         for button in self.ac.buttonList:
             if "-" in button.getName():
                 button['command'] = self.enterGame
@@ -140,9 +151,7 @@ class AvatarChoice:
 
             try:
                 value = args.index(button.getName())
-                print value
             except:
-                print "broken"
                 value = None
 
             if value != None:
@@ -156,11 +165,13 @@ class AvatarChoice:
                         legColor = p['legColor']
                         torso = p['torso']
                         torsoColor = p['torsoColor']
+                        shirt = p['shirt']
+                        bottom = p['shorts']
                         name = p['name']
                 button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
                 button['text_scale'] = 0.12
                 button['text_fg'] = (1, 0.9, 0.1, 1)
-                self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, name)
+                self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
                 base.toon = self.toon
                 self.head = hidden.attachNewNode('head')
                 self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
@@ -172,8 +183,12 @@ class AvatarChoice:
                 head.getGeomNode().setDepthTest(1)
                 head.reparentTo(self.head)
                 head.flattenLight()
-                button.resetFrameSize()
                 button.setName(ButtonNames[num] + "-filled")
+                nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
+                                       hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
+                                       text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
+                nameText.flattenStrong()
+            button.resetFrameSize()
             self.buttonList.append(button)
             del button
             num += 1

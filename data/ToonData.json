@@ -1,28 +1,30 @@
 {
-    "green": [
+    "purple": [
         {
-            "head": "bss", 
+            "head": "hss", 
             "headColor": [
-                0.460938, 
-                0.378906, 
-                0.824219, 
+                0.242188, 
+                0.742188, 
+                0.515625, 
                 1.0
             ], 
             "lastPlayground": "Toontown Central", 
             "legColor": [
-                0.460938, 
-                0.378906, 
-                0.824219, 
+                0.710938, 
+                0.234375, 
+                0.4375, 
                 1.0
             ], 
-            "legs": "dgs", 
-            "name": "Jim", 
-            "species": "bear", 
-            "torso": "dgm", 
+            "legs": "dgl", 
+            "name": "Pablo", 
+            "shirt": 65, 
+            "shorts": 9, 
+            "species": "horse", 
+            "torso": "dgs", 
             "torsoColor": [
-                0.460938, 
-                0.378906, 
-                0.824219, 
+                0.710938, 
+                0.234375, 
+                0.4375, 
                 1.0
             ]
         }

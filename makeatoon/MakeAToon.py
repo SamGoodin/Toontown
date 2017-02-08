@@ -22,6 +22,7 @@ class MakeAToon:
         self.toonScale = None
         self.toonHpr = None
         self.toonName = None
+        self.toon = None
 
     def enterMakeAToon(self):
         self.load()
@@ -334,7 +335,8 @@ class MakeAToon:
         del self.bs
         del self.cls
         del self.ns
-        del self.toon
+        if self.toon:
+            del self.toon
         self.guiTopBar.destroy()
         self.guiBottomBar.destroy()
         self.guiCancelButton.destroy()

@@ -76,7 +76,7 @@ class ColorShop:
 
     def changeHeadColor(self, offset, firstTime):
         newColor = self.colorList[self.headChoice]
-        self.toon.setHeadColor(self.animalType, newColor)
+        self.toon.setHeadColor(newColor)
 
     def swapBodyColor(self, offset, firstTime=False):
         self.changeBodyColor(offset, firstTime)

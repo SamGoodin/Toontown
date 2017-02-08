@@ -50,26 +50,19 @@ class Messenger(DirectObject.DirectObject):
         self.enterGame()
 
     def enterGameFromStart(self):
-        self.toon = base.toon
-        ttc = TTC(self.toon)
-        self.ttc = ttc.load(0)
-        geom = self.toon.getGeomNode()
-        geom.getChild(0).setSx(0.730000019073)
-        geom.getChild(0).setSz(0.730000019073)
-        base.camera.reparentTo(self.toon)
-        base.toon.setupCameraPositions()
-        base.toon.setupControls()
-        self.shtikerBook = ShtikerBook()
+        self.toon = base.toon.getToon()
+        self.toon.reparentTo(render)
+        self.enterGame()
 
     def enterGame(self):
+        base.camera.reparentTo(self.toon)
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
-        base.camera.reparentTo(self.toon)
-        base.toon.setupCameraPositions()
-        base.toon.setupControls()
+        self.toon.setupCameraPositions()
+        self.toon.setupControls()
         self.shtikerBook = ShtikerBook()
 
     def loadEstate(self):

@@ -860,7 +860,7 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
 
-    def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, name):
+    def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, shirt, shorts, name):
         self.species = species
         HeadDict = {
             'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
@@ -922,6 +922,8 @@ class Toon(Actor, ShadowCaster):
         self.setTorsoColor(tuple(torsoColor))
         self.setLegsColor(tuple(legColor))
         self.setName(name)
+        self.setShirt(shirt)
+        self.setShorts(shorts)
 
         rightHand = NodePath('rightHand')
         self.rightHands = []
@@ -929,6 +931,7 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
         self.initializeDropShadow()
+        self.rescaleToon()
 
     def getHeadForStart(self):
         head = Actor()
@@ -942,8 +945,41 @@ class Toon(Actor, ShadowCaster):
         return head
 
     def setData(self):
+        import json
+        with open('data/ToonData.json') as f:
+            prevData = json.load(f)
+            keys = []
+            for key in prevData.keys():
+                keys.append(key)
         tile = base.buttonPressed
         toonData = {}
+        '''         for p in data[button.getName()]:
+                        headStyle = p['head']
+                        headColor = p['headColor']
+                        species = p['species']
+                        legs = p['legs']
+                        legColor = p['legColor']
+                        torso = p['torso']
+                        torsoColor = p['torsoColor']
+                        shirt = p['shirt']
+                        bottom = p['shorts']
+                        name = p['name']'''
+        num = 0
+        curKey = keys[num]
+        for color in prevData[curKey]:
+            toonData[color].append({
+                'species': color['species'],
+                'head': color['head'],
+                'torso': color['torso'],
+                'legs': color['legs'],
+                'headColor': color['headColor'],
+                'torsoColor': color['torsoColor'],
+                'legColor': color['legColor'],
+                'name': color['name'],
+                'lastPlayground': color['lastPlayground'],
+                'shirt': color['shirt'],
+                'shorts': color['bottom']
+            })
         toonData[tile] = []
         toonData[tile].append({
             'species': self.species,
@@ -954,9 +990,10 @@ class Toon(Actor, ShadowCaster):
             'torsoColor': self.torsoColor,
             'legColor': self.legColor,
             'name': self.getName(),
-            'lastPlayground': Globals.TTCZone
+            'lastPlayground': Globals.TTCZone,
+            'shirt': self.shirtChoice,
+            'shorts': self.shortsChoice
         })
-        import json
         with open('data/ToonData.json', 'w') as f:
             json.dump(toonData, f, sort_keys=True, indent=4)
 
@@ -970,6 +1007,12 @@ class Toon(Actor, ShadowCaster):
         self.generateRandomClothing()
         self.rescaleToon()
         self.initializeDropShadow()
+
+    def getToon(self):
+        return self
+
+    def hideHead(self):
+        self.getPart('head').hide()
 
     def delete(self):
         if 'legs' in self._Actor__commonBundleHandles:
@@ -1166,8 +1209,11 @@ class Toon(Actor, ShadowCaster):
         sleeves.setTexture(sleeveTexture, 1)
         bottom.setTexture(bottomTexture, 1)
 
-    def setShirt(self, shirt1):
-        torso = self.getPart('torso')
+    def setShirt(self, shirt1, toon=None):
+        if toon:
+            torso = toon.getPart('torso')
+        else:
+            torso = self.getPart('torso')
         shirt = torso.findAllMatches('**/torso-top')
         sleeves = torso.findAllMatches('**/sleeves')
         self.shirtChoice = shirt1
@@ -1176,8 +1222,11 @@ class Toon(Actor, ShadowCaster):
         shirt.setTexture(shirtTexture, 1)
         sleeves.setTexture(sleeveTexture, 1)
 
-    def setShorts(self, shorts):
-        torso = self.getPart('torso')
+    def setShorts(self, shorts, toon=None):
+        if toon:
+            torso = toon.getPart('torso')
+        else:
+            torso = self.getPart('torso')
         bottom = torso.findAllMatches('**/torso-bot')
         self.shortsChoice = shorts
         bottomTexture = loader.loadTexture(BoyShorts[self.shortsChoice])

@@ -55,7 +55,7 @@ class TTC(DirectObject):
         self.ls.begin(100)
         self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
         self.ttc = self.dna.returnGeom()
-        self.ttc.reparentTo(render)
+        self.ttc.reparentTo(base.render)
         self.ls.tick()
         bank = self.ttc.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
