@@ -68,9 +68,13 @@ class StartMenu:
             dataExists = True
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
-                for y in ButtonNames:
-                    if y in data.keys():
-                        buttonsFilled.append(y)
+                for button in ButtonNames:
+                    for p in data[button]:
+                        headStyle = p['head']
+                        if headStyle == None:
+                            pass
+                        else:
+                            buttonsFilled.append(button)
         else:
             dataExists = False
         self.ac = AvatarChoice()
@@ -103,6 +107,7 @@ class StartMenu:
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
+        print buttonsFilled
         if dataExists:
             self.ac.createButtons(buttonsFilled[0])
         else:
@@ -149,45 +154,55 @@ class AvatarChoice:
                                   extraArgs=ButtonNames[num])
             button.setName(ButtonNames[num])
 
+            toonExists = None
             try:
                 value = args.index(button.getName())
-            except:
-                value = None
-
-            if value != None:
                 with open('data/ToonData.json') as jsonFile:
                     data = json.load(jsonFile)
                     for p in data[button.getName()]:
                         headStyle = p['head']
-                        headColor = p['headColor']
-                        species = p['species']
-                        legs = p['legs']
-                        legColor = p['legColor']
-                        torso = p['torso']
-                        torsoColor = p['torsoColor']
-                        shirt = p['shirt']
-                        bottom = p['shorts']
-                        name = p['name']
-                button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
-                button['text_scale'] = 0.12
-                button['text_fg'] = (1, 0.9, 0.1, 1)
-                self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
-                base.toon = self.toon
-                self.head = hidden.attachNewNode('head')
-                self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                self.head.reparentTo(button.stateNodePath[0], 20)
-                self.head.instanceTo(button.stateNodePath[1], 20)
-                self.head.instanceTo(button.stateNodePath[2], 20)
-                head = self.toon.getHeadForStart()
-                head.getGeomNode().setDepthWrite(1)
-                head.getGeomNode().setDepthTest(1)
-                head.reparentTo(self.head)
-                head.flattenLight()
-                button.setName(ButtonNames[num] + "-filled")
-                nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
-                                       hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
-                                       text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
-                nameText.flattenStrong()
+                        if headStyle == None:
+                            pass
+                        else:
+                            toonExists = 1
+            except:
+                value = None
+
+            if value != None:
+                if toonExists:
+                    with open('data/ToonData.json') as jsonFile:
+                        data = json.load(jsonFile)
+                        for p in data[button.getName()]:
+                            headStyle = p['head']
+                            headColor = p['headColor']
+                            species = p['species']
+                            legs = p['legs']
+                            legColor = p['legColor']
+                            torso = p['torso']
+                            torsoColor = p['torsoColor']
+                            shirt = p['shirt']
+                            bottom = p['shorts']
+                            name = p['name']
+                    button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
+                    button['text_scale'] = 0.12
+                    button['text_fg'] = (1, 0.9, 0.1, 1)
+                    self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
+                    base.toon = self.toon
+                    self.head = hidden.attachNewNode('head')
+                    self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
+                    self.head.reparentTo(button.stateNodePath[0], 20)
+                    self.head.instanceTo(button.stateNodePath[1], 20)
+                    self.head.instanceTo(button.stateNodePath[2], 20)
+                    head = self.toon.getHeadForStart()
+                    head.getGeomNode().setDepthWrite(1)
+                    head.getGeomNode().setDepthTest(1)
+                    head.reparentTo(self.head)
+                    head.flattenLight()
+                    button.setName(ButtonNames[num] + "-filled")
+                    nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
+                                               hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
+                                               text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
+                    nameText.flattenStrong()
             button.resetFrameSize()
             self.buttonList.append(button)
             del button

@@ -945,57 +945,54 @@ class Toon(Actor, ShadowCaster):
         return head
 
     def setData(self):
-        import json
-        with open('data/ToonData.json') as f:
-            prevData = json.load(f)
-            keys = []
-            for key in prevData.keys():
-                keys.append(key)
+        import json, os
+        data = None
+        headStyle = None
+        dataExists = False
+        if os.path.isfile("data/ToonData.json"):
+            dataExists = True
+            with open('data/ToonData.json') as jsonFile:
+                data = json.load(jsonFile)
+        buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
         tile = base.buttonPressed
         toonData = {}
-        '''         for p in data[button.getName()]:
-                        headStyle = p['head']
-                        headColor = p['headColor']
-                        species = p['species']
-                        legs = p['legs']
-                        legColor = p['legColor']
-                        torso = p['torso']
-                        torsoColor = p['torsoColor']
-                        shirt = p['shirt']
-                        bottom = p['shorts']
-                        name = p['name']'''
-        num = 0
-        curKey = keys[num]
-        for color in prevData[curKey]:
-            toonData[color].append({
-                'species': color['species'],
-                'head': color['head'],
-                'torso': color['torso'],
-                'legs': color['legs'],
-                'headColor': color['headColor'],
-                'torsoColor': color['torsoColor'],
-                'legColor': color['legColor'],
-                'name': color['name'],
-                'lastPlayground': color['lastPlayground'],
-                'shirt': color['shirt'],
-                'shorts': color['bottom']
-            })
-        toonData[tile] = []
-        toonData[tile].append({
-            'species': self.species,
-            'head': self.headStyle,
-            'torso': self.bodyType,
-            'legs': self.legsType,
-            'headColor': self.headColor,
-            'torsoColor': self.torsoColor,
-            'legColor': self.legColor,
-            'name': self.getName(),
-            'lastPlayground': Globals.TTCZone,
-            'shirt': self.shirtChoice,
-            'shorts': self.shortsChoice
-        })
+        for color in buttonColors:
+            toonData[color] = []
+            if dataExists:
+                for p in data[color]:
+                    headStyle = p['head']
+            if base.buttonPressed == color:
+                toonData[color].append({
+                    'species': self.species,
+                    'head': self.headStyle,
+                    'torso': self.bodyType,
+                    'legs': self.legsType,
+                    'headColor': self.headColor,
+                    'torsoColor': self.torsoColor,
+                    'legColor': self.legColor,
+                    'name': self.getName(),
+                    'lastPlayground': Globals.TTCZone,
+                    'shirt': self.shirtChoice,
+                    'shorts': self.shortsChoice
+                })
+            elif headStyle:
+                toonData[color].append(data[color])
+            else:
+                toonData[color].append({
+                    'species': None,
+                    'head': None,
+                    'torso': None,
+                    'legs': None,
+                    'headColor': None,
+                    'torsoColor': None,
+                    'legColor': None,
+                    'name': None,
+                    'lastPlayground': None,
+                    'shirt': None,
+                    'shorts': None
+                })
         with open('data/ToonData.json', 'w') as f:
-            json.dump(toonData, f, sort_keys=True, indent=4)
+            json.dump(toonData, f, sort_keys=True, indent=2)
 
     def createRandomBoy(self):
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])

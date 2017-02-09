@@ -1,32 +1,124 @@
 {
-    "purple": [
-        {
-            "head": "hss", 
-            "headColor": [
-                0.242188, 
-                0.742188, 
-                0.515625, 
-                1.0
-            ], 
-            "lastPlayground": "Toontown Central", 
-            "legColor": [
-                0.710938, 
-                0.234375, 
-                0.4375, 
-                1.0
-            ], 
-            "legs": "dgl", 
-            "name": "Pablo", 
-            "shirt": 65, 
-            "shorts": 9, 
-            "species": "horse", 
-            "torso": "dgs", 
-            "torsoColor": [
-                0.710938, 
-                0.234375, 
-                0.4375, 
-                1.0
-            ]
-        }
+  "blue": [
+    {
+      "head": null, 
+      "headColor": null, 
+      "lastPlayground": null, 
+      "legColor": null, 
+      "legs": null, 
+      "name": null, 
+      "shirt": null, 
+      "shorts": null, 
+      "species": null, 
+      "torso": null, 
+      "torsoColor": null
+    }
+  ], 
+  "green": [
+    [
+      {
+        "head": "css", 
+        "headColor": [
+          0.3, 
+          0.3, 
+          0.35, 
+          1.0
+        ], 
+        "lastPlayground": "Toontown Central", 
+        "legColor": [
+          0.710938, 
+          0.234375, 
+          0.4375, 
+          1.0
+        ], 
+        "legs": "dgm", 
+        "name": "Kitty", 
+        "shirt": 47, 
+        "shorts": 11, 
+        "species": "cat", 
+        "torso": "dgl", 
+        "torsoColor": [
+          0.710938, 
+          0.234375, 
+          0.4375, 
+          1.0
+        ]
+      }
     ]
+  ], 
+  "pink": [
+    {
+      "head": null, 
+      "headColor": null, 
+      "lastPlayground": null, 
+      "legColor": null, 
+      "legs": null, 
+      "name": null, 
+      "shirt": null, 
+      "shorts": null, 
+      "species": null, 
+      "torso": null, 
+      "torsoColor": null
+    }
+  ], 
+  "purple": [
+    {
+      "head": "css", 
+      "headColor": [
+        0.347656, 
+        0.820312, 
+        0.953125, 
+        1.0
+      ], 
+      "lastPlayground": "Toontown Central", 
+      "legColor": [
+        0.832031, 
+        0.5, 
+        0.296875, 
+        1.0
+      ], 
+      "legs": "dgs", 
+      "name": "Last Try", 
+      "shirt": 128, 
+      "shorts": 1, 
+      "species": "cat", 
+      "torso": "dgm", 
+      "torsoColor": [
+        0.832031, 
+        0.5, 
+        0.296875, 
+        1.0
+      ]
+    }
+  ], 
+  "red": [
+    {
+      "head": null, 
+      "headColor": null, 
+      "lastPlayground": null, 
+      "legColor": null, 
+      "legs": null, 
+      "name": null, 
+      "shirt": null, 
+      "shorts": null, 
+      "species": null, 
+      "torso": null, 
+      "torsoColor": null
+    }
+  ], 
+  "yellow": [
+    {
+      "head": null, 
+      "headColor": null, 
+      "lastPlayground": null, 
+      "legColor": null, 
+      "legs": null, 
+      "name": null, 
+      "shirt": null, 
+      "shorts": null, 
+      "species": null, 
+      "torso": null, 
+      "torsoColor": null
+    }
+  ]
 }
