@@ -1,124 +1,95 @@
 {
-  "blue": [
-    {
-      "head": null, 
-      "headColor": null, 
-      "lastPlayground": null, 
-      "legColor": null, 
-      "legs": null, 
-      "name": null, 
-      "shirt": null, 
-      "shorts": null, 
-      "species": null, 
-      "torso": null, 
-      "torsoColor": null
-    }
-  ], 
-  "green": [
-    [
-      {
-        "head": "css", 
-        "headColor": [
-          0.3, 
-          0.3, 
-          0.35, 
-          1.0
-        ], 
-        "lastPlayground": "Toontown Central", 
-        "legColor": [
-          0.710938, 
-          0.234375, 
-          0.4375, 
-          1.0
-        ], 
-        "legs": "dgm", 
-        "name": "Kitty", 
-        "shirt": 47, 
-        "shorts": 11, 
-        "species": "cat", 
-        "torso": "dgl", 
-        "torsoColor": [
-          0.710938, 
-          0.234375, 
-          0.4375, 
-          1.0
-        ]
-      }
+  "blue": {
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
+  }, 
+  "green": {
+    "head": "dss", 
+    "headColor": [
+      0.3, 
+      0.3, 
+      0.35, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.726562, 
+      0.472656, 
+      0.859375, 
+      1.0
+    ], 
+    "legs": "dgs", 
+    "name": "Mariah Carey", 
+    "shirt": 40, 
+    "shorts": 12, 
+    "species": "dog", 
+    "torso": "dgs", 
+    "torsoColor": [
+      0.726562, 
+      0.472656, 
+      0.859375, 
+      1.0
     ]
-  ], 
-  "pink": [
-    {
-      "head": null, 
-      "headColor": null, 
-      "lastPlayground": null, 
-      "legColor": null, 
-      "legs": null, 
-      "name": null, 
-      "shirt": null, 
-      "shorts": null, 
-      "species": null, 
-      "torso": null, 
-      "torsoColor": null
-    }
-  ], 
-  "purple": [
-    {
-      "head": "css", 
-      "headColor": [
-        0.347656, 
-        0.820312, 
-        0.953125, 
-        1.0
-      ], 
-      "lastPlayground": "Toontown Central", 
-      "legColor": [
-        0.832031, 
-        0.5, 
-        0.296875, 
-        1.0
-      ], 
-      "legs": "dgs", 
-      "name": "Last Try", 
-      "shirt": 128, 
-      "shorts": 1, 
-      "species": "cat", 
-      "torso": "dgm", 
-      "torsoColor": [
-        0.832031, 
-        0.5, 
-        0.296875, 
-        1.0
-      ]
-    }
-  ], 
-  "red": [
-    {
-      "head": null, 
-      "headColor": null, 
-      "lastPlayground": null, 
-      "legColor": null, 
-      "legs": null, 
-      "name": null, 
-      "shirt": null, 
-      "shorts": null, 
-      "species": null, 
-      "torso": null, 
-      "torsoColor": null
-    }
-  ], 
-  "yellow": [
-    {
-      "head": null, 
-      "headColor": null, 
-      "lastPlayground": null, 
-      "legColor": null, 
-      "legs": null, 
-      "name": null, 
-      "shirt": null, 
-      "shorts": null, 
-      "species": null, 
-      "torso": null, 
-      "torsoColor": null
-    }
-  ]
+  }, 
+  "pink": {
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
+  }, 
+  "purple": {
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
+  }, 
+  "red": {
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
+  }, 
+  "yellow": {
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
+  }
 }

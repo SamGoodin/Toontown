@@ -63,20 +63,29 @@ class StartMenu:
         self.unloadStartMenu()
 
     def loadStartMenu(self):
+        '''with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            for p in data[button.getName()]:
+                headStyle = p['head']
+                if headStyle == None:
+                    pass
+                else:
+                    toonExists = 1'''
+
         buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
             dataExists = True
+        else:
+            dataExists = False
+        if dataExists:
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
                 for button in ButtonNames:
-                    for p in data[button]:
-                        headStyle = p['head']
-                        if headStyle == None:
-                            pass
-                        else:
-                            buttonsFilled.append(button)
-        else:
-            dataExists = False
+                    headStyle = data[button].get('head')
+                    if headStyle == None:
+                        pass
+                    else:
+                        buttonsFilled.append(button)
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -107,9 +116,8 @@ class StartMenu:
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
-        print buttonsFilled
         if dataExists:
-            self.ac.createButtons(buttonsFilled[0])
+            self.ac.createButtons(buttonsFilled)
         else:
             self.ac.createButtons()
         for button in self.ac.buttonList:
@@ -155,34 +163,36 @@ class AvatarChoice:
             button.setName(ButtonNames[num])
 
             toonExists = None
-            try:
-                value = args.index(button.getName())
+            buttonsFilled = list(args)
+            print buttonsFilled
+            if button.getName() in buttonsFilled:
+                value = True
                 with open('data/ToonData.json') as jsonFile:
                     data = json.load(jsonFile)
-                    for p in data[button.getName()]:
-                        headStyle = p['head']
-                        if headStyle == None:
-                            pass
-                        else:
-                            toonExists = 1
-            except:
-                value = None
+                    headStyle = data[button.getName()].get('head')
+                    print headStyle
+                    if headStyle == None:
+                        pass
+                    else:
+                        toonExists = 1
+            else:
+                value = False
+                print 'oops'
 
-            if value != None:
+            if value:
                 if toonExists:
                     with open('data/ToonData.json') as jsonFile:
                         data = json.load(jsonFile)
-                        for p in data[button.getName()]:
-                            headStyle = p['head']
-                            headColor = p['headColor']
-                            species = p['species']
-                            legs = p['legs']
-                            legColor = p['legColor']
-                            torso = p['torso']
-                            torsoColor = p['torsoColor']
-                            shirt = p['shirt']
-                            bottom = p['shorts']
-                            name = p['name']
+                        headStyle = data[button.getName()].get('head')
+                        headColor = data[button.getName()].get('headColor')
+                        species = data[button.getName()].get('species')
+                        legs = data[button.getName()].get('legs')
+                        legColor = data[button.getName()].get('legColor')
+                        torso = data[button.getName()].get('torso')
+                        torsoColor = data[button.getName()].get('torsoColor')
+                        shirt = data[button.getName()].get('shirt')
+                        bottom = data[button.getName()].get('shorts')
+                        name = data[button.getName()].get('name')
                     button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
                     button['text_scale'] = 0.12
                     button['text_fg'] = (1, 0.9, 0.1, 1)

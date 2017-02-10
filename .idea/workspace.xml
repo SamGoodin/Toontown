@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a169c8a-24a3-4568-9aa3-582bfe2f32ef" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TestingFile.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/data/ToonData.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/StartMenu.py" afterPath="$PROJECT_DIR$/StartMenu.py" />
@@ -23,8 +24,8 @@
       <file leaf-file-name="Toon.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/toon/Toon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="954" column="42" lean-forward="false" selection-start-line="954" selection-start-column="42" selection-end-line="954" selection-end-column="42" />
+            <state relative-caret-position="205">
+              <caret line="964" column="38" lean-forward="false" selection-start-line="964" selection-start-column="38" selection-end-line="964" selection-end-column="38" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#770#2144#0" expanded="false" />
@@ -36,20 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ToonData.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/ToonData.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-821">
-              <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ColorShop.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/makeatoon/ColorShop.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
+            <state relative-caret-position="1275">
               <caret line="78" column="40" lean-forward="true" selection-start-line="78" selection-start-column="40" selection-end-line="78" selection-end-column="40" />
               <folding />
             </state>
@@ -69,7 +60,7 @@
       <file leaf-file-name="NameShop.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/makeatoon/NameShop.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
+            <state relative-caret-position="7565">
               <caret line="451" column="0" lean-forward="false" selection-start-line="451" selection-start-column="0" selection-end-line="451" selection-end-column="0" />
               <folding />
             </state>
@@ -79,8 +70,8 @@
       <file leaf-file-name="StartMenu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/StartMenu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+            <state relative-caret-position="89">
+              <caret line="166" column="31" lean-forward="false" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="31" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -88,10 +79,30 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ToonData.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/ToonData.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="18" lean-forward="true" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestingFile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestingFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Globals.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2639">
+            <state relative-caret-position="3706">
               <caret line="218" column="30" lean-forward="false" selection-start-line="218" selection-start-column="30" selection-end-line="218" selection-end-column="30" />
               <folding />
             </state>
@@ -101,7 +112,7 @@
       <file leaf-file-name="Messenger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Messenger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
+            <state relative-caret-position="561">
               <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
@@ -113,7 +124,7 @@
       <file leaf-file-name="TTC.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hood/places/TTC.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="714">
               <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
               <folding />
             </state>
@@ -170,9 +181,10 @@
         <option value="$PROJECT_DIR$/hood/places/TTC.py" />
         <option value="$PROJECT_DIR$/Messenger.py" />
         <option value="$PROJECT_DIR$/makeatoon/MakeAToon.py" />
-        <option value="$PROJECT_DIR$/StartMenu.py" />
         <option value="$PROJECT_DIR$/data/ToonData.json" />
+        <option value="$PROJECT_DIR$/TestingFile.py" />
         <option value="$PROJECT_DIR$/toon/Toon.py" />
+        <option value="$PROJECT_DIR$/StartMenu.py" />
       </list>
     </option>
   </component>
@@ -198,7 +210,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -287,6 +298,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -331,6 +343,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Toontown" />
       <option name="SCRIPT_NAME" value="C:\Users\goodisam000\Desktop\Toontown\Toontown\TestToon.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TestingFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Toontown" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestingFile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -469,14 +498,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.Start" />
       <item index="1" class="java.lang.String" itemvalue="Python.TestToon" />
+      <item index="2" class="java.lang.String" itemvalue="Python.TestingFile" />
     </list>
     <recent_temporary>
-      <list size="2">
+      <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Python.Start" />
-        <item index="1" class="java.lang.String" itemvalue="Python.TestToon" />
+        <item index="1" class="java.lang.String" itemvalue="Python.TestingFile" />
+        <item index="2" class="java.lang.String" itemvalue="Python.TestToon" />
       </list>
     </recent_temporary>
   </component>
@@ -589,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1486565651093</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Almost got it figured out">
+      <created>1486650545032</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1486650545032</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -599,7 +637,6 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -612,6 +649,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -628,21 +666,14 @@
     <MESSAGE value="Finish the button thing stuff" />
     <MESSAGE value="Finish loading into pg after start menu" />
     <MESSAGE value="Figure out laoidng o" />
-    <option name="LAST_COMMIT_MESSAGE" value="Figure out laoidng o" />
+    <MESSAGE value="Almost got it figured out" />
+    <option name="LAST_COMMIT_MESSAGE" value="Almost got it figured out" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Start.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/StartMenu.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -713,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,7 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -809,7 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -889,7 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -897,7 +924,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
           <caret line="50" column="33" lean-forward="false" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -919,7 +945,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="66" column="41" lean-forward="false" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -927,9 +952,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#45#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -937,7 +959,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="137">
           <caret line="138" column="12" lean-forward="false" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -945,7 +966,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="14" lean-forward="false" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -953,13 +973,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
           <caret line="17" column="87" lean-forward="true" selection-start-line="17" selection-start-column="87" selection-end-line="17" selection-end-column="87" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Globals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2639">
+        <state relative-caret-position="3706">
           <caret line="218" column="30" lean-forward="false" selection-start-line="218" selection-start-column="30" selection-end-line="218" selection-end-column="30" />
           <folding />
         </state>
@@ -967,7 +986,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hood/places/TTC.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="714">
           <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
           <folding />
         </state>
@@ -983,7 +1002,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/makeatoon/ColorShop.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="1275">
           <caret line="78" column="40" lean-forward="true" selection-start-line="78" selection-start-column="40" selection-end-line="78" selection-end-column="40" />
           <folding />
         </state>
@@ -991,7 +1010,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Messenger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="561">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -1009,16 +1028,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/makeatoon/NameShop.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
+        <state relative-caret-position="7565">
           <caret line="451" column="0" lean-forward="false" selection-start-line="451" selection-start-column="0" selection-end-line="451" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestingFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/toon/Toon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="954" column="42" lean-forward="false" selection-start-line="954" selection-start-column="42" selection-end-line="954" selection-end-column="42" />
+        <state relative-caret-position="205">
+          <caret line="964" column="38" lean-forward="false" selection-start-line="964" selection-start-column="38" selection-end-line="964" selection-end-column="38" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#770#2144#0" expanded="false" />
@@ -1031,16 +1058,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/ToonData.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-821">
-          <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        <state relative-caret-position="102">
+          <caret line="6" column="18" lean-forward="true" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/StartMenu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        <state relative-caret-position="89">
+          <caret line="166" column="31" lean-forward="false" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="31" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>

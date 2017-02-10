@@ -957,12 +957,12 @@ class Toon(Actor, ShadowCaster):
         tile = base.buttonPressed
         toonData = {}
         for color in buttonColors:
-            toonData[color] = []
+            toonData[color] = {}
             if dataExists:
                 for p in data[color]:
                     headStyle = p['head']
             if base.buttonPressed == color:
-                toonData[color].append({
+                toonData[color].update({
                     'species': self.species,
                     'head': self.headStyle,
                     'torso': self.bodyType,
@@ -976,9 +976,9 @@ class Toon(Actor, ShadowCaster):
                     'shorts': self.shortsChoice
                 })
             elif headStyle:
-                toonData[color].append(data[color])
+                toonData[color].update(data[color])
             else:
-                toonData[color].append({
+                toonData[color].update({
                     'species': None,
                     'head': None,
                     'torso': None,
