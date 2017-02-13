@@ -897,7 +897,6 @@ class Toon(Actor, ShadowCaster):
         }
         legs = LegDict[legType]
         self.legStyle = legType
-
         self.headColor = tuple(headColor)
         self.torsoColor = tuple(torsoColor)
         self.legColor = tuple(legColor)
@@ -939,7 +938,7 @@ class Toon(Actor, ShadowCaster):
         if self.species == 'dog':
             head.loadAnims(HeadAnimDict[self.headStyle], 'head')
         self.fixHeadShortShort(gui=head)
-        self.setupMuzzlesGui(self.headType, head)
+        self.setupMuzzlesGui(self.headStyle, head)
         self.setHeadColor(self.headColor, gui=head)
         head.setScale(self.bodyScale / .75)
         return head
@@ -959,8 +958,7 @@ class Toon(Actor, ShadowCaster):
         for color in buttonColors:
             toonData[color] = {}
             if dataExists:
-                for p in data[color]:
-                    headStyle = p['head']
+                headStyle = data[color].get('head')
             if base.buttonPressed == color:
                 toonData[color].update({
                     'species': self.species,
@@ -1043,7 +1041,7 @@ class Toon(Actor, ShadowCaster):
         return
 
     def setupMuzzlesGui(self, headType, head):
-        muzzles = []
+        allMuzzles = []
         surpriseMuzzles = []
         angryMuzzles = []
         sadMuzzles = []
@@ -1064,7 +1062,7 @@ class Toon(Actor, ShadowCaster):
         else:
             muzzle = head.find('**/muzzle*')
             muzzles = loader.loadModel(DogMuzzleDict[headType])
-            if not headfind('**/def_head').isEmpty():
+            if not head.find('**/def_head').isEmpty():
                 muzzles.reparentTo(head.find('**/def_head'))
             else:
                 muzzles.reparentTo(head.find('**/joint_toHead'))
@@ -1073,7 +1071,7 @@ class Toon(Actor, ShadowCaster):
         sadMuzzle = head.find('**/muzzle*sad')
         smileMuzzle = head.find('**/muzzle*smile')
         laughMuzzle = head.find('**/muzzle*laugh')
-        muzzles.append(muzzle)
+        allMuzzles.append(muzzle)
         hideAddNonEmptyItemToList(surpriseMuzzle, surpriseMuzzles)
         hideAddNonEmptyItemToList(angryMuzzle, angryMuzzles)
         hideAddNonEmptyItemToList(sadMuzzle, sadMuzzles)
@@ -1151,6 +1149,7 @@ class Toon(Actor, ShadowCaster):
                             self.species == 'mouse' or self.species == 'pig':
                 parts = self.findAllMatches('**/ear?-*')
                 parts.setColor(color)
+        self.headColor = color
 
     def getTorsoColor(self):
         return self.torsoColor

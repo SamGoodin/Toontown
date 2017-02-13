@@ -151,7 +151,7 @@ class AvatarChoice:
         from toon import Toon
         self.toon = Toon.Toon()
 
-    def createButtons(self, *args):
+    def createButtons(self, buttonsFilled=None, *args):
         num = 0
         while num < 6:
             button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
@@ -163,56 +163,51 @@ class AvatarChoice:
             button.setName(ButtonNames[num])
 
             toonExists = None
-            buttonsFilled = list(args)
-            print buttonsFilled
-            if button.getName() in buttonsFilled:
-                value = True
-                with open('data/ToonData.json') as jsonFile:
-                    data = json.load(jsonFile)
-                    headStyle = data[button.getName()].get('head')
-                    print headStyle
-                    if headStyle == None:
-                        pass
-                    else:
-                        toonExists = 1
-            else:
-                value = False
-                print 'oops'
-
-            if value:
-                if toonExists:
+            if buttonsFilled:
+                if button.getName() in buttonsFilled:
+                    value = True
                     with open('data/ToonData.json') as jsonFile:
                         data = json.load(jsonFile)
                         headStyle = data[button.getName()].get('head')
-                        headColor = data[button.getName()].get('headColor')
-                        species = data[button.getName()].get('species')
-                        legs = data[button.getName()].get('legs')
-                        legColor = data[button.getName()].get('legColor')
-                        torso = data[button.getName()].get('torso')
-                        torsoColor = data[button.getName()].get('torsoColor')
-                        shirt = data[button.getName()].get('shirt')
-                        bottom = data[button.getName()].get('shorts')
-                        name = data[button.getName()].get('name')
-                    button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
-                    button['text_scale'] = 0.12
-                    button['text_fg'] = (1, 0.9, 0.1, 1)
-                    self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
-                    base.toon = self.toon
-                    self.head = hidden.attachNewNode('head')
-                    self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
-                    self.head.reparentTo(button.stateNodePath[0], 20)
-                    self.head.instanceTo(button.stateNodePath[1], 20)
-                    self.head.instanceTo(button.stateNodePath[2], 20)
-                    head = self.toon.getHeadForStart()
-                    head.getGeomNode().setDepthWrite(1)
-                    head.getGeomNode().setDepthTest(1)
-                    head.reparentTo(self.head)
-                    head.flattenLight()
-                    button.setName(ButtonNames[num] + "-filled")
-                    nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
-                                               hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
-                                               text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
-                    nameText.flattenStrong()
+                        if headStyle != None:
+                            toonExists = 1
+                else:
+                    value = False
+
+                if value:
+                    if toonExists:
+                        with open('data/ToonData.json') as jsonFile:
+                            data = json.load(jsonFile)
+                            headStyle = data[button.getName()].get('head')
+                            headColor = data[button.getName()].get('headColor')
+                            species = data[button.getName()].get('species')
+                            legs = data[button.getName()].get('legs')
+                            legColor = data[button.getName()].get('legColor')
+                            torso = data[button.getName()].get('torso')
+                            torsoColor = data[button.getName()].get('torsoColor')
+                            shirt = data[button.getName()].get('shirt')
+                            bottom = data[button.getName()].get('shorts')
+                            name = data[button.getName()].get('name')
+                        button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
+                        button['text_scale'] = 0.12
+                        button['text_fg'] = (1, 0.9, 0.1, 1)
+                        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
+                        base.toon = self.toon
+                        self.head = hidden.attachNewNode('head')
+                        self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
+                        self.head.reparentTo(button.stateNodePath[0], 20)
+                        self.head.instanceTo(button.stateNodePath[1], 20)
+                        self.head.instanceTo(button.stateNodePath[2], 20)
+                        head = self.toon.getHeadForStart()
+                        head.getGeomNode().setDepthWrite(1)
+                        head.getGeomNode().setDepthTest(1)
+                        head.reparentTo(self.head)
+                        head.flattenLight()
+                        button.setName(ButtonNames[num] + "-filled")
+                        nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
+                                                   hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
+                                                   text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
+                        nameText.flattenStrong()
             button.resetFrameSize()
             self.buttonList.append(button)
             del button

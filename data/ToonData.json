@@ -22,21 +22,21 @@
     ], 
     "lastPlayground": "Toontown Central", 
     "legColor": [
-      0.726562, 
-      0.472656, 
-      0.859375, 
+      0.433594, 
+      0.90625, 
+      0.835938, 
       1.0
     ], 
     "legs": "dgs", 
-    "name": "Mariah Carey", 
-    "shirt": 40, 
-    "shorts": 12, 
-    "species": "dog", 
-    "torso": "dgs", 
+    "name": "Ducky", 
+    "shirt": 19, 
+    "shorts": 6, 
+    "species": "duck", 
+    "torso": "dgm", 
     "torsoColor": [
-      0.726562, 
-      0.472656, 
-      0.859375, 
+      0.242188, 
+      0.742188, 
+      0.515625, 
       1.0
     ]
   }, 
@@ -67,17 +67,32 @@
     "torsoColor": null
   }, 
   "red": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
+    "head": "mss", 
+    "headColor": [
+      0.242188, 
+      0.742188, 
+      0.515625, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.710938, 
+      0.234375, 
+      0.4375, 
+      1.0
+    ], 
+    "legs": "dgm", 
+    "name": "Green Head Mouse", 
+    "shirt": 72, 
+    "shorts": 26, 
+    "species": "mouse", 
+    "torso": "dgl", 
+    "torsoColor": [
+      0.933594, 
+      0.265625, 
+      0.28125, 
+      1.0
+    ]
   }, 
   "yellow": {
     "head": null, 
