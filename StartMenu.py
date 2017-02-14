@@ -27,7 +27,8 @@ ButtonNames = (
 class StartMenu:
 
     def __init__(self):
-        pass
+        from toon import Toon
+        self.toon = Toon.Toon()
 
     def enter(self):
         base.disableMouse()
@@ -48,6 +49,24 @@ class StartMenu:
 
     def enterGame(self, *args):
         self.exit()
+        buttonName = ""
+        for arg in args:
+            buttonName += arg
+        base.buttonPressed = buttonName
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            headStyle = data[buttonName].get('head')
+            headColor = data[buttonName].get('headColor')
+            species = data[buttonName].get('species')
+            legs = data[buttonName].get('legs')
+            legColor = data[buttonName].get('legColor')
+            torso = data[buttonName].get('torso')
+            torsoColor = data[buttonName].get('torsoColor')
+            shirt = data[buttonName].get('shirt')
+            bottom = data[buttonName].get('shorts')
+            name = data[buttonName].get('name')
+        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
+        base.toon = self.toon
         messenger.send('enterGameFromStart')
 
     def quit(self):
@@ -63,15 +82,6 @@ class StartMenu:
         self.unloadStartMenu()
 
     def loadStartMenu(self):
-        '''with open('data/ToonData.json') as jsonFile:
-            data = json.load(jsonFile)
-            for p in data[button.getName()]:
-                headStyle = p['head']
-                if headStyle == None:
-                    pass
-                else:
-                    toonExists = 1'''
-
         buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
             dataExists = True
@@ -117,7 +127,7 @@ class StartMenu:
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
         if dataExists:
-            self.ac.createButtons(buttonsFilled)
+            self.ac.createButtons(buttonsFilled, self.toon)
         else:
             self.ac.createButtons()
         for button in self.ac.buttonList:
@@ -148,10 +158,8 @@ class AvatarChoice:
 
     def __init__(self):
         self.buttonList = []
-        from toon import Toon
-        self.toon = Toon.Toon()
 
-    def createButtons(self, buttonsFilled=None, *args):
+    def createButtons(self, buttonsFilled=None, toon=None, *args):
         num = 0
         while num < 6:
             button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
@@ -181,24 +189,16 @@ class AvatarChoice:
                             headStyle = data[button.getName()].get('head')
                             headColor = data[button.getName()].get('headColor')
                             species = data[button.getName()].get('species')
-                            legs = data[button.getName()].get('legs')
-                            legColor = data[button.getName()].get('legColor')
-                            torso = data[button.getName()].get('torso')
-                            torsoColor = data[button.getName()].get('torsoColor')
-                            shirt = data[button.getName()].get('shirt')
-                            bottom = data[button.getName()].get('shorts')
                             name = data[button.getName()].get('name')
                         button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
                         button['text_scale'] = 0.12
                         button['text_fg'] = (1, 0.9, 0.1, 1)
-                        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
-                        base.toon = self.toon
                         self.head = hidden.attachNewNode('head')
                         self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
                         self.head.reparentTo(button.stateNodePath[0], 20)
                         self.head.instanceTo(button.stateNodePath[1], 20)
                         self.head.instanceTo(button.stateNodePath[2], 20)
-                        head = self.toon.getHeadForStart()
+                        head = toon.handleHead(headStyle, headColor, species)
                         head.getGeomNode().setDepthWrite(1)
                         head.getGeomNode().setDepthTest(1)
                         head.reparentTo(self.head)
@@ -216,4 +216,5 @@ class AvatarChoice:
     def destroy(self):
         for button in self.buttonList:
             button.destroy()
+        del self.head
         del self.buttonList
