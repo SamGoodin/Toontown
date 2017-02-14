@@ -17,10 +17,12 @@ class ColorShop:
         self.colorList = self.toon.getColorList()
         self.length = len(self.colorList)
         self.entireColorChoice = random.randint(0, self.length-1)
-        self.headChoice = random.randint(0, self.length-1)
-        self.bodyChoice = random.randint(0, self.length-1)
-        self.legsChoice = random.randint(0, self.length-1)
-        self.swapAllColor(0)
+        self.headChoice = self.colorList.index(self.toon.headColor)
+        self.bodyChoice = self.colorList.index(self.toon.torsoColor)
+        self.legsChoice = self.colorList.index(self.toon.legColor)
+        self.swapHeadColor(0)
+        self.swapBodyColor(0)
+        self.swapLegColor(0)
 
     def swapAllColor(self, offset):
         self.entireColorChoice += offset
@@ -76,7 +78,7 @@ class ColorShop:
 
     def changeHeadColor(self, offset, firstTime):
         newColor = self.colorList[self.headChoice]
-        self.toon.setHeadColor(self.animalType, newColor)
+        self.toon.setHeadColor(newColor)
 
     def swapBodyColor(self, offset, firstTime=False):
         self.changeBodyColor(offset, firstTime)

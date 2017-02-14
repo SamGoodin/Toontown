@@ -3,6 +3,7 @@ from direct.gui.DirectGui import *
 import Globals
 import os.path
 import json
+from direct.actor.Actor import Actor
 
 POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0, 0, 0.346533),
@@ -10,6 +11,13 @@ POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(-0.863554, 0, -0.445659),
  Vec3(0.00799999, 0, -0.5481),
  Vec3(0.894907, 0, -0.445659))
+
+NAME_POSITIONS = ((0, 0, 0.16),
+ (0, 0, 0.3),
+ (0, 0, 0.27),
+ (0, 0, 0.25),
+ (0, 0, 0.26),
+ (0, 0, 0.26))
 
 ButtonNames = (
     "red", "green", "purple", "blue", "pink", "yellow"
@@ -19,7 +27,8 @@ ButtonNames = (
 class StartMenu:
 
     def __init__(self):
-        pass
+        from toon import Toon
+        self.toon = Toon.Toon()
 
     def enter(self):
         base.disableMouse()
@@ -38,6 +47,28 @@ class StartMenu:
         messenger.send('enterMAT')
         self.exit()
 
+    def enterGame(self, *args):
+        self.exit()
+        buttonName = ""
+        for arg in args:
+            buttonName += arg
+        base.buttonPressed = buttonName
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            headStyle = data[buttonName].get('head')
+            headColor = data[buttonName].get('headColor')
+            species = data[buttonName].get('species')
+            legs = data[buttonName].get('legs')
+            legColor = data[buttonName].get('legColor')
+            torso = data[buttonName].get('torso')
+            torsoColor = data[buttonName].get('torsoColor')
+            shirt = data[buttonName].get('shirt')
+            bottom = data[buttonName].get('shorts')
+            name = data[buttonName].get('name')
+        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
+        base.toon = self.toon
+        messenger.send('enterGameFromStart')
+
     def quit(self):
         self.exit()
         messenger.send('exit')
@@ -51,12 +82,20 @@ class StartMenu:
         self.unloadStartMenu()
 
     def loadStartMenu(self):
+        buttonsFilled = []
         if os.path.isfile("data/ToonData.json"):
-            #File exists
-            pass
+            dataExists = True
         else:
-            #File Doesn't
-            pass
+            dataExists = False
+        if dataExists:
+            with open('data/ToonData.json') as jsonFile:
+                data = json.load(jsonFile)
+                for button in ButtonNames:
+                    headStyle = data[button].get('head')
+                    if headStyle == None:
+                        pass
+                    else:
+                        buttonsFilled.append(button)
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -87,9 +126,15 @@ class StartMenu:
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
-        self.ac.createButtons()
+        if dataExists:
+            self.ac.createButtons(buttonsFilled, self.toon)
+        else:
+            self.ac.createButtons()
         for button in self.ac.buttonList:
-            button['command'] = self.enterMakeAToon
+            if "-" in button.getName():
+                button['command'] = self.enterGame
+            else:
+                button['command'] = self.enterMakeAToon
         gui.removeNode()
         gui2.removeNode()
         newGui.removeNode()
@@ -114,16 +159,56 @@ class AvatarChoice:
     def __init__(self):
         self.buttonList = []
 
-    def createButtons(self):
+    def createButtons(self, buttonsFilled=None, toon=None, *args):
         num = 0
         while num < 6:
-            print ButtonNames[num]
             button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
                                        text0_scale=0.1, text1_scale=0.12, text2_scale=0.12, text_pos=(0, 0), scale=1.01,
                                        pressEffect=1, rolloverSound=Globals.getRolloverSound(),
                                        clickSound=Globals.getClickSound(), pos=(POSITIONS[num]),
                                        text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1),
                                   extraArgs=ButtonNames[num])
+            button.setName(ButtonNames[num])
+
+            toonExists = None
+            if buttonsFilled:
+                if button.getName() in buttonsFilled:
+                    value = True
+                    with open('data/ToonData.json') as jsonFile:
+                        data = json.load(jsonFile)
+                        headStyle = data[button.getName()].get('head')
+                        if headStyle != None:
+                            toonExists = 1
+                else:
+                    value = False
+
+                if value:
+                    if toonExists:
+                        with open('data/ToonData.json') as jsonFile:
+                            data = json.load(jsonFile)
+                            headStyle = data[button.getName()].get('head')
+                            headColor = data[button.getName()].get('headColor')
+                            species = data[button.getName()].get('species')
+                            name = data[button.getName()].get('name')
+                        button['text'] = ("", 'Play\nThis Toon', 'Play\nThis Toon')
+                        button['text_scale'] = 0.12
+                        button['text_fg'] = (1, 0.9, 0.1, 1)
+                        self.head = hidden.attachNewNode('head')
+                        self.head.setPosHprScale(0, 5, -0.1, 180, 0, 0, 0.24, 0.24, 0.24)
+                        self.head.reparentTo(button.stateNodePath[0], 20)
+                        self.head.instanceTo(button.stateNodePath[1], 20)
+                        self.head.instanceTo(button.stateNodePath[2], 20)
+                        head = toon.handleHead(headStyle, headColor, species)
+                        head.getGeomNode().setDepthWrite(1)
+                        head.getGeomNode().setDepthTest(1)
+                        head.reparentTo(self.head)
+                        head.flattenLight()
+                        button.setName(ButtonNames[num] + "-filled")
+                        nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
+                                                   hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
+                                                   text_font=Globals.getInterfaceFont(), state=DGG.DISABLED)
+                        nameText.flattenStrong()
+            button.resetFrameSize()
             self.buttonList.append(button)
             del button
             num += 1
@@ -131,4 +216,5 @@ class AvatarChoice:
     def destroy(self):
         for button in self.buttonList:
             button.destroy()
+        del self.head
         del self.buttonList

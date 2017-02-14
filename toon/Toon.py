@@ -407,6 +407,7 @@ LegsAnimDict =  {'dgl': {'neutral': "phase_3/models/char/tt_a_chr_dgl_shorts_leg
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_leap_zhang',
                          'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_book',
                          'teleport': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_legs_teleport'}}
+
 TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_torso_neutral",
                          'walk': 'phase_3.5/models/char/tt_a_chr_dgl_shorts_torso_walk',
                          "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_torso_run",
@@ -446,6 +447,7 @@ TorsoAnimDict = {'dgl': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_tor
                          'running-jump-idle': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_leap_zhang',
                          'book': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_book',
                          'teleport': 'phase_3.5/models/char/tt_a_chr_dgs_shorts_torso_teleport'}}
+
 HeadAnimDict =  {'dll': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_head_neutral",
                          "run":     "phase_3/models/char/tt_a_chr_dgl_shorts_head_run",
                          'book':    'phase_3.5/models/char/tt_a_chr_dgl_shorts_head_book',
@@ -462,10 +464,26 @@ HeadAnimDict =  {'dll': {"neutral": "phase_3/models/char/tt_a_chr_dgl_shorts_hea
                          "run":     "phase_3/models/char/tt_a_chr_dgm_skirt_head_run",
                          'book':    'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_book',
                          'teleport': 'phase_3.5/models/char/tt_a_chr_dgm_skirt_head_teleport'}}
+
 DogMuzzleDict = {'dls': 'phase_3/models/char/dogMM_Shorts-headMuzzles-1000',
  'dss': 'phase_3/models/char/dogMM_Skirt-headMuzzles-1000',
  'dsl': 'phase_3/models/char/dogSS_Shorts-headMuzzles-1000',
  'dll': 'phase_3/models/char/dogLL_Shorts-headMuzzles-1000'}
+
+HeadDict = {
+            'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
+            'dsl': 'phase_3/models/char/tt_a_chr_dgs_shorts_head_1000',
+            'dls': 'phase_3/models/char/tt_a_chr_dgm_shorts_head_1000',
+            'dll': 'phase_3/models/char/tt_a_chr_dgl_shorts_head_1000',
+            'mouse': 'phase_3/models/char/mouse-heads-1000',
+            'rabbit': 'phase_3/models/char/rabbit-heads-1000',
+            'pig': 'phase_3/models/char/pig-heads-1000',
+            'monkey': 'phase_3/models/char/monkey-heads-1000',
+            'horse': 'phase_3/models/char/horse-heads-1000',
+            'duck': 'phase_3/models/char/duck-heads-1000',
+            'cat': 'phase_3/models/char/cat-heads-1000',
+            'bear': 'phase_3/models/char/bear-heads-1000'
+        }
 
 
 class Toon(Actor, ShadowCaster):
@@ -800,20 +818,6 @@ class Toon(Actor, ShadowCaster):
         return self.rightHands
 
     def createAdvancedToon(self, species, torsoType, legType):
-        HeadDict = {
-            'dss': 'phase_3/models/char/tt_a_chr_dgm_skirt_head_1000',
-            'dsl': 'phase_3/models/char/tt_a_chr_dgs_shorts_head_1000',
-            'dls': 'phase_3/models/char/tt_a_chr_dgm_shorts_head_1000',
-            'dll': 'phase_3/models/char/tt_a_chr_dgl_shorts_head_1000',
-            'mouse': 'phase_3/models/char/mouse-heads-1000',
-            'rabbit': 'phase_3/models/char/rabbit-heads-1000',
-            'pig': 'phase_3/models/char/pig-heads-1000',
-            'monkey': 'phase_3/models/char/monkey-heads-1000',
-            'horse': 'phase_3/models/char/horse-heads-1000',
-            'duck': 'phase_3/models/char/duck-heads-1000',
-            'cat': 'phase_3/models/char/cat-heads-1000',
-            'bear': 'phase_3/models/char/bear-heads-1000'
-        }
         if species == "dog":
             headType = random.choice(["dss", "dsl", "dls", "dll"])
             head = HeadDict[headType]
@@ -853,31 +857,134 @@ class Toon(Actor, ShadowCaster):
         self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
         self.attach("torso", "legs", "joint_hips")
-
+        self.__fixEyes(self.getPart('head'), self.species)
         rightHand = NodePath('rightHand')
         self.rightHands = []
         if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
 
+    def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, shirt, shorts, name):
+        self.species = species
+
+        if species == "dog":
+            head = HeadDict[headType]
+        else:
+            head = HeadDict[species]
+        self.headStyle = headType
+        self.headType = head
+
+        TorsoDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_torso_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_torso_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_torso_1000'
+        }
+        torso = TorsoDict[torsoType]
+        self.torsoStyle = torsoType
+
+        LegDict = {
+            'dgs': 'phase_3/models/char/tt_a_chr_dgs_shorts_legs_1000',
+            'dgm': 'phase_3/models/char/tt_a_chr_dgm_shorts_legs_1000',
+            'dgl': 'phase_3/models/char/tt_a_chr_dgl_shorts_legs_1000'
+        }
+        legs = LegDict[legType]
+        self.legStyle = legType
+        self.headColor = tuple(headColor)
+        self.torsoColor = tuple(torsoColor)
+        self.legColor = tuple(legColor)
+        self.head = self.handleHead(headType, headColor, self.species)
+        self.loadModel(self.head, 'head')
+        self.loadModel(torso, "torso")
+        self.loadModel(legs, "legs")
+        self.getPart("legs").findAllMatches('**/boots_short').stash()
+        self.getPart("legs").findAllMatches('**/boots_long').stash()
+        self.getPart("legs").findAllMatches('**/shoes').stash()
+        self.bodyScale = Globals.toonBodyScales[self.species]
+        self.headScale = Globals.toonHeadScales[self.species]
+        self.getGeomNode().setScale(self.headScale[0] * self.bodyScale * 1.3, self.headScale[1] * self.bodyScale * 1.3,
+                                    self.headScale[2] * self.bodyScale * 1.3)
+        self.loadAnims(TorsoAnimDict[torsoType], "torso")
+        self.loadAnims(LegsAnimDict[legType], "legs")
+        self.attach("head", "torso", "def_head")
+        self.attach("torso", "legs", "joint_hips")
+        self.setTorsoColor(tuple(torsoColor))
+        self.setLegsColor(tuple(legColor))
+        self.setName(name)
+        self.setShirt(shirt)
+        self.setShorts(shorts)
+        rightHand = NodePath('rightHand')
+        self.rightHands = []
+        if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
+            hand = self.getPart('torso').find('**/def_joint_right_hold')
+        self.rightHands.append(hand)
+        self.initializeDropShadow()
+        self.rescaleToon()
+
+    def handleHead(self, headStyle, headColor, species):
+        head = Actor()
+        if species == "dog":
+            headModel = HeadDict[headStyle]
+            head.loadModel(headModel, "head")
+            head.loadAnims(HeadAnimDict[headStyle], 'head')
+        else:
+            headModel = HeadDict[species]
+            head.loadModel(headModel, "head")
+        self.fixHeadShortShort(gui=head)
+        self.setupMuzzlesGui(headStyle, head, species)
+        self.setHeadColor(tuple(headColor), head, species)
+        self.__fixEyes(head, species, 1)
+        bodyScale = Globals.toonBodyScales[species]
+        head.setScale(bodyScale / .75)
+        return head
+
     def setData(self):
+        import json, os
+        data = None
+        headStyle = None
+        dataExists = False
+        if os.path.isfile("data/ToonData.json"):
+            dataExists = True
+            with open('data/ToonData.json') as jsonFile:
+                data = json.load(jsonFile)
+        buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
         tile = base.buttonPressed
         toonData = {}
-        toonData[tile] = []
-        toonData[tile].append({
-            'species': self.species,
-            'head': self.headStyle,
-            'torso': self.bodyType,
-            'legs': self.legsType,
-            'headColor': self.headColor,
-            'torsoColor': self.torsoColor,
-            'legColor': self.legColor,
-            'name': self.getName(),
-            'lastPlayground': Globals.TTCZone
-        })
-        import json
+        for color in buttonColors:
+            toonData[color] = {}
+            if dataExists:
+                headStyle = data[color].get('head')
+            if base.buttonPressed == color:
+                toonData[color].update({
+                    'species': self.species,
+                    'head': self.headStyle,
+                    'torso': self.bodyType,
+                    'legs': self.legsType,
+                    'headColor': self.headColor,
+                    'torsoColor': self.torsoColor,
+                    'legColor': self.legColor,
+                    'name': self.getName(),
+                    'lastPlayground': Globals.TTCZone,
+                    'shirt': self.shirtChoice,
+                    'shorts': self.shortsChoice
+                })
+            elif headStyle:
+                toonData[color].update(data[color])
+            else:
+                toonData[color].update({
+                    'species': None,
+                    'head': None,
+                    'torso': None,
+                    'legs': None,
+                    'headColor': None,
+                    'torsoColor': None,
+                    'legColor': None,
+                    'name': None,
+                    'lastPlayground': None,
+                    'shirt': None,
+                    'shorts': None
+                })
         with open('data/ToonData.json', 'w') as f:
-            json.dump(toonData, f, sort_keys=True, indent=4)
+            json.dump(toonData, f, sort_keys=True, indent=2)
 
     def createRandomBoy(self):
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
@@ -889,6 +996,12 @@ class Toon(Actor, ShadowCaster):
         self.generateRandomClothing()
         self.rescaleToon()
         self.initializeDropShadow()
+
+    def getToon(self):
+        return self
+
+    def hideHead(self):
+        self.getPart('head').hide()
 
     def delete(self):
         if 'legs' in self._Actor__commonBundleHandles:
@@ -903,15 +1016,114 @@ class Toon(Actor, ShadowCaster):
         self.legsType = None
         self.bodyType = None
 
-    def fixHeadShortShort(self, copy=None):
-        otherParts = self.getPart('head').findAllMatches('**/*long*')
-        for partNum in xrange(0, otherParts.getNumPaths()):
-            if copy:
-                otherParts.getPath(partNum).removeNode()
-            else:
-                otherParts.getPath(partNum).stash()
-        self.headStyle = self.species[:1] + "ss"
+    def fixHeadShortShort(self, copy=None, gui=None):
+        if gui:
+            otherParts = gui.findAllMatches('**/*long*')
+            for partNum in xrange(0, otherParts.getNumPaths()):
+                if copy:
+                    otherParts.getPath(partNum).removeNode()
+                else:
+                    otherParts.getPath(partNum).stash()
+        else:
+            otherParts = self.getPart('head').findAllMatches('**/*long*')
+            for partNum in xrange(0, otherParts.getNumPaths()):
+                if copy:
+                    otherParts.getPath(partNum).removeNode()
+                else:
+                    otherParts.getPath(partNum).stash()
+            self.headStyle = self.species[:1] + "ss"
         return
+
+    def __fixEyes(self, head, species, forGui=0):
+        mode = -3
+        if forGui:
+            mode = -2
+        head.drawInFront('eyes*', 'head-front*', mode)
+        if base.config.GetBool('want-new-anims', 1):
+            if not head.find('joint_pupil*').isEmpty():
+                head.drawInFront('joint_pupil*', 'eyes*', -1)
+            else:
+                head.drawInFront('def_*_pupil', 'eyes*', -1)
+        else:
+            head.drawInFront('joint_pupil*', 'eyes*', -1)
+        __eyes = head.find('**/eyes*')
+        if not __eyes.isEmpty():
+            __eyes.setColorOff()
+            __lpupil = None
+            __rpupil = None
+            if base.config.GetBool('want-new-anims', 1):
+                if not head.find('**/joint_pupilL*').isEmpty():
+                    lp = head.find('**/joint_pupilL*')
+                    rp = head.find('**/joint_pupilR*')
+                else:
+                    lp = head.find('**/def_left_pupil*')
+                    rp = head.find('**/def_right_pupil*')
+            else:
+                lp = __eyes.find('**/joint_pupilL*')
+                rp = __eyes.find('**/joint_pupilR*')
+            if lp.isEmpty() or rp.isEmpty():
+                print 'Unable to locate pupils.'
+            else:
+                leye = __eyes.attachNewNode('leye')
+                reye = __eyes.attachNewNode('reye')
+                lmat = Mat4(0.802174, 0.59709, 0, 0, -0.586191, 0.787531, 0.190197, 0, 0.113565, -0.152571, 0.981746, 0,
+                            -0.233634, 0.418062, 0.0196875, 1)
+                leye.setMat(lmat)
+                rmat = Mat4(0.786788, -0.617224, 0, 0, 0.602836, 0.768447, 0.214658, 0, -0.132492, -0.16889, 0.976689,
+                            0, 0.233634, 0.418062, 0.0196875, 1)
+                reye.setMat(rmat)
+                __lpupil = leye.attachNewNode('lpupil')
+                __rpupil = reye.attachNewNode('rpupil')
+                lpt = __eyes.attachNewNode('')
+                rpt = __eyes.attachNewNode('')
+                lpt.wrtReparentTo(__lpupil)
+                rpt.wrtReparentTo(__rpupil)
+                lp.reparentTo(lpt)
+                rp.reparentTo(rpt)
+                __lpupil.adjustAllPriorities(1)
+                __rpupil.adjustAllPriorities(1)
+                if species != 'dog':
+                    __lpupil.flattenStrong()
+                    __rpupil.flattenStrong()
+        return
+
+    def setupMuzzlesGui(self, headType, head, species):
+        allMuzzles = []
+        surpriseMuzzles = []
+        angryMuzzles = []
+        sadMuzzles = []
+        smileMuzzles = []
+        laughMuzzles = []
+
+        def hideAddNonEmptyItemToList(item, list):
+            if not item.isEmpty():
+                item.hide()
+                list.append(item)
+
+        def hideNonEmptyItem(item):
+            if not item.isEmpty():
+                item.hide()
+
+        if species != 'dog':
+            muzzle = head.find('**/muzzle*neutral')
+        else:
+            muzzle = head.find('**/muzzle*')
+            muzzles = loader.loadModel(DogMuzzleDict[headType])
+            if not head.find('**/def_head').isEmpty():
+                muzzles.reparentTo(head.find('**/def_head'))
+            else:
+                muzzles.reparentTo(head.find('**/joint_toHead'))
+        surpriseMuzzle = head.find('**/muzzle*surprise')
+        angryMuzzle = head.find('**/muzzle*angry')
+        sadMuzzle = head.find('**/muzzle*sad')
+        smileMuzzle = head.find('**/muzzle*smile')
+        laughMuzzle = head.find('**/muzzle*laugh')
+        allMuzzles.append(muzzle)
+        hideAddNonEmptyItemToList(surpriseMuzzle, surpriseMuzzles)
+        hideAddNonEmptyItemToList(angryMuzzle, angryMuzzles)
+        hideAddNonEmptyItemToList(sadMuzzle, sadMuzzles)
+        hideAddNonEmptyItemToList(smileMuzzle, smileMuzzles)
+        hideAddNonEmptyItemToList(laughMuzzle, laughMuzzles)
 
     def setupMuzzles(self, head):
         self.__muzzles = []
@@ -969,13 +1181,22 @@ class Toon(Actor, ShadowCaster):
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(self.headColor)
 
-    def setHeadColor(self, animalType, color):
-        parts = self.findAllMatches('**/head*')
-        parts.setColor(color)
-        if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or \
-                        animalType == 'mouse' or animalType == 'pig':
-            parts = self.findAllMatches('**/ear?-*')
+    def setHeadColor(self, color, gui=None, species=None):
+        if gui:
+            parts = gui.findAllMatches('**/head*')
             parts.setColor(color)
+            if species == 'cat' or species == 'rabbit' or species == 'bear' or \
+                            species == 'mouse' or species == 'pig':
+                parts = gui.findAllMatches('**/ear?-*')
+                parts.setColor(color)
+        else:
+            parts = self.findAllMatches('**/head*')
+            parts.setColor(color)
+            if self.species == 'cat' or self.species == 'rabbit' or self.species == 'bear' or \
+                            self.species == 'mouse' or self.species == 'pig':
+                parts = self.findAllMatches('**/ear?-*')
+                parts.setColor(color)
+            self.headColor = color
 
     def getTorsoColor(self):
         return self.torsoColor
@@ -1031,8 +1252,11 @@ class Toon(Actor, ShadowCaster):
         sleeves.setTexture(sleeveTexture, 1)
         bottom.setTexture(bottomTexture, 1)
 
-    def setShirt(self, shirt1):
-        torso = self.getPart('torso')
+    def setShirt(self, shirt1, toon=None):
+        if toon:
+            torso = toon.getPart('torso')
+        else:
+            torso = self.getPart('torso')
         shirt = torso.findAllMatches('**/torso-top')
         sleeves = torso.findAllMatches('**/sleeves')
         self.shirtChoice = shirt1
@@ -1041,8 +1265,11 @@ class Toon(Actor, ShadowCaster):
         shirt.setTexture(shirtTexture, 1)
         sleeves.setTexture(sleeveTexture, 1)
 
-    def setShorts(self, shorts):
-        torso = self.getPart('torso')
+    def setShorts(self, shorts, toon=None):
+        if toon:
+            torso = toon.getPart('torso')
+        else:
+            torso = self.getPart('torso')
         bottom = torso.findAllMatches('**/torso-bot')
         self.shortsChoice = shorts
         bottomTexture = loader.loadTexture(BoyShorts[self.shortsChoice])
