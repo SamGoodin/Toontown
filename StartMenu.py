@@ -198,7 +198,7 @@ class AvatarChoice:
                         self.head.reparentTo(button.stateNodePath[0], 20)
                         self.head.instanceTo(button.stateNodePath[1], 20)
                         self.head.instanceTo(button.stateNodePath[2], 20)
-                        head = toon.handleHead(headStyle, headColor, species)
+                        head = toon.handleHead(headStyle, species, headColor, 1)
                         head.getGeomNode().setDepthWrite(1)
                         head.getGeomNode().setDepthTest(1)
                         head.reparentTo(self.head)

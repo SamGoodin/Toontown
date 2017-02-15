@@ -840,15 +840,13 @@ class Toon(Actor, ShadowCaster):
         }
         legs = LegDict[legType]
         self.legStyle = legType
-
-        self.loadModel(head, "head")
+        self.head = self.handleHead(headType, self.species)
+        self.loadModel(self.head, 'head')
         self.loadModel(torso, "torso")
         self.loadModel(legs, "legs")
         self.getPart("legs").findAllMatches('**/boots_short').stash()
         self.getPart("legs").findAllMatches('**/boots_long').stash()
         self.getPart("legs").findAllMatches('**/shoes').stash()
-        self.fixHeadShortShort()
-        self.setupMuzzles(headType)
         bodyScale = Globals.toonBodyScales[self.species]
         headScale = Globals.toonHeadScales[self.species]
         self.getGeomNode().setScale(headScale[0] * bodyScale * 1.3, headScale[1] * bodyScale * 1.3,
@@ -857,12 +855,13 @@ class Toon(Actor, ShadowCaster):
         self.loadAnims(LegsAnimDict[legType], "legs")
         self.attach("head", "torso", "def_head")
         self.attach("torso", "legs", "joint_hips")
-        self.__fixEyes(self.getPart('head'), self.species)
         rightHand = NodePath('rightHand')
         self.rightHands = []
         if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
+        self.initializeDropShadow()
+        self.rescaleToon()
 
     def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, shirt, shorts, name):
         self.species = species
@@ -892,7 +891,7 @@ class Toon(Actor, ShadowCaster):
         self.headColor = tuple(headColor)
         self.torsoColor = tuple(torsoColor)
         self.legColor = tuple(legColor)
-        self.head = self.handleHead(headType, headColor, self.species)
+        self.head = self.handleHead(headType, self.species, headColor)
         self.loadModel(self.head, 'head')
         self.loadModel(torso, "torso")
         self.loadModel(legs, "legs")
@@ -920,7 +919,7 @@ class Toon(Actor, ShadowCaster):
         self.initializeDropShadow()
         self.rescaleToon()
 
-    def handleHead(self, headStyle, headColor, species):
+    def handleHead(self, headStyle, species, headColor=None, gui=None):
         head = Actor()
         if species == "dog":
             headModel = HeadDict[headStyle]
@@ -929,12 +928,22 @@ class Toon(Actor, ShadowCaster):
         else:
             headModel = HeadDict[species]
             head.loadModel(headModel, "head")
-        self.fixHeadShortShort(gui=head)
+        if gui:
+            self.fixHeadShortShort(head, gui=gui)
+        else:
+            self.fixHeadShortShort(head)
         self.setupMuzzlesGui(headStyle, head, species)
+        if not headColor:
+            headColor = random.choice(allColorsList)
         self.setHeadColor(tuple(headColor), head, species)
-        self.__fixEyes(head, species, 1)
+        if gui:
+            self.__fixEyes(head, species, 1)
+        else:
+            self.__fixEyes(head, species)
         bodyScale = Globals.toonBodyScales[species]
         head.setScale(bodyScale / .75)
+        self.species = species
+        self.headColor = tuple(headColor)
         return head
 
     def setData(self):
@@ -967,6 +976,7 @@ class Toon(Actor, ShadowCaster):
                     'shirt': self.shirtChoice,
                     'shorts': self.shortsChoice
                 })
+                print self.species, self.headStyle, self.bodyType, self.legsType, self.headColor, self.torsoColor, self.legColor, self.shirtChoice, self.shortsChoice
             elif headStyle:
                 toonData[color].update(data[color])
             else:
@@ -994,8 +1004,6 @@ class Toon(Actor, ShadowCaster):
         self.createAdvancedToon(choice, self.bodyType, self.legsType)
         self.setRandomColor()
         self.generateRandomClothing()
-        self.rescaleToon()
-        self.initializeDropShadow()
 
     def getToon(self):
         return self
@@ -1016,16 +1024,16 @@ class Toon(Actor, ShadowCaster):
         self.legsType = None
         self.bodyType = None
 
-    def fixHeadShortShort(self, copy=None, gui=None):
+    def fixHeadShortShort(self, head, copy=None, gui=None):
         if gui:
-            otherParts = gui.findAllMatches('**/*long*')
+            otherParts = head.findAllMatches('**/*long*')
             for partNum in xrange(0, otherParts.getNumPaths()):
                 if copy:
                     otherParts.getPath(partNum).removeNode()
                 else:
                     otherParts.getPath(partNum).stash()
         else:
-            otherParts = self.getPart('head').findAllMatches('**/*long*')
+            otherParts = head.findAllMatches('**/*long*')
             for partNum in xrange(0, otherParts.getNumPaths()):
                 if copy:
                     otherParts.getPath(partNum).removeNode()
