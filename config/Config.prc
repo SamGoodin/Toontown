@@ -10,3 +10,4 @@ cursor-filename phase_3/etc/toonmono.cur
 default-model-extension .bam
 audio-volume 0.0
 model-path Resources/
+want-new-anims 1

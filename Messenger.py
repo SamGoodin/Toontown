@@ -51,11 +51,11 @@ class Messenger(DirectObject.DirectObject):
 
     def enterGameFromStart(self):
         self.toon = base.toon.getToon()
-        self.toon.reparentTo(render)
         self.enterGame()
 
     def enterGame(self):
         base.camera.reparentTo(self.toon)
+        self.toon.reparentTo(render)
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()

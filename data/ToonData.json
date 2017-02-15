@@ -13,30 +13,30 @@
     "torsoColor": null
   }, 
   "green": {
-    "head": "dss", 
+    "head": "rss", 
     "headColor": [
-      0.3, 
-      0.3, 
-      0.35, 
+      0.996094, 
+      0.957031, 
+      0.597656, 
       1.0
     ], 
     "lastPlayground": "Toontown Central", 
     "legColor": [
-      0.433594, 
-      0.90625, 
-      0.835938, 
+      0.996094, 
+      0.957031, 
+      0.597656, 
       1.0
     ], 
     "legs": "dgs", 
-    "name": "Ducky", 
-    "shirt": 19, 
-    "shorts": 6, 
-    "species": "duck", 
-    "torso": "dgm", 
+    "name": "Chillin'", 
+    "shirt": 15, 
+    "shorts": 56, 
+    "species": "rabbit", 
+    "torso": "dgs", 
     "torsoColor": [
-      0.242188, 
-      0.742188, 
-      0.515625, 
+      0.996094, 
+      0.957031, 
+      0.597656, 
       1.0
     ]
   }, 
@@ -54,43 +54,58 @@
     "torsoColor": null
   }, 
   "purple": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
-  }, 
-  "red": {
-    "head": "mss", 
+    "head": "dss", 
     "headColor": [
-      0.242188, 
-      0.742188, 
-      0.515625, 
+      0.3, 
+      0.3, 
+      0.35, 
       1.0
     ], 
     "lastPlayground": "Toontown Central", 
     "legColor": [
-      0.710938, 
-      0.234375, 
-      0.4375, 
+      0.3, 
+      0.3, 
+      0.35, 
       1.0
     ], 
-    "legs": "dgm", 
-    "name": "Green Head Mouse", 
-    "shirt": 72, 
-    "shorts": 26, 
-    "species": "mouse", 
+    "legs": "dgs", 
+    "name": "Hmm", 
+    "shirt": 12, 
+    "shorts": 5, 
+    "species": "duck", 
+    "torso": "dgm", 
+    "torsoColor": [
+      0.3, 
+      0.3, 
+      0.35, 
+      1.0
+    ]
+  }, 
+  "red": {
+    "head": "dss", 
+    "headColor": [
+      0.640625, 
+      0.355469, 
+      0.269531, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.996094, 
+      0.695312, 
+      0.511719, 
+      1.0
+    ], 
+    "legs": "dgl", 
+    "name": "Summer", 
+    "shirt": 63, 
+    "shorts": 7, 
+    "species": "rabbit", 
     "torso": "dgl", 
     "torsoColor": [
-      0.933594, 
-      0.265625, 
-      0.28125, 
+      0.996094, 
+      0.695312, 
+      0.511719, 
       1.0
     ]
   }, 

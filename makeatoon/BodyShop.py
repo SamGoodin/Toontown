@@ -203,6 +203,7 @@ class BodyShop:
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
         self.toon.rescaleToon()
+        self.toon.legsType = newLegsChoice
         if self.legsIndex == 0:
             self.legLButton['state'] = DGG.DISABLED
         else:
@@ -228,6 +229,7 @@ class BodyShop:
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
         self.toon.rescaleToon()
+        self.toon.legsType = newLegsChoice
         if self.legsIndex == len(LegsList) - 1:
             self.legRButton['state'] = DGG.DISABLED
         else:
@@ -249,6 +251,7 @@ class BodyShop:
         self.toon.setRandomTorsoColor()
         self.toon.generateRandomClothing()
         self.toon.rescaleToon()
+        self.toon.bodyType = newBodyChoice
         if self.bodyIndex == 0:
             self.torsoLButton['state'] = DGG.DISABLED
         else:
@@ -270,6 +273,7 @@ class BodyShop:
         self.toon.setRandomTorsoColor()
         self.toon.generateRandomClothing()
         self.toon.rescaleToon()
+        self.toon.bodyType = newBodyChoice
         if self.bodyIndex == len(BodyList) - 1:
             self.torsoRButton['state'] = DGG.DISABLED
         else:
@@ -282,27 +286,16 @@ class BodyShop:
         head = self.toon.getPart('head')
         head.removeNode()
         if newHeadChoice == 'dog':
-            self.dogHead = random.choice(['dgl', 'dgm', 'dgs'])
-            newHead = loader.loadModel('phase_3/models/char/tt_a_chr_' + self.dogHead + '_shorts_head_1000')
+            headType = random.choice(["dss", "dsl", "dls", "dll"])
         else:
-            newHead = loader.loadModel('phase_3/models/char/' + newHeadChoice + '-heads-1000')
-            otherParts = newHead.findAllMatches('**/*long*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                otherParts.getPath(partNum).removeNode()
-
-            ntrlMuzzle = newHead.find('**/*muzzle*neutral')
-            otherParts = newHead.findAllMatches('**/*muzzle*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                part = otherParts.getPath(partNum)
-                if part != ntrlMuzzle:
-                    otherParts.getPath(partNum).removeNode()
-
+            headType = newHeadChoice
+        species = newHeadChoice
+        newHead = self.toon.handleHead(headType, species)
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
-        self.toon.setRandomHeadColor()
         self.toon.rescaleToon()
-        if self.headIndex == 0:
-            self.speciesLButton['state'] = DGG.DISABLED
+        if self.headIndex == len(HeadList) - 1:
+            self.speciesRButton['state'] = DGG.DISABLED
         else:
             self.speciesLButton['state'] = DGG.NORMAL
             self.speciesRButton['state'] = DGG.NORMAL
@@ -313,23 +306,13 @@ class BodyShop:
         head = self.toon.getPart('head')
         head.removeNode()
         if newHeadChoice == 'dog':
-            self.dogHead = random.choice(['dgl', 'dgm', 'dgs'])
-            newHead = loader.loadModel('phase_3/models/char/tt_a_chr_' + self.dogHead + '_shorts_head_1000')
+            headType = random.choice(["dss", "dsl", "dls", "dll"])
         else:
-            newHead = loader.loadModel('phase_3/models/char/' + newHeadChoice + '-heads-1000')
-            otherParts = newHead.findAllMatches('**/*long*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                otherParts.getPath(partNum).removeNode()
-
-            ntrlMuzzle = newHead.find('**/*muzzle*neutral')
-            otherParts = newHead.findAllMatches('**/*muzzle*')
-            for partNum in range(0, otherParts.getNumPaths()):
-                part = otherParts.getPath(partNum)
-                if part != ntrlMuzzle:
-                    otherParts.getPath(partNum).removeNode()
+            headType = newHeadChoice
+        species = newHeadChoice
+        newHead = self.toon.handleHead(headType, species)
         self.toon.loadModel(newHead, 'head')
         self.toon.attach('head', 'torso', 'def_head')
-        self.toon.setRandomHeadColor()
         self.toon.rescaleToon()
         if self.headIndex == len(HeadList) - 1:
             self.speciesRButton['state'] = DGG.DISABLED
