@@ -15,6 +15,7 @@ from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.fsm.ClassicFSM import ClassicFSM
 from direct.fsm.State import State
+from LaffMeter import LaffMeter
 
 import Globals
 
@@ -860,8 +861,8 @@ class Toon(Actor, ShadowCaster):
         if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
-        self.initializeDropShadow()
         self.rescaleToon()
+        self.initializeDropShadow()
 
     def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, shirt, shorts, name):
         self.species = species
@@ -916,8 +917,17 @@ class Toon(Actor, ShadowCaster):
         if not self.getPart('torso').find('**/def_joint_right_hold').isEmpty():
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
-        self.initializeDropShadow()
         self.rescaleToon()
+        self.initializeDropShadow()
+
+    def setupLaffMeter(self):
+        self.laffMeter = LaffMeter(110, 110, self.species, self.headColor)
+        self.laffMeter.setScale(0.075)
+        self.laffMeter.reparentTo(base.a2dBottomLeft)
+        if self.species == 'monkey':
+            self.laffMeter.setPos(0.153, 0.0, 0.13)
+        else:
+            self.laffMeter.setPos(0.133, 0.0, 0.13)
 
     def handleHead(self, headStyle, species, headColor=None, gui=None):
         head = Actor()

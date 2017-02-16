@@ -64,6 +64,7 @@ class Messenger(DirectObject.DirectObject):
         self.toon.setupCameraPositions()
         self.toon.setupControls()
         self.shtikerBook = ShtikerBook()
+        self.toon.setupLaffMeter()
 
     def loadEstate(self):
         self.estate = Estate().load()

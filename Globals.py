@@ -221,3 +221,12 @@ BRZone = "Brrrgh"
 DGZone = "Daisy Gardens"
 GSZone = "Goofy Speedway"
 StreetZone = "-street"
+
+BuildingNametagShadow = None
+
+def GetPossesive(name):
+    if name[-1:] == 's':
+        possesive = name + "'"
+    else:
+        possesive = name + "'s"
+    return possesive
