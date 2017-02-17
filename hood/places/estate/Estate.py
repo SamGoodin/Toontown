@@ -72,6 +72,8 @@ class Estate(DirectObject):
         del self.houseNode
         self.sunMoonNode.removeNode()
         del self.sunMoonNode
+        self.estate.removeNode()
+        del self.estate
         self.ignore('unloadZone')
 
     def loadHouses(self):

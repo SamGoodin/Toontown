@@ -1,23 +1,23 @@
 import random
-from direct.interval.IntervalGlobal import *
-from direct.showbase.InputStateGlobal import inputState
+
 from direct.actor.Actor import Actor
-from toon.ShadowCaster import ShadowCaster
-from direct.distributed import DistributedSmoothNode
 from direct.controls import ControlManager
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
 from direct.controls.ObserverWalker import ObserverWalker
 from direct.controls.SwimWalker import SwimWalker
 from direct.controls.TwoDWalker import TwoDWalker
-from direct.task import Task
-from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.fsm.ClassicFSM import ClassicFSM
 from direct.fsm.State import State
-from LaffMeter import LaffMeter
+from direct.interval.IntervalGlobal import *
+from direct.showbase.InputStateGlobal import inputState
+from direct.task import Task
+from panda3d.core import *
 
 import Globals
+from gui.LaffMeter import LaffMeter
+from toon.ShadowCaster import ShadowCaster
 
 allColorsList = [(1.0, 1.0, 1.0, 1.0),
                  (0.96875, 0.691406, 0.699219, 1.0),
@@ -605,6 +605,8 @@ class Toon(Actor, ShadowCaster):
         return track
 
     def enterTeleportOut(self, callback=None, extraArgs=[]):
+        messenger.send('hideAllGui')
+        self.disableAvatarControls()
         self.track = self.getTeleportOutTrack()
         self.track.setDoneEvent(self.track.getName())
         self.acceptOnce(self.track.getName(), self.exitTeleportOut)
@@ -616,6 +618,8 @@ class Toon(Actor, ShadowCaster):
 
     def exitTeleportOut(self):
         self.track.finish()
+        messenger.send('showAllGui')
+        self.enableAvatarControls()
 
     def enterHappy(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         self.playingAnim = None
@@ -928,6 +932,8 @@ class Toon(Actor, ShadowCaster):
             self.laffMeter.setPos(0.153, 0.0, 0.13)
         else:
             self.laffMeter.setPos(0.133, 0.0, 0.13)
+
+        return self.laffMeter
 
     def handleHead(self, headStyle, species, headColor=None, gui=None):
         head = Actor()
@@ -1560,10 +1566,22 @@ class Toon(Actor, ShadowCaster):
         self.setupAnimationEvents()
         self.controlManager.enable()
 
+    def disableAvatarControls(self):
+        if not self.avatarControlsEnabled:
+            return
+        self.avatarControlsEnabled = 0
+        self.ignoreAnimationEvents()
+        self.controlManager.disable()
+
     def setupAnimationEvents(self):
         self.accept('jumpStart', self.jumpStart, [])
         self.accept('jumpHardLand', self.jumpHardLand, [])
         self.accept('jumpLand', self.jumpLand, [])
+
+    def ignoreAnimationEvents(self):
+        self.ignore('jumpStart')
+        self.ignore('jumpHardLand')
+        self.ignore('jumpLand')
 
     def stopJumpLandTask(self):
         if self.jumpLandAnimFixTask:

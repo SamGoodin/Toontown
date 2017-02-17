@@ -159,8 +159,7 @@ class ShtikerBook(DirectFrame):
         self.unloadCurrentPlayground()
 
         def ttc():
-            ttc = TTC(self.toon)
-            self.ttc = ttc.load(0)
+            messenger.send('backToPlayground')
 
         options = {Globals.TTCZone: ttc}
         options[base.lastPlayground]()
