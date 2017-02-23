@@ -96,6 +96,8 @@ class StartMenu:
                         pass
                     else:
                         buttonsFilled.append(button)
+                    name = data[button].get('name')
+                    Globals.allUserToonNames.append(name)
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()

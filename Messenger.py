@@ -30,6 +30,8 @@ class Messenger(DirectObject.DirectObject):
         self.accept('closeFriendsList', self.closeFriendsList)
         self.accept('hideAllGui', self.hideAllGui)
         self.accept('showAllGui', self.showAllGui)
+        self.accept('enableGui', self.enableGui)
+        self.accept('disableGui', self.disableGui)
         self.accept('backToPlayground', self.backToPlayground)
 
     @staticmethod
@@ -107,12 +109,17 @@ class Messenger(DirectObject.DirectObject):
     def hideAllGui(self):
         self.friendsList = FriendsList.hideFriendsList()
         self.bFriendsList.hide()
-        self.laffMeter.hide()
-        self.shtikerBook.
+        self.shtikerBook.hideOpenClose()
 
     def showAllGui(self):
         self.closeFriendsList()
-        self.laffMeter.show()
-        self.shtikerBook.show()
+        self.shtikerBook.showOpenClose()
 
+    def disableGui(self):
+        self.shtikerBook.disable()
+        self.bFriendsList['state'] = DGG.DISABLED
+
+    def enableGui(self):
+        self.shtikerBook.enable()
+        self.bFriendsList['state'] = DGG.NORMAL
 

@@ -1,16 +1,31 @@
 {
   "blue": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
+    "head": "dss", 
+    "headColor": [
+      0.242188, 
+      0.742188, 
+      0.515625, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.242188, 
+      0.742188, 
+      0.515625, 
+      1.0
+    ], 
+    "legs": "dgl", 
+    "name": "50 Cent", 
+    "shirt": 73, 
+    "shorts": 52, 
+    "species": "cat", 
+    "torso": "dgm", 
+    "torsoColor": [
+      0.242188, 
+      0.742188, 
+      0.515625, 
+      1.0
+    ]
   }, 
   "green": {
     "head": "rss", 

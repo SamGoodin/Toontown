@@ -687,6 +687,7 @@ class Toon(Actor, ShadowCaster):
             bookActor.stop()
 
     def enterCloseBook(self):
+        messenger.send('disableGui')
         bookTracks = Parallel()
         for bookActor in self.getBookActors():
             bookTracks.append(ActorInterval(bookActor, 'book', startTime=4.96, endTime=6.5))
@@ -699,6 +700,7 @@ class Toon(Actor, ShadowCaster):
     def exitCloseBook(self):
         self.track.finish()
         self.track = None
+        messenger.send('enableGui')
 
     def enterJumpAirborne(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         if not self.isDisguised:

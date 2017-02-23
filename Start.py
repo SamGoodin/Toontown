@@ -6,6 +6,9 @@ from StartMenu import StartMenu
 import Globals
 from direct.gui import DirectGuiGlobals
 from gui.MarginManager import MarginManager
+from gui.margins.MarginManager import MarginManager as OtherMarginManager
+from gui.nametag import NametagGlobals
+from gui.margins.MarginVisible import MarginVisible
 
 
 class MyApp(ShowBase):
@@ -19,6 +22,11 @@ class MyApp(ShowBase):
         DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
+        NametagGlobals.setCardModel('phase_3/models/props/panel.bam')
+        NametagGlobals.setArrowModel('phase_3/models/props/arrow.bam')
+        NametagGlobals.setChatBalloon3dModel('phase_3/models/props/chatbox.bam')
+        NametagGlobals.setChatBalloon2dModel('phase_3/models/props/chatbox_noarrow.bam')
+        NametagGlobals.setThoughtBalloonModel('phase_3/models/props/chatbox_thought_cutout.bam')
         Globals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.setupMargins()
         self.currentZone = None
@@ -30,6 +38,7 @@ class MyApp(ShowBase):
 
     def setupMargins(self):
         self.marginManager = MarginManager()
+        self.otherMarginManager = OtherMarginManager()
 
     def setCurrentZone(self, zone):
         self.currentZone = zone

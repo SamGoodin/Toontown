@@ -230,3 +230,5 @@ def GetPossesive(name):
     else:
         possesive = name + "'s"
     return possesive
+
+allUserToonNames = []

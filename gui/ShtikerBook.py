@@ -163,3 +163,23 @@ class ShtikerBook(DirectFrame):
 
         options = {Globals.TTCZone: ttc}
         options[base.lastPlayground]()
+
+    def hideOpenClose(self):
+        self.OpenButton.hide()
+        self.CloseButton.hide()
+
+    def showOpenClose(self):
+        if self.isHidden():
+            self.OpenButton.show()
+            self.CloseButton.hide()
+        else:
+            self.OpenButton.hide()
+            self.CloseButton.show()
+
+    def disable(self):
+        self.OpenButton['state'] = DGG.DISABLED
+        self.CloseButton['state'] = DGG.DISABLED
+
+    def enable(self):
+        self.OpenButton['state'] = DGG.NORMAL
+        self.CloseButton['state'] = DGG.NORMAL
