@@ -39,6 +39,7 @@ class StartMenu:
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
+
     def enterMakeAToon(self, *args):
         buttonName = ""
         for arg in args:
@@ -96,6 +97,8 @@ class StartMenu:
                         pass
                     else:
                         buttonsFilled.append(button)
+                    name = data[button].get('name')
+                    Globals.allUserToonNames.append(name)
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()

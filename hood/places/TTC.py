@@ -1,10 +1,11 @@
 import random
 
 from direct.showbase.DirectObject import DirectObject
+
 import Globals
-import Sky
-from LoadingScreen import LoadingScreen
 from dna.DNALoader import *
+from gui import Sky
+from gui.LoadingScreen import LoadingScreen
 
 SpawnPoints = [
     (-60, -8, 1.3, -90, 0, 0),
