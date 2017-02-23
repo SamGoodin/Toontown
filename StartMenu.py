@@ -39,6 +39,7 @@ class StartMenu:
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
+
     def enterMakeAToon(self, *args):
         buttonName = ""
         for arg in args:
