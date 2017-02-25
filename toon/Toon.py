@@ -14,7 +14,8 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
 from direct.task import Task
 from panda3d.core import *
-
+from gui.nametag import NametagGlobals
+from gui.nametag.NametagGroup import NametagGroup
 import Globals
 from gui.LaffMeter import LaffMeter
 from toon.ShadowCaster import ShadowCaster
@@ -546,6 +547,17 @@ class Toon(Actor, ShadowCaster):
         self.lookAtTrack = None
         self.lookAtPositionCallbackArgs = None
         self.soundTeleport = base.loadSfx('phase_3.5/audio/sfx/AV_teleport.ogg')
+        self.nametagNodePath = None
+        self.nametag = NametagGroup()
+        self.nametag.setAvatar(self)
+        self.nametag.setFont(Globals.getInterfaceFont())
+        self.nametag.setChatFont(Globals.getInterfaceFont())
+        self.nametag3d = self.attachNewNode('nametag3d')
+        self.nametag3d.setTag('cam', 'nametag')
+        self.nametag3d.setLightOff()
+        Globals.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
+        self.getGeomNode().showThrough(BitMask32.bit(2))
+        self.nametag3d.hide(BitMask32.bit(2))
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -868,7 +880,6 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
         self.rescaleToon()
-        self.initializeDropShadow()
 
     def createToonWithData(self, species, headType, torsoType, legType, headColor, torsoColor, legColor, shirt, shorts, name):
         self.species = species
@@ -924,7 +935,6 @@ class Toon(Actor, ShadowCaster):
             hand = self.getPart('torso').find('**/def_joint_right_hold')
         self.rightHands.append(hand)
         self.rescaleToon()
-        self.initializeDropShadow()
 
     def setupLaffMeter(self):
         self.laffMeter = LaffMeter(110, 110, self.species, self.headColor)
@@ -1022,6 +1032,31 @@ class Toon(Actor, ShadowCaster):
         self.createAdvancedToon(choice, self.bodyType, self.legsType)
         self.setRandomColor()
         self.generateRandomClothing()
+
+    def initializeNametag3d(self):
+        self.deleteNametag3d()
+        nametagNode = self.nametag.getNametag3d()
+        self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
+        iconNodePath = self.nametag.getIcon()
+        for cJoint in self.getNametagJoints():
+            cJoint.clearNetTransforms()
+            cJoint.addNetTransform(nametagNode)
+        self.nametag.setText(self.getName())
+
+    def getNametagJoints(self):
+        joints = []
+        for lodName in self.getLODNames():
+            bundle = self.getPartBundle('legs', lodName)
+            joint = bundle.findChild('joint_nameTag')
+            if joint:
+                joints.append(joint)
+
+        return joints
+
+    def deleteNametag3d(self):
+        if self.nametagNodePath:
+            self.nametagNodePath.removeNode()
+            self.nametagNodePath = None
 
     def getToon(self):
         return self

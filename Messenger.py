@@ -71,6 +71,9 @@ class Messenger(DirectObject.DirectObject):
     def enterGame(self):
         base.camera.reparentTo(self.toon)
         self.toon.reparentTo(render)
+        self.toon.initializeDropShadow()
+        self.toon.initializeNametag3d()
+        self.toon.setActiveShadow(1)
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()

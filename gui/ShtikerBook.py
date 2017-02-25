@@ -14,7 +14,7 @@ class ShtikerBook(DirectFrame):
         self.OpenButton = DirectButton(image=(
             model.find('**/BookIcon_CLSD'), model.find('**/BookIcon_OPEN'), model.find('**/BookIcon_RLVR')),
             relief=None, pos=(-0.158, 0, 0.17), parent=base.a2dBottomRight, scale=0.305,
-            command=self.openBook)
+            command=self.startOpenBook)
         self.CloseButton = DirectButton(image=(
             model.find('**/BookIcon_OPEN'), model.find('**/BookIcon_CLSD'), model.find('**/BookIcon_RLVR2')),
             relief=None, pos=(-0.158, 0, 0.17), parent=base.a2dBottomRight, scale=0.305,
@@ -116,6 +116,12 @@ class ShtikerBook(DirectFrame):
         self.hide()
         self.estate = None
 
+    def startOpenBook(self):
+        self.track = Sequence(Func(base.toon.enterBook), Wait(.6), Func(self.openBook), Func(base.toon.enterReadBook),
+                              Func(self.finishOpenBook))
+        self.track.start()
+        base.toon.disableAvatarControls()
+
     def openBook(self):
         base.playSfx(self.openSound)
         base.render.hide()
@@ -130,9 +136,16 @@ class ShtikerBook(DirectFrame):
         elif "-" in base.currentZone:
             self.safeZoneButton.show()
             self.goHomeButton.show()
+        else:
+            self.safeZoneButton.hide()
+            self.goHomeButton.show()
+
+    def finishOpenBook(self):
+        self.track.finish()
 
     def closeBook(self):
-        self.track = Sequence(Func(base.toon.enterCloseBook), Wait(2), Func(base.toon.exitCloseBook))
+        self.track = Sequence(Func(base.toon.enterCloseBook), Wait(2), Func(base.toon.exitCloseBook), Wait(0),
+                              Func(self.finishCloseBook))
         self.track.start()
         base.playSfx(self.closeSound)
         base.render.show()
@@ -141,6 +154,10 @@ class ShtikerBook(DirectFrame):
         self.OpenButton.show()
         self.CloseButton.hide()
         self.map.hide()
+
+    def finishCloseBook(self):
+        self.track.finish()
+        base.toon.enableAvatarControls()
 
     def goHome(self):
         track = Sequence(Func(self.closeBook), Wait(2), Func(base.toon.enterTeleportOut), Wait(4),
@@ -156,6 +173,11 @@ class ShtikerBook(DirectFrame):
         messenger.send('unloadZone')
 
     def backToPlayground(self):
+        self.btpgTrack = Sequence(Func(self.closeBook), Wait(2), Func(base.toon.enterTeleportOut), Wait(4),
+                                  Func(self.goBackToPlayground), Func(self.finishBackToPlayground))
+        self.btpgTrack.start()
+
+    def goBackToPlayground(self):
         self.unloadCurrentPlayground()
 
         def ttc():
@@ -163,6 +185,10 @@ class ShtikerBook(DirectFrame):
 
         options = {Globals.TTCZone: ttc}
         options[base.lastPlayground]()
+
+    def finishBackToPlayground(self):
+        self.finishCloseBook()
+        self.btpgTrack.finish()
 
     def hideOpenClose(self):
         self.OpenButton.hide()

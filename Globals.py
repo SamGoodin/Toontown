@@ -232,3 +232,16 @@ def GetPossesive(name):
     return possesive
 
 allUserToonNames = []
+
+def setCameraBitmask(default, node_path, camera_bitmask, tag = None, tag_function = None, context = None):
+    if node_path:
+        show = default
+        if tag_function:
+            show = tag_function(default, tag, context)
+        if show:
+            node_path.show(camera_bitmask)
+        else:
+            node_path.hide(camera_bitmask)
+
+def renderReflection(default, node_path, tag = None, tag_function = None, context = None):
+    setCameraBitmask(default, node_path, BitMask32.bit(1), tag, tag_function, context)

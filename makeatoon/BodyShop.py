@@ -203,6 +203,8 @@ class BodyShop:
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
         self.toon.rescaleToon()
+        del self.toon.shadowJoint
+        self.toon.initializeDropShadow()
         self.toon.legsType = newLegsChoice
         if self.legsIndex == 0:
             self.legLButton['state'] = DGG.DISABLED
@@ -229,6 +231,8 @@ class BodyShop:
         self.toon.loop('neutral')
         self.toon.setRandomLegsColor()
         self.toon.rescaleToon()
+        del self.toon.shadowJoint
+        self.toon.initializeDropShadow()
         self.toon.legsType = newLegsChoice
         if self.legsIndex == len(LegsList) - 1:
             self.legRButton['state'] = DGG.DISABLED
