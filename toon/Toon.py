@@ -558,6 +558,8 @@ class Toon(Actor, ShadowCaster):
         Globals.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
         self.getGeomNode().showThrough(BitMask32.bit(2))
         self.nametag3d.hide(BitMask32.bit(2))
+        self.__nameVisible = 1
+        self.ghostMode = 0
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -1042,6 +1044,17 @@ class Toon(Actor, ShadowCaster):
             cJoint.clearNetTransforms()
             cJoint.addNetTransform(nametagNode)
         self.nametag.setText(self.getName())
+        nametag3d = self.nametag.getNametag3d()
+        if self.__nameVisible and (not self.ghostMode):
+            nametag3d.showNametag()
+            nametag3d.showChat()
+            nametag3d.showThought()
+        else:
+            nametag3d.hideNametag()
+            nametag3d.hideChat()
+            nametag3d.hideThought()
+        nametag3d.update()
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
 
     def getNametagJoints(self):
         joints = []
@@ -1353,7 +1366,22 @@ class Toon(Actor, ShadowCaster):
         self.setHeight(height)
 
     def setHeight(self, height):
-        pass
+        self.height = height
+        '''self.initializeBodyCollisions('string')
+        if self.collTube:
+            self.collTube.setPointB(0, 0, height - 1)
+            if self.collNodePath:
+                self.collNodePath.forceRecomputeBounds()'''
+
+    def initializeBodyCollisions(self, collIdStr):
+        self.collTube = CollisionTube(0, 0, 0.5, 0, 0, self.height - 1, 1)
+        self.collNode = CollisionNode(collIdStr)
+        self.collNode.addSolid(self.collTube)
+        self.collNodePath = self.attachNewNode(self.collNode)
+        if self.ghostMode:
+            self.collNode.setCollideMask(BitMask32(2048))
+        else:
+            self.collNode.setCollideMask(BitMask32(1))
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)

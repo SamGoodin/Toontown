@@ -73,6 +73,7 @@ class Messenger(DirectObject.DirectObject):
         self.toon.reparentTo(render)
         self.toon.initializeDropShadow()
         self.toon.initializeNametag3d()
+        self.toon.rescaleToon()
         self.toon.setActiveShadow(1)
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)

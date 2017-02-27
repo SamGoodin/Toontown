@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a169c8a-24a3-4568-9aa3-582bfe2f32ef" name="Default" comment="">
+    <list default="true" id="fcade1c8-df80-4bf9-be4c-7e84cb33d0ae" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Toontown.iml" afterPath="$PROJECT_DIR$/.idea/Toontown.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Globals.py" afterPath="$PROJECT_DIR$/Globals.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messenger.py" afterPath="$PROJECT_DIR$/Messenger.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/ShtikerBook.py" afterPath="$PROJECT_DIR$/gui/ShtikerBook.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/makeatoon/BodyShop.py" afterPath="$PROJECT_DIR$/makeatoon/BodyShop.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toon/Toon.py" afterPath="$PROJECT_DIR$/toon/Toon.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,17 +25,7 @@
         <entry file="file://$PROJECT_DIR$/Start.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="17" column="44" lean-forward="false" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="77" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StartMenu.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/StartMenu.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -45,12 +34,9 @@
       <file leaf-file-name="Messenger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Messenger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-                <marker date="1487946394327" expanded="true" signature="4135:4250" ph="..." />
-              </folding>
+            <state relative-caret-position="1088">
+              <caret line="75" column="31" lean-forward="false" selection-start-line="75" selection-start-column="31" selection-end-line="75" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,180 +44,39 @@
       <file leaf-file-name="Toon.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/toon/Toon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="1053" column="21" lean-forward="true" selection-start-line="1053" selection-start-column="21" selection-end-line="1053" selection-end-column="21" />
+            <state relative-caret-position="526">
+              <caret line="1056" column="54" lean-forward="false" selection-start-line="1056" selection-start-column="54" selection-end-line="1056" selection-end-column="54" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#842#2216#0" expanded="false" />
-                <element signature="e#2227#7957#0" expanded="false" />
-                <element signature="e#7969#14252#0" expanded="false" />
-                <element signature="e#14266#16835#0" expanded="false" />
-                <element signature="e#17036#18275#0" expanded="false" />
-                <element signature="e#18301#19540#0" expanded="false" />
-                <element signature="e#19566#20805#0" expanded="false" />
-                <element signature="e#20832#22084#0" expanded="false" />
-                <element signature="e#22110#23362#0" expanded="false" />
-                <element signature="e#23388#24640#0" expanded="false" />
-                <element signature="e#24667#25009#0" expanded="false" />
-                <element signature="e#25035#25377#0" expanded="false" />
-                <element signature="e#25403#25745#0" expanded="false" />
-                <element signature="e#25771#26109#0" expanded="false" />
-                <element signature="e#26128#26370#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShtikerBook.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="140" column="36" lean-forward="false" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Globals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Globals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="242" column="13" lean-forward="true" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Estate.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hood/places/estate/Estate.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1955">
-              <caret line="125" column="70" lean-forward="false" selection-start-line="125" selection-start-column="70" selection-end-line="125" selection-end-column="70" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HouseGlobals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hood/places/estate/HouseGlobals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="37" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.cTrav</find>
-      <find>self.book</find>
-      <find>self.button</find>
-      <find>HeadAnimDict</find>
-      <find>createa</find>
-      <find>ToonData</find>
-      <find>setHeadColor</find>
-      <find>createAd</find>
-      <find>createToonWithData</find>
-      <find>DogMuzzleDict</find>
-      <find>self.headColor</find>
-      <find>setRandomHeadColor</find>
-      <find>setData</find>
-      <find>print</find>
-      <find>self.bodyScale</find>
-      <find>mode</find>
-      <find>unloadStartMenu</find>
-      <find>fixHead</find>
-      <find>setupCamera</find>
-      <find>handleHead</find>
-      <find>initializeSha</find>
-      <find>findNode</find>
-      <find>enterTeleportOut</find>
-      <find>enableAvatar</find>
-      <find>initializeDropShadow</find>
-      <find>self.openBook</find>
-      <find>base.currentZone</find>
-      <find>initialize</find>
+      <find>rescaleToon</find>
     </findStrings>
-    <replaceStrings>
-      <replace>self</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="PREVIOUS_COMMIT_AUTHORS">
-      <list>
-        <option value="Sam &lt;samuelgoodin@sbcglobal.net&gt;" />
-        <option value="Sam Goodin" />
-      </list>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/makeatoon/ClothingShop.py" />
-        <option value="$PROJECT_DIR$/data/ToonData" />
-        <option value="$PROJECT_DIR$/makeatoon/NameShop.py" />
-        <option value="$PROJECT_DIR$/gui/MarginManager.py" />
-        <option value="$PROJECT_DIR$/gui/MessageBox.py" />
-        <option value="$PROJECT_DIR$/toon/TestToon.py" />
-        <option value="$PROJECT_DIR$/TestToon.py" />
-        <option value="$PROJECT_DIR$/hood/places/TTC.py" />
         <option value="$PROJECT_DIR$/makeatoon/MakeAToon.py" />
-        <option value="$PROJECT_DIR$/data/ToonData.json" />
-        <option value="$PROJECT_DIR$/makeatoon/ColorShop.py" />
-        <option value="$PROJECT_DIR$/config/Config.prc" />
-        <option value="$PROJECT_DIR$/makeatoon/GenderShop.py" />
-        <option value="$PROJECT_DIR$/toon/ShadowCaster.py" />
-        <option value="$PROJECT_DIR$/toon/LaffMeter.py" />
-        <option value="$PROJECT_DIR$/gui/FriendsList.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/__init__.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/NametagGlobals.py" />
-        <option value="$PROJECT_DIR$/gui/margins.py" />
-        <option value="$PROJECT_DIR$/gui/margins/__init__.py" />
-        <option value="$PROJECT_DIR$/gui/Clickable.py" />
-        <option value="$PROJECT_DIR$/gui/Clickable2d.py" />
-        <option value="$PROJECT_DIR$/gui/Clickable3d.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/NametagGroup.py" />
-        <option value="$PROJECT_DIR$/chat/ChatBalloon.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/Nametag.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/Nametag3d.py" />
-        <option value="$PROJECT_DIR$/gui/margins/MarginGlobals.py" />
-        <option value="$PROJECT_DIR$/gui/nametag/Nametag2d.py" />
-        <option value="$PROJECT_DIR$/gui/margins/MarginCell.py" />
-        <option value="$PROJECT_DIR$/gui/margins/MarginManager.py" />
-        <option value="$PROJECT_DIR$/Start.py" />
-        <option value="$PROJECT_DIR$/gui/margins/MarginVisible.py" />
-        <option value="$PROJECT_DIR$/TestingFile.py" />
-        <option value="$PROJECT_DIR$/hood/places/estate/Estate.py" />
-        <option value="$PROJECT_DIR$/StartMenu.py" />
-        <option value="$PROJECT_DIR$/gui/ShtikerBook.py" />
-        <option value="$PROJECT_DIR$/makeatoon/BodyShop.py" />
-        <option value="$PROJECT_DIR$/Globals.py" />
         <option value="$PROJECT_DIR$/Messenger.py" />
         <option value="$PROJECT_DIR$/toon/Toon.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1592" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="916" />
-  </component>
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -248,6 +93,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -260,23 +107,23 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="toon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\goodisam000\Desktop\Toontown\Toontown\gui" />
-      <recent name="C:\Users\goodisam000\Desktop\Toontown\Toontown" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\goodisam000\Desktop\Toontown\Toontown\stuff" />
-    </key>
   </component>
   <component name="RunManager" selected="Python.Start">
     <configuration default="false" name="Start" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -285,47 +132,13 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Panda3D-1.9.3\python\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Toontown" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Start.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="TestToon" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/toon" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Toontown" />
-      <option name="SCRIPT_NAME" value="C:\Users\goodisam000\Desktop\Toontown\Toontown\TestToon.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="TestingFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Toontown" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestingFile.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -464,16 +277,12 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Python.Start" />
-      <item index="1" class="java.lang.String" itemvalue="Python.TestToon" />
-      <item index="2" class="java.lang.String" itemvalue="Python.TestingFile" />
     </list>
     <recent_temporary>
-      <list size="3">
+      <list size="1">
         <item index="0" class="java.lang.String" itemvalue="Python.Start" />
-        <item index="1" class="java.lang.String" itemvalue="Python.TestingFile" />
-        <item index="2" class="java.lang.String" itemvalue="Python.TestToon" />
       </list>
     </recent_temporary>
   </component>
@@ -482,614 +291,129 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9a169c8a-24a3-4568-9aa3-582bfe2f32ef" name="Default" comment="" />
-      <created>1483970816102</created>
+      <changelist id="fcade1c8-df80-4bf9-be4c-7e84cb33d0ae" name="Default" comment="" />
+      <created>1486261259942</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1483970816102</updated>
+      <updated>1486261259942</updated>
     </task>
-    <task id="LOCAL-00001" summary="cool">
-      <created>1484317743422</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1484317743422</updated>
-    </task>
-    <task id="LOCAL-00002" summary="cool">
-      <created>1484663362664</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1484663362664</updated>
-    </task>
-    <task id="LOCAL-00003" summary="cool">
-      <created>1484749753835</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1484749753835</updated>
-    </task>
-    <task id="LOCAL-00004" summary="cool">
-      <created>1484749759491</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1484749759491</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Houses in estate added.&#10;curZone curPG&#10;">
-      <created>1485268150505</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1485268150505</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Shtiker updated&#10;Toon anims">
-      <created>1485354558561</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1485354558561</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Shtiker updated&#10;Toon anims">
-      <created>1485440903438</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1485440903438</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Teleport Anim">
-      <created>1485527305429</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1485527305429</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Teleport Anim">
-      <created>1485786372001</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1485786372001</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Writing JSON toon data started.&#10;TO DO: Figure out editing written JSON data, put written toons heads to startMenu">
-      <created>1485786437101</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1485786437101</updated>
-    </task>
-    <task id="LOCAL-00011" summary="TO DO: Finish the ToonData / JSON thingy. Close to finished">
-      <created>1485872886760</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1485872886760</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Finish the button thing stuff">
-      <created>1485959296595</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1485959296595</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Finish loading into pg after start menu">
-      <created>1486045701140</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1486045701140</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Figure out laoidng o">
-      <created>1486565651093</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1486565651093</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Almost got it figured out">
-      <created>1486650545032</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1486650545032</updated>
-    </task>
-    <task id="LOCAL-00016" summary="ButtonsFilled issue 167 StartMenu">
-      <created>1486736909613</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1486736909613</updated>
-    </task>
-    <task id="LOCAL-00017" summary="FINALLY GOT IT WORKING">
-      <created>1486996129448</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1486996129448</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Stable working with data and start menu">
-      <created>1487082509565</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1487082509565</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Stable release">
-      <created>1487168869399</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1487168869399</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Updated houses to have doors and floormats, 1 house type only">
-      <created>1487255318816</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1487255318816</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Friends added">
-      <created>1487341727642</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1487341727642</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Friends added">
-      <created>1487341734906</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1487341734906</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Estate houses load properly (colors, nameplates, etc.)&#10;Stable">
-      <created>1487860102157</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1487860102157</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Estate houses load properly (colors, nameplates, etc.)&#10;Stable">
-      <created>1487860145379</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1487860145379</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1592" y="-8" width="1616" height="916" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39900866" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="cool" />
-    <MESSAGE value="Houses in estate added.&#10;curZone curPG&#10;" />
-    <MESSAGE value="Shtiker updated&#10;Toon anims" />
-    <MESSAGE value="Teleport Anim" />
-    <MESSAGE value="Writing JSON toon data started.&#10;TO DO: Figure out editing written JSON data, put written toons heads to startMenu" />
-    <MESSAGE value="TO DO: Finish the ToonData / JSON thingy. Close to finished" />
-    <MESSAGE value="Finish the button thing stuff" />
-    <MESSAGE value="Finish loading into pg after start menu" />
-    <MESSAGE value="Figure out laoidng o" />
-    <MESSAGE value="Almost got it figured out" />
-    <MESSAGE value="ButtonsFilled issue 167 StartMenu" />
-    <MESSAGE value="FINALLY GOT IT WORKING" />
-    <MESSAGE value="Stable working with data and start menu" />
-    <MESSAGE value="Stable release" />
-    <MESSAGE value="Updated houses to have doors and floormats, 1 house type only" />
-    <MESSAGE value="Friends added" />
-    <MESSAGE value="Estate houses load properly (colors, nameplates, etc.)&#10;Stable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Estate houses load properly (colors, nameplates, etc.)&#10;Stable" />
-  </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/toon/Toon.py</url>
-          <line>368</line>
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="1" />
-    </breakpoint-manager>
+    <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/ToonData" />
-    <entry file="file://$PROJECT_DIR$/gui/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Panda3D-1.9.3/direct/showbase/Messenger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="411" column="0" lean-forward="false" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/MarginManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/MessageBox.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="50" column="33" lean-forward="false" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Panda3D-1.9.3/direct/showbase/ShowBaseGlobal.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Panda3D-1.9.3/direct/gui/DirectButton.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="138" column="12" lean-forward="false" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Panda3D-1.9.3/python/Lib/json/decoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="366" column="0" lean-forward="false" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/makeatoon/MakeAToon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="24" column="24" lean-forward="false" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/makeatoon/NameShop.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7565">
-          <caret line="451" column="0" lean-forward="false" selection-start-line="451" selection-start-column="0" selection-end-line="451" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/TTC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="48" column="8" lean-forward="false" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/makeatoon/ColorShop.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="131" column="49" lean-forward="false" selection-start-line="131" selection-start-column="49" selection-end-line="131" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/Config.prc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/makeatoon/GenderShop.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="62" column="33" lean-forward="false" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dna/DNAStorage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="134" column="16" lean-forward="false" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dna/DNALoader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dna/DNADoor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/LaffMeter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="46" lean-forward="false" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/FriendsList.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="106" column="29" lean-forward="false" selection-start-line="106" selection-start-column="29" selection-end-line="106" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestToon.py" />
-    <entry file="file://$PROJECT_DIR$/gui/Sky.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/margins.py" />
-    <entry file="file://$PROJECT_DIR$/gui/margins/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/Clickable3d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="35" lean-forward="true" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/chat/ChatBalloon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2023">
-          <caret line="119" column="66" lean-forward="false" selection-start-line="119" selection-start-column="66" selection-end-line="119" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/margins/MarginGlobals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="42" lean-forward="false" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/Clickable2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag3d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/Clickable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="229" column="0" lean-forward="false" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/NametagGlobals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3672">
-          <caret line="252" column="1" lean-forward="false" selection-start-line="252" selection-start-column="1" selection-end-line="252" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/NametagGroup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="395" column="0" lean-forward="true" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/margins/MarginVisible.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="28" column="52" lean-forward="false" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/margins/MarginManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/margins/MarginCell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="39" column="27" lean-forward="false" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestingFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="28" column="49" lean-forward="false" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/estate/HouseGlobals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="37" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/ToonData.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="18" lean-forward="false" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/estate/Estate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1955">
-          <caret line="125" column="70" lean-forward="false" selection-start-line="125" selection-start-column="70" selection-end-line="125" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StartMenu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Start.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="17" column="44" lean-forward="false" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/toon/ShadowCaster.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="87" column="42" lean-forward="true" selection-start-line="87" selection-start-column="42" selection-end-line="87" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Panda3D-1.9.3/direct/interval/FunctionInterval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="140" column="36" lean-forward="false" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/makeatoon/BodyShop.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2812">
-          <caret line="213" column="0" lean-forward="true" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Globals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="242" column="13" lean-forward="true" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Messenger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <marker date="1487946394327" expanded="true" signature="4135:4250" ph="..." />
-          </folding>
+        <state relative-caret-position="1088">
+          <caret line="75" column="31" lean-forward="false" selection-start-line="75" selection-start-column="31" selection-end-line="75" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/toon/Toon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="1053" column="21" lean-forward="true" selection-start-line="1053" selection-start-column="21" selection-end-line="1053" selection-end-column="21" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#842#2216#0" expanded="false" />
-            <element signature="e#2227#7957#0" expanded="false" />
-            <element signature="e#7969#14252#0" expanded="false" />
-            <element signature="e#14266#16835#0" expanded="false" />
-            <element signature="e#17036#18275#0" expanded="false" />
-            <element signature="e#18301#19540#0" expanded="false" />
-            <element signature="e#19566#20805#0" expanded="false" />
-            <element signature="e#20832#22084#0" expanded="false" />
-            <element signature="e#22110#23362#0" expanded="false" />
-            <element signature="e#23388#24640#0" expanded="false" />
-            <element signature="e#24667#25009#0" expanded="false" />
-            <element signature="e#25035#25377#0" expanded="false" />
-            <element signature="e#25403#25745#0" expanded="false" />
-            <element signature="e#25771#26109#0" expanded="false" />
-            <element signature="e#26128#26370#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Start.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/makeatoon/GenderShop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/makeatoon/MakeAToon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/makeatoon/MakeAToon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="47" column="53" lean-forward="false" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/makeatoon/GenderShop.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Start.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Messenger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="75" column="31" lean-forward="false" selection-start-line="75" selection-start-column="31" selection-end-line="75" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/toon/Toon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="1056" column="54" lean-forward="false" selection-start-line="1056" selection-start-column="54" selection-end-line="1056" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
