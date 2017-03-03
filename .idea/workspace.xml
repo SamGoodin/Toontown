@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a169c8a-24a3-4568-9aa3-582bfe2f32ef" name="Default" comment="">
+    <list default="true" id="9a169c8a-24a3-4568-9aa3-582bfe2f32ef" name="Default" comment="Various updates.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Globals.py" afterPath="$PROJECT_DIR$/Globals.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messenger.py" afterPath="$PROJECT_DIR$/Messenger.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/ShtikerBook.py" afterPath="$PROJECT_DIR$/gui/ShtikerBook.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/makeatoon/BodyShop.py" afterPath="$PROJECT_DIR$/makeatoon/BodyShop.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toon/Toon.py" afterPath="$PROJECT_DIR$/toon/Toon.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,7 +23,7 @@
       <file leaf-file-name="Start.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Start.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="289">
               <caret line="17" column="44" lean-forward="false" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="77" />
               <folding />
             </state>
@@ -35,7 +33,7 @@
       <file leaf-file-name="StartMenu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/StartMenu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="612">
               <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
@@ -45,21 +43,21 @@
       <file leaf-file-name="Messenger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Messenger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+            <state relative-caret-position="425">
+              <caret line="36" column="72" lean-forward="false" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <marker date="1487946394327" expanded="true" signature="4135:4250" ph="..." />
+                <marker date="1488468826637" expanded="true" signature="4469:4584" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Toon.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Toon.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/toon/Toon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="1053" column="21" lean-forward="true" selection-start-line="1053" selection-start-column="21" selection-end-line="1053" selection-end-column="21" />
+            <state relative-caret-position="16422">
+              <caret line="1391" column="13" lean-forward="true" selection-start-line="1391" selection-start-column="13" selection-end-line="1391" selection-end-column="13" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#842#2216#0" expanded="false" />
@@ -82,11 +80,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShtikerBook.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Nametag.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShtikerBook.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="140" column="36" lean-forward="false" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
+            <state relative-caret-position="242">
+              <caret line="150" column="45" lean-forward="false" selection-start-line="150" selection-start-column="45" selection-end-line="150" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -95,7 +103,7 @@
       <file leaf-file-name="Globals.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
+            <state relative-caret-position="4114">
               <caret line="242" column="13" lean-forward="true" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
               <folding />
             </state>
@@ -135,17 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.cTrav</find>
-      <find>self.book</find>
-      <find>self.button</find>
-      <find>HeadAnimDict</find>
-      <find>createa</find>
-      <find>ToonData</find>
-      <find>setHeadColor</find>
-      <find>createAd</find>
-      <find>createToonWithData</find>
-      <find>DogMuzzleDict</find>
-      <find>self.headColor</find>
       <find>setRandomHeadColor</find>
       <find>setData</find>
       <find>print</find>
@@ -163,6 +160,19 @@
       <find>self.openBook</find>
       <find>base.currentZone</find>
       <find>initialize</find>
+      <find>camera</find>
+      <find>getHeight</find>
+      <find>height</find>
+      <find>getLookAtPoint</find>
+      <find>self.taskName</find>
+      <find>po</find>
+      <find>self.cameraPositions</find>
+      <find>setupCameraPositions</find>
+      <find>initCameraPositions</find>
+      <find>self.nametag</find>
+      <find>setHeight</find>
+      <find>i</find>
+      <find>initializeBodyCollisions</find>
     </findStrings>
     <replaceStrings>
       <replace>self</replace>
@@ -216,11 +226,11 @@
         <option value="$PROJECT_DIR$/TestingFile.py" />
         <option value="$PROJECT_DIR$/hood/places/estate/Estate.py" />
         <option value="$PROJECT_DIR$/StartMenu.py" />
-        <option value="$PROJECT_DIR$/gui/ShtikerBook.py" />
         <option value="$PROJECT_DIR$/makeatoon/BodyShop.py" />
         <option value="$PROJECT_DIR$/Globals.py" />
-        <option value="$PROJECT_DIR$/Messenger.py" />
         <option value="$PROJECT_DIR$/toon/Toon.py" />
+        <option value="$PROJECT_DIR$/Messenger.py" />
+        <option value="$PROJECT_DIR$/gui/ShtikerBook.py" />
       </list>
     </option>
   </component>
@@ -248,6 +258,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,8 +274,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -656,30 +666,46 @@
       <option name="project" value="LOCAL" />
       <updated>1487860145379</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Nametag">
+      <created>1487946491855</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1487946491855</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
+  </component>
+  <component name="TodoView" selected-index="4">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="1592" y="-8" width="1616" height="916" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32961586" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39900866" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283767" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39900866" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -703,7 +729,9 @@
     <MESSAGE value="Updated houses to have doors and floormats, 1 house type only" />
     <MESSAGE value="Friends added" />
     <MESSAGE value="Estate houses load properly (colors, nameplates, etc.)&#10;Stable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Estate houses load properly (colors, nameplates, etc.)&#10;Stable" />
+    <MESSAGE value="Nametag" />
+    <MESSAGE value="Various updates." />
+    <option name="LAST_COMMIT_MESSAGE" value="Various updates." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -896,14 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gui/Clickable2d.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -943,9 +963,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="395" column="0" lean-forward="true" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1004,7 +1021,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/StartMenu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="612">
           <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
@@ -1012,7 +1029,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Start.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="289">
           <caret line="17" column="44" lean-forward="false" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="77" />
           <folding />
         </state>
@@ -1022,7 +1039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
           <caret line="87" column="42" lean-forward="true" selection-start-line="87" selection-start-column="42" selection-end-line="87" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1030,15 +1046,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="140" column="36" lean-forward="false" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,33 +1053,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2812">
           <caret line="213" column="0" lean-forward="true" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Globals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
+        <state relative-caret-position="4114">
           <caret line="242" column="13" lean-forward="true" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Messenger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+        <state relative-caret-position="425">
+          <caret line="36" column="72" lean-forward="false" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <marker date="1487946394327" expanded="true" signature="4135:4250" ph="..." />
+            <marker date="1488468826637" expanded="true" signature="4469:4584" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/toon/Toon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="1053" column="21" lean-forward="true" selection-start-line="1053" selection-start-column="21" selection-end-line="1053" selection-end-column="21" />
+        <state relative-caret-position="16422">
+          <caret line="1391" column="13" lean-forward="true" selection-start-line="1391" selection-start-column="13" selection-end-line="1391" selection-end-column="13" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#842#2216#0" expanded="false" />
@@ -1091,6 +1105,14 @@
             <element signature="e#25771#26109#0" expanded="false" />
             <element signature="e#26128#26370#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="150" column="45" lean-forward="false" selection-start-line="150" selection-start-column="45" selection-end-line="150" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -139,6 +139,7 @@ class ShtikerBook(DirectFrame):
         else:
             self.safeZoneButton.hide()
             self.goHomeButton.show()
+        messenger.send('hideFriendsListButton')
 
     def finishOpenBook(self):
         self.track.finish()
@@ -147,6 +148,7 @@ class ShtikerBook(DirectFrame):
         self.track = Sequence(Func(base.toon.enterCloseBook), Wait(2), Func(base.toon.exitCloseBook), Wait(0),
                               Func(self.finishCloseBook))
         self.track.start()
+        messenger.send('showFriendsListButton')
         base.playSfx(self.closeSound)
         base.render.show()
         base.setBackgroundColor(Globals.defaultBackgroundColor)

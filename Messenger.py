@@ -33,6 +33,8 @@ class Messenger(DirectObject.DirectObject):
         self.accept('enableGui', self.enableGui)
         self.accept('disableGui', self.disableGui)
         self.accept('backToPlayground', self.backToPlayground)
+        self.accept('showFriendsListButton', self.showFriendsListButton)
+        self.accept('hideFriendsListButton', self.hideFriendsListButton)
 
     @staticmethod
     def exit():
@@ -71,6 +73,7 @@ class Messenger(DirectObject.DirectObject):
     def enterGame(self):
         base.camera.reparentTo(self.toon)
         self.toon.reparentTo(render)
+        self.toon.initializeBodyCollisions()
         self.toon.initializeDropShadow()
         self.toon.initializeNametag3d()
         self.toon.setActiveShadow(1)
@@ -79,7 +82,7 @@ class Messenger(DirectObject.DirectObject):
         geom = self.toon.getGeomNode()
         geom.getChild(0).setSx(0.730000019073)
         geom.getChild(0).setSz(0.730000019073)
-        self.toon.setupCameraPositions()
+        self.toon.initializeSmartCamera()
         self.toon.setupControls()
         self.shtikerBook = ShtikerBook()
         self.laffMeter = self.toon.setupLaffMeter()
@@ -100,6 +103,12 @@ class Messenger(DirectObject.DirectObject):
 
     def loadEstate(self):
         self.estate = Estate().load()
+
+    def hideFriendsListButton(self):
+        self.bFriendsList.hide()
+
+    def showFriendsListButton(self):
+        self.bFriendsList.show()
 
     def openFriendsList(self):
         self.friendsList = FriendsList.showFriendsList()
