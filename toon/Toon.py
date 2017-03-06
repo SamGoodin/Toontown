@@ -534,7 +534,8 @@ class Toon(Actor, ShadowCaster):
                                            State('openBook', self.enterBook, self.exitBook, ['readBook', 'closeBook']),
                                            State('readBook', self.enterReadBook, self.exitReadBook),
                                            State('closeBook', self.enterCloseBook, self.exitCloseBook),
-                                           State('teleportOut', self.enterTeleportOut, self.exitTeleportOut)],
+                                           State('teleportOut', self.enterTeleportOut, self.exitTeleportOut),
+                                           State('TeleportIn', self.enterTeleportIn, self.exitTeleportIn)],
                                   'off', 'off')
         animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
@@ -572,6 +573,59 @@ class Toon(Actor, ShadowCaster):
 
     def exitNeutral(self):
         self.stop()
+
+    def getTeleportInTrack(self):
+        hole = self.getHoleActors()[0]
+        hole.setBin('shadow', 0)
+        hole.setDepthTest(0)
+        hole.setDepthWrite(0)
+        holeTrack = Sequence()
+        holeTrack.append(Func(hole.reparentTo, self))
+        pos = Point3(0, -2.4, 0)
+        holeTrack.append(Func(hole.setPos, self, pos))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.4, endTime=3.1))
+        holeTrack.append(Wait(0.6))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.1, endTime=3.4))
+
+        def restoreHole(hole):
+            hole.setPos(0, 0, 0)
+            hole.detachNode()
+            hole.clearBin()
+            hole.clearDepthTest()
+            hole.clearDepthWrite()
+
+        holeTrack.append(Func(restoreHole, hole))
+        toonTrack = Sequence(Wait(0.3), Func(self.getGeomNode().show), Func(self.nametag3d.show),
+                             ActorInterval(self, 'jump', startTime=0.45))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('teleportIn')
+        else:
+            trackName = 'teleportIn'
+        return Parallel(holeTrack, toonTrack, name=trackName)
+
+    def enterTeleportIn(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        self.show()
+        self.playingAnim = 'teleport'
+        self.pose('teleport', self.getNumFrames('teleport') - 1)
+        self.getGeomNode().hide()
+        self.nametag3d.hide()
+        self.track = self.getTeleportInTrack()
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitTeleportIn(self):
+        self.playingAnim = None
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            self.track = None
+        if not self.ghostMode and not self.isDisguised:
+            self.getGeomNode().show()
+            self.nametag3d.show()
+        return
 
     def getHoleActors(self):
         if self.__holeActors:
@@ -1045,13 +1099,12 @@ class Toon(Actor, ShadowCaster):
             cJoint.clearNetTransforms()
             cJoint.addNetTransform(nametagNode)
         self.nametag.setText(self.getName())
-        nametag3d = self.nametag.getNametag3d()
-        nametag3d.showNametag()
-        nametag3d.showChat()
-        nametag3d.showThought()
-        nametag3d.update()
-
-
+        nametagNode.showNametag()
+        nametagNode.showChat()
+        nametagNode.showThought()
+        nametagNode.update()
+        self.nametag3d.setBin('fixed', 0)
+        self.nametag.updateAll()
 
     def getNametagJoints(self):
         joints = []
@@ -1372,8 +1425,8 @@ class Toon(Actor, ShadowCaster):
         if self.battleTube:
             self.battleTube.setPointB(0, 0, height - self.getRadius())
 
-    def adjustNametag3d(self, parentScale=1.0):
-        self.nametag3d.setPos(0, 0, self.height + 0.5)
+    def adjustNametag3d(self):
+        self.nametag3d.setPos(0, 0, self.height + 1.5)
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
@@ -2044,7 +2097,7 @@ class Toon(Actor, ShadowCaster):
                 try:
                     self.camCollisionQueue.sortEntries()
                     self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
-                except AssertionError:  # FIXME: Hacky.
+                except AssertionError:
                     pass
             if not self.__onLevelGround:
                 self.handleCameraFloorInteraction()

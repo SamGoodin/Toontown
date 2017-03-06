@@ -1,5 +1,5 @@
 import sys
-
+from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from panda3d.core import Vec4
@@ -64,11 +64,22 @@ class Messenger(DirectObject.DirectObject):
         self.MAT.unload()
         base.marginManager.clearMargins()
         del self.MAT
-        self.enterGame()
+        self.enterGameTrack()
 
     def enterGameFromStart(self):
         self.toon = base.toon.getToon()
-        self.enterGame()
+        self.enterGameTrack()
+
+    def enterGameTrack(self):
+        self.track = Sequence(Func(self.enterGame), Func(self.teleportInSequence))
+        self.track.start()
+        self.track.setAutoFinish(True)
+
+    def teleportInSequence(self):
+        self.teleportInTrack = Sequence(Func(self.toon.enterTeleportIn), Wait(2), Func(self.toon.exitTeleportIn),
+                 Func(self.toon.enterNeutral))
+        self.teleportInTrack.start()
+        self.teleportInTrack.setAutoFinish(True)
 
     def enterGame(self):
         base.camera.reparentTo(self.toon)
@@ -77,6 +88,7 @@ class Messenger(DirectObject.DirectObject):
         self.toon.initializeDropShadow()
         self.toon.initializeNametag3d()
         self.toon.setActiveShadow(1)
+        self.toon.rescaleToon()
         ttc = TTC(self.toon)
         self.ttc = ttc.load(0)
         geom = self.toon.getGeomNode()

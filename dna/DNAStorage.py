@@ -258,7 +258,7 @@ class DNAStorage:
             return self.textures[name]
 
     def discoverContinuity(self):
-        return 1  # TODO
+        return 1
 
     def resetBlockNumbers(self):
         self.blockNumbers = []

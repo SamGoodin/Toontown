@@ -19,6 +19,13 @@ NAME_POSITIONS = ((0, 0, 0.16),
  (0, 0, 0.26),
  (0, 0, 0.26))
 
+DELETE_POSITIONS = ((0.187, 0, -0.26),
+ (0.31, 0, -0.167),
+ (0.231, 0, -0.241),
+ (0.314, 0, -0.186),
+ (0.243, 0, -0.233),
+ (0.28, 0, -0.207))
+
 ButtonNames = (
     "red", "green", "purple", "blue", "pink", "yellow"
 )
@@ -38,7 +45,6 @@ class StartMenu:
         self.pickAToonBG.setBin('background', 1)
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
-
 
     def enterMakeAToon(self, *args):
         buttonName = ""
@@ -206,6 +212,17 @@ class AvatarChoice:
                         head.getGeomNode().setDepthTest(1)
                         head.reparentTo(self.head)
                         head.flattenLight()
+                        trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
+                        self.deleteButton = DirectButton(parent=button, image=(
+                        trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'),
+                        trashcanGui.find('**/TrashCan_RLVR')), text=(
+                        '', 'Delete', 'Delete'), text_fg=(1, 1, 1, 1),
+                                                         text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(0, -0.1),
+                                                         text_font=Globals.getInterfaceFont(), relief=None,
+                                                         pos=DELETE_POSITIONS[num], scale=0.45,
+                                                         command=self.deleteToon)
+                        self.deleteButton.flattenMedium()
+                        trashcanGui.removeNode()
                         button.setName(ButtonNames[num] + "-filled")
                         nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
                                                    hpr=(0, 0, 0), text_fg=(1, 1, 1, 1), text_wordwrap=8,
@@ -215,6 +232,11 @@ class AvatarChoice:
             self.buttonList.append(button)
             del button
             num += 1
+
+    def deleteToon(self):
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            # TODO: Delete Toon button
 
     def destroy(self):
         for button in self.buttonList:
