@@ -236,7 +236,9 @@ class AvatarChoice:
     def deleteToon(self):
         with open('data/ToonData.json') as jsonFile:
             data = json.load(jsonFile)
-            # TODO: Delete Toon button
+
+            #TODO: Delete Toon button
+            #dict.pop() returns and removes key if in dict
 
     def destroy(self):
         for button in self.buttonList:

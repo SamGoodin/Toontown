@@ -1061,7 +1061,7 @@ class Toon(Actor, ShadowCaster):
                     'shirt': self.shirtChoice,
                     'shorts': self.shortsChoice
                 })
-                print self.species, self.headStyle, self.bodyType, self.legsType, self.headColor, self.torsoColor, self.legColor, self.shirtChoice, self.shortsChoice
+                #print self.species, self.headStyle, self.bodyType, self.legsType, self.headColor, self.torsoColor, self.legColor, self.shirtChoice, self.shortsChoice
             elif headStyle:
                 toonData[color].update(data[color])
             else:
