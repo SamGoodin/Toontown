@@ -8,7 +8,6 @@ from direct.gui import DirectGuiGlobals
 from gui.MarginManager import MarginManager
 from gui.margins.MarginManager import MarginManager as OtherMarginManager
 from gui.nametag import NametagGlobals
-from gui.margins.MarginVisible import MarginVisible
 
 
 class MyApp(ShowBase):

@@ -28,116 +28,56 @@
     ]
   }, 
   "green": {
-    "head": "rss", 
-    "headColor": [
-      0.996094, 
-      0.957031, 
-      0.597656, 
-      1.0
-    ], 
-    "lastPlayground": "Toontown Central", 
-    "legColor": [
-      0.996094, 
-      0.957031, 
-      0.597656, 
-      1.0
-    ], 
-    "legs": "dgs", 
-    "name": "Chillin'", 
-    "shirt": 15, 
-    "shorts": 56, 
-    "species": "rabbit", 
-    "torso": "dgs", 
-    "torsoColor": [
-      0.996094, 
-      0.957031, 
-      0.597656, 
-      1.0
-    ]
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
   }, 
   "pink": {
-    "head": "bss", 
-    "headColor": [
-      0.546875, 
-      0.28125, 
-      0.75, 
-      1.0
-    ], 
-    "lastPlayground": "Toontown Central", 
-    "legColor": [
-      0.996094, 
-      0.898438, 
-      0.320312, 
-      1.0
-    ], 
-    "legs": "dgm", 
-    "name": "Picasso", 
-    "shirt": 15, 
-    "shorts": 5, 
-    "species": "bear", 
-    "torso": "dgm", 
-    "torsoColor": [
-      0.832031, 
-      0.5, 
-      0.296875, 
-      1.0
-    ]
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
   }, 
   "purple": {
-    "head": "dss", 
-    "headColor": [
-      0.3, 
-      0.3, 
-      0.35, 
-      1.0
-    ], 
-    "lastPlayground": "Toontown Central", 
-    "legColor": [
-      0.3, 
-      0.3, 
-      0.35, 
-      1.0
-    ], 
-    "legs": "dgs", 
-    "name": "Hmm", 
-    "shirt": 12, 
-    "shorts": 5, 
-    "species": "duck", 
-    "torso": "dgm", 
-    "torsoColor": [
-      0.3, 
-      0.3, 
-      0.35, 
-      1.0
-    ]
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
   }, 
   "red": {
-    "head": "dss", 
-    "headColor": [
-      0.640625, 
-      0.355469, 
-      0.269531, 
-      1.0
-    ], 
-    "lastPlayground": "Toontown Central", 
-    "legColor": [
-      0.996094, 
-      0.695312, 
-      0.511719, 
-      1.0
-    ], 
-    "legs": "dgl", 
-    "name": "Summer", 
-    "shirt": 63, 
-    "shorts": 7, 
-    "species": "rabbit", 
-    "torso": "dgl", 
-    "torsoColor": [
-      0.996094, 
-      0.695312, 
-      0.511719, 
-      1.0
-    ]
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
   }, 
   "yellow": {
     "head": null, 

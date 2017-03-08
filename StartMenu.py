@@ -3,7 +3,7 @@ from direct.gui.DirectGui import *
 import Globals
 import os.path
 import json
-from direct.actor.Actor import Actor
+from direct.showbase import DirectObject
 
 POSITIONS = (Vec3(-0.860167, 0, 0.359333),
  Vec3(0, 0, 0.346533),
@@ -31,11 +31,12 @@ ButtonNames = (
 )
 
 
-class StartMenu:
+class StartMenu(DirectObject.DirectObject):
 
     def __init__(self):
         from toon import Toon
         self.toon = Toon.Toon()
+        self.accept('updateStartMenu', self.update)
 
     def enter(self):
         base.disableMouse()
@@ -87,6 +88,10 @@ class StartMenu:
         self.pickAToonBG.reparentTo(hidden)
         base.setBackgroundColor(0.3, 0.3, 0.3, 1)
         self.unloadStartMenu()
+
+    def update(self):
+        self.exit()
+        self.loadStartMenu()
 
     def loadStartMenu(self):
         buttonsFilled = []
@@ -213,15 +218,15 @@ class AvatarChoice:
                         head.reparentTo(self.head)
                         head.flattenLight()
                         trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
-                        self.deleteButton = DirectButton(parent=button, image=(
+                        deleteButton = DirectButton(parent=button, image=(
                         trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'),
                         trashcanGui.find('**/TrashCan_RLVR')), text=(
                         '', 'Delete', 'Delete'), text_fg=(1, 1, 1, 1),
                                                          text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(0, -0.1),
                                                          text_font=Globals.getInterfaceFont(), relief=None,
                                                          pos=DELETE_POSITIONS[num], scale=0.45,
-                                                         command=self.deleteToon)
-                        self.deleteButton.flattenMedium()
+                                                         command=self.deleteToon, extraArgs=ButtonNames[num])
+                        deleteButton.flattenMedium()
                         trashcanGui.removeNode()
                         button.setName(ButtonNames[num] + "-filled")
                         nameText = DirectLabel(parent=button, relief=None, scale=0.08, pos=NAME_POSITIONS[num], text=name,
@@ -233,12 +238,48 @@ class AvatarChoice:
             del button
             num += 1
 
-    def deleteToon(self):
+    def deleteToon(self, *args):
+        buttonPressed = ""
+        for arg in args:
+            buttonPressed += arg
         with open('data/ToonData.json') as jsonFile:
             data = json.load(jsonFile)
-
-            #TODO: Delete Toon button
-            #dict.pop() returns and removes key if in dict
+        toonData = {}
+        for color in ButtonNames:
+            toonData[color] = {}
+            if buttonPressed == color:
+                toonData[color].update({
+                    'species': None,
+                    'head': None,
+                    'torso': None,
+                    'legs': None,
+                    'headColor': None,
+                    'torsoColor': None,
+                    'legColor': None,
+                    'name': None,
+                    'lastPlayground': None,
+                    'shirt': None,
+                    'shorts': None
+                })
+            elif data[color].get('head'):
+                toonData[color].update(data[color])
+            else:
+                toonData[color].update({
+                    'species': None,
+                    'head': None,
+                    'torso': None,
+                    'legs': None,
+                    'headColor': None,
+                    'torsoColor': None,
+                    'legColor': None,
+                    'name': None,
+                    'lastPlayground': None,
+                    'shirt': None,
+                    'shorts': None
+                })
+        with open('data/ToonData.json', 'w') as f:
+            json.dump(toonData, f, sort_keys=True, indent=2)
+        messenger.send('updateStartMenu')
 
     def destroy(self):
         for button in self.buttonList:

@@ -1041,7 +1041,6 @@ class Toon(Actor, ShadowCaster):
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
         buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
-        tile = base.buttonPressed
         toonData = {}
         for color in buttonColors:
             toonData[color] = {}
@@ -1061,7 +1060,6 @@ class Toon(Actor, ShadowCaster):
                     'shirt': self.shirtChoice,
                     'shorts': self.shortsChoice
                 })
-                #print self.species, self.headStyle, self.bodyType, self.legsType, self.headColor, self.torsoColor, self.legColor, self.shirtChoice, self.shortsChoice
             elif headStyle:
                 toonData[color].update(data[color])
             else:
