@@ -167,6 +167,54 @@ OutdoorZone = 6000
 FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
+BossbotHQ = 10000
+SellbotHQ = 11000
+CashbotHQ = 12000
+LawbotHQ = 13000
+GolfZone = 17000
+EstateZone = "Estate"
+TTCZone = "Toontown Central"
+DDZone = "Donald's Dock"
+DDLZone = "Donald's Dreamland"
+MMZone = "Minnie's Melodyland"
+BRZone = "Brrrgh"
+DGZone = "Daisy Gardens"
+GSZone = "Goofy Speedway"
+BBHQ = "Bossbot HQ"
+CBHQ = "Cashbot HQ"
+LBHQ = "Lawbot HQ"
+SBHQ = "Sellbot HQ"
+OZZone = "Outdoor Zone"
+StreetZone = "-street"
+hoodId2Name = {
+        DonaldsDock: 'dd',
+        ToontownCentral: 'tt',
+        TheBrrrgh: 'br',
+        MinniesMelodyland: 'mm',
+        DaisyGardens: 'dg',
+        OutdoorZone: 'oz',
+        GoofySpeedway: 'gs',
+        DonaldsDreamland: 'dl',
+        BossbotHQ: 'bosshq',
+        SellbotHQ: 'sellhq',
+        CashbotHQ: 'cashhq',
+        LawbotHQ: 'lawhq',
+        GolfZone: 'gz'
+    }
+HoodsForTeleportAll = (DDZone,
+                       TTCZone,
+                       BRZone,
+                       MMZone,
+                       DGZone,
+                       OutdoorZone,
+                       GSZone,
+                       DDLZone,
+                       BossbotHQ,
+                       SellbotHQ,
+                       CashbotHQ,
+                       LawbotHQ,
+                       GolfZone
+                       )
 InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  1: '',
  2: '',
@@ -213,16 +261,6 @@ def setDefaultDialogGeom(string):
 def getDefaultDialogGeom():
     global defaultDialogGeom
     return defaultDialogGeom
-
-EstateZone = "Estate"
-TTCZone = "Toontown Central"
-DDZone = "Donald's Dock"
-DDLZone = "Donald's Dreamland"
-MMZone = "Minnie's Melodyland"
-BRZone = "Brrrgh"
-DGZone = "Daisy Gardens"
-GSZone = "Goofy Speedway"
-StreetZone = "-street"
 
 BuildingNametagShadow = None
 

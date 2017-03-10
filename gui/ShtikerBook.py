@@ -1,6 +1,7 @@
 from direct.gui.DirectGui import *
 import Globals
 from direct.interval.IntervalGlobal import *
+from panda3d.core import Vec4
 
 class ShtikerBook(DirectFrame):
 
@@ -109,6 +110,41 @@ class ShtikerBook(DirectFrame):
             text_scale=.06,
             text_pos=(0, 0),
             text_wordwrap=14)
+        cloudModel = loader.loadModel('phase_3.5/models/gui/cloud')
+        cloudImage = cloudModel.find('**/cloud')
+        for hood in Globals.HoodsForTeleportAll:
+            fullname = hood
+            hoodIndex = Globals.HoodsForTeleportAll.index(hood)
+            label = DirectButton(
+                parent=self.map,
+                relief=None,
+                pos=self.labelPosList[hoodIndex],
+                pad=(0.2, 0.16),
+                text=('', fullname, fullname),
+                text_bg=Vec4(1, 1, 1, 0.4),
+                text_scale=0.055,
+                text_wordwrap=8,
+                rolloverSound=None,
+                clickSound=None,
+                pressEffect=0,
+                sortOrder=1)
+            label.resetFrameSize()
+            self.labels.append(label)
+            hoodClouds = []
+            for cloudScale, cloudPos in zip(self.cloudScaleList[hoodIndex], self.cloudPosList[hoodIndex]):
+                cloud = DirectFrame(
+                    parent=self.map,
+                    relief=None,
+                    state=DGG.DISABLED,
+                    image=cloudImage,
+                    scale=(cloudScale[0], cloudScale[1], cloudScale[2]),
+                    pos=(cloudPos[0], cloudPos[1], cloudPos[2]))
+                cloud.hide()
+                hoodClouds.append(cloud)
+
+            self.clouds.append(hoodClouds)
+
+        self.resetFrameSize()
         self.hoodLabel.hide()
         self.map.resetFrameSize()
         self.map.hide()

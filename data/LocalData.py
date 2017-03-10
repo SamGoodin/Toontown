@@ -79,10 +79,6 @@ class LocalData(DirectObject):
             self.allUserToonNames = []
         for name in names:
             self.allUserToonNames.append(name)
-        print self.allUserToonNames
-
-    def getAllUserToonNames(self):
-        return self.allUserToonNames
 
     def deleteToon(self, buttonPressed):
         with open('data/ToonData.json') as jsonFile:
