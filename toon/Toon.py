@@ -1032,52 +1032,17 @@ class Toon(Actor, ShadowCaster):
         return head
 
     def setData(self):
-        import json, os
-        data = None
-        headStyle = None
-        dataExists = False
-        if os.path.isfile("data/ToonData.json"):
-            dataExists = True
-            with open('data/ToonData.json') as jsonFile:
-                data = json.load(jsonFile)
-        buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
-        toonData = {}
-        for color in buttonColors:
-            toonData[color] = {}
-            if dataExists:
-                headStyle = data[color].get('head')
-            if base.buttonPressed == color:
-                toonData[color].update({
-                    'species': self.species,
-                    'head': self.headStyle,
-                    'torso': self.bodyType,
-                    'legs': self.legsType,
-                    'headColor': self.headColor,
-                    'torsoColor': self.torsoColor,
-                    'legColor': self.legColor,
-                    'name': self.getName(),
-                    'lastPlayground': Globals.TTCZone,
-                    'shirt': self.shirtChoice,
-                    'shorts': self.shortsChoice
-                })
-            elif headStyle:
-                toonData[color].update(data[color])
-            else:
-                toonData[color].update({
-                    'species': None,
-                    'head': None,
-                    'torso': None,
-                    'legs': None,
-                    'headColor': None,
-                    'torsoColor': None,
-                    'legColor': None,
-                    'name': None,
-                    'lastPlayground': None,
-                    'shirt': None,
-                    'shorts': None
-                })
-        with open('data/ToonData.json', 'w') as f:
-            json.dump(toonData, f, sort_keys=True, indent=2)
+        messenger.send('setLocalData', [self.species, self.headStyle, self.bodyType, self.legsType, self.headColor,
+                                        self.torsoColor, self.legColor, self.getName(), self.shirtChoice,
+                                        self.shortsChoice])
+        import json
+        names = []
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            for button in Globals.buttonColors:
+                name = data[button].get('name')
+                names.append(name)
+            base.localData.updateAllUserToonNames(names)
 
     def createRandomBoy(self):
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])

@@ -1,6 +1,7 @@
 from panda3d.core import *
 loadPrcFile("config/Config.prc")
 
+from data.LocalData import LocalData
 from direct.showbase.ShowBase import ShowBase
 from StartMenu import StartMenu
 import Globals
@@ -14,6 +15,7 @@ class MyApp(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.localData = LocalData()
         Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
         Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
         Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))

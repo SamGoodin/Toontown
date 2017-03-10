@@ -41,30 +41,60 @@
     "torsoColor": null
   }, 
   "pink": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
+    "head": "rss", 
+    "headColor": [
+      0.242188, 
+      0.742188, 
+      0.515625, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.992188, 
+      0.480469, 
+      0.167969, 
+      1.0
+    ], 
+    "legs": "dgs", 
+    "name": "Weabb", 
+    "shirt": 47, 
+    "shorts": 37, 
+    "species": "rabbit", 
+    "torso": "dgm", 
+    "torsoColor": [
+      0.7, 
+      0.7, 
+      0.8, 
+      1.0
+    ]
   }, 
   "purple": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
+    "head": "dss", 
+    "headColor": [
+      0.550781, 
+      0.824219, 
+      0.324219, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.550781, 
+      0.824219, 
+      0.324219, 
+      1.0
+    ], 
+    "legs": "dgs", 
+    "name": "Meep", 
+    "shirt": 21, 
+    "shorts": 41, 
+    "species": "duck", 
+    "torso": "dgl", 
+    "torsoColor": [
+      0.570312, 
+      0.449219, 
+      0.164062, 
+      1.0
+    ]
   }, 
   "red": {
     "head": null, 
@@ -80,16 +110,31 @@
     "torsoColor": null
   }, 
   "yellow": {
-    "head": null, 
-    "headColor": null, 
-    "lastPlayground": null, 
-    "legColor": null, 
-    "legs": null, 
-    "name": null, 
-    "shirt": null, 
-    "shorts": null, 
-    "species": null, 
-    "torso": null, 
-    "torsoColor": null
+    "head": "pss", 
+    "headColor": [
+      0.550781, 
+      0.824219, 
+      0.324219, 
+      1.0
+    ], 
+    "lastPlayground": "Toontown Central", 
+    "legColor": [
+      0.898438, 
+      0.617188, 
+      0.90625, 
+      1.0
+    ], 
+    "legs": "dgm", 
+    "name": "Plateau", 
+    "shirt": 63, 
+    "shorts": 40, 
+    "species": "pig", 
+    "torso": "dgs", 
+    "torsoColor": [
+      0.996094, 
+      0.957031, 
+      0.597656, 
+      1.0
+    ]
   }
 }

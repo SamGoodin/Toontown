@@ -37,6 +37,7 @@ class StartMenu(DirectObject.DirectObject):
         from toon import Toon
         self.toon = Toon.Toon()
         self.accept('updateStartMenu', self.update)
+        self.accept('finalizeEnter', self.finializeEnter)
 
     def enter(self):
         base.disableMouse()
@@ -60,20 +61,11 @@ class StartMenu(DirectObject.DirectObject):
         buttonName = ""
         for arg in args:
             buttonName += arg
-        base.buttonPressed = buttonName
-        with open('data/ToonData.json') as jsonFile:
-            data = json.load(jsonFile)
-            headStyle = data[buttonName].get('head')
-            headColor = data[buttonName].get('headColor')
-            species = data[buttonName].get('species')
-            legs = data[buttonName].get('legs')
-            legColor = data[buttonName].get('legColor')
-            torso = data[buttonName].get('torso')
-            torsoColor = data[buttonName].get('torsoColor')
-            shirt = data[buttonName].get('shirt')
-            bottom = data[buttonName].get('shorts')
-            name = data[buttonName].get('name')
-        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name)
+        messenger.send('getData', [buttonName])
+
+    def finializeEnter(self, species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name):
+        self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom,
+                                     name)
         base.toon = self.toon
         messenger.send('enterGameFromStart')
 
@@ -94,22 +86,17 @@ class StartMenu(DirectObject.DirectObject):
         self.loadStartMenu()
 
     def loadStartMenu(self):
-        buttonsFilled = []
-        if os.path.isfile("data/ToonData.json"):
-            dataExists = True
-        else:
-            dataExists = False
-        if dataExists:
+        buttonsFilled= []
+        if base.localData.dataExists:
             with open('data/ToonData.json') as jsonFile:
                 data = json.load(jsonFile)
+                names = []
                 for button in ButtonNames:
-                    headStyle = data[button].get('head')
-                    if headStyle == None:
-                        pass
-                    else:
+                    if data[button].get('head'):
                         buttonsFilled.append(button)
                     name = data[button].get('name')
-                    Globals.allUserToonNames.append(name)
+                    names.append(name)
+                base.localData.updateAllUserToonNames(names)
         self.ac = AvatarChoice()
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui.flattenMedium()
@@ -140,7 +127,7 @@ class StartMenu(DirectObject.DirectObject):
         self.logoutButton.reparentTo(base.a2dBottomLeft)
         self.logoutButton.flattenMedium()
         self.logoutButton.hide()
-        if dataExists:
+        if base.localData.dataExists:
             self.ac.createButtons(buttonsFilled, self.toon)
         else:
             self.ac.createButtons()
@@ -190,8 +177,7 @@ class AvatarChoice:
                     value = True
                     with open('data/ToonData.json') as jsonFile:
                         data = json.load(jsonFile)
-                        headStyle = data[button.getName()].get('head')
-                        if headStyle != None:
+                        if data[button.getName()].get('head'):
                             toonExists = 1
                 else:
                     value = False
@@ -242,43 +228,7 @@ class AvatarChoice:
         buttonPressed = ""
         for arg in args:
             buttonPressed += arg
-        with open('data/ToonData.json') as jsonFile:
-            data = json.load(jsonFile)
-        toonData = {}
-        for color in ButtonNames:
-            toonData[color] = {}
-            if buttonPressed == color:
-                toonData[color].update({
-                    'species': None,
-                    'head': None,
-                    'torso': None,
-                    'legs': None,
-                    'headColor': None,
-                    'torsoColor': None,
-                    'legColor': None,
-                    'name': None,
-                    'lastPlayground': None,
-                    'shirt': None,
-                    'shorts': None
-                })
-            elif data[color].get('head'):
-                toonData[color].update(data[color])
-            else:
-                toonData[color].update({
-                    'species': None,
-                    'head': None,
-                    'torso': None,
-                    'legs': None,
-                    'headColor': None,
-                    'torsoColor': None,
-                    'legColor': None,
-                    'name': None,
-                    'lastPlayground': None,
-                    'shirt': None,
-                    'shorts': None
-                })
-        with open('data/ToonData.json', 'w') as f:
-            json.dump(toonData, f, sort_keys=True, indent=2)
+        messenger.send('deleteToon', [buttonPressed])
         messenger.send('updateStartMenu')
 
     def destroy(self):

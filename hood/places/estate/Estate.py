@@ -97,7 +97,7 @@ class Estate(DirectObject):
             houseModel = self.houseModels[0]
             self.house = houseModel.copyTo(self.houseNode[x])
             try:
-                self.name = Globals.allUserToonNames[x]
+                self.name = base.localData.allUserToonNames[x]
             except:
                 self.name = ''
             self.__setHouseColor()
@@ -119,7 +119,6 @@ class Estate(DirectObject):
         nameText.setWordwrap(16.0)
         xScale = 1.0
         numLines = 0
-        print self.name
         if self.name is None:
             return
         else:

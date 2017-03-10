@@ -204,6 +204,8 @@ RPdirectFrame = (1.75, 1, 0.75)
 RPskipScale = 0.5
 RPskipPos = (0, -.5)
 
+buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
+
 def setDefaultDialogGeom(string):
     global defaultDialogGeom
     defaultDialogGeom = string
