@@ -55,6 +55,22 @@ class LocalData(DirectObject):
         with open('data/ToonData.json', 'w') as f:
             json.dump(toonData, f, sort_keys=True, indent=2)
 
+    def updateLastPlayground(self):
+        with open('data/ToonData.json', 'r') as f:
+            data = json.load(f)
+
+        tmp = data[base.buttonPressed]['lastPlayground']
+        data[base.buttonPressed]['lastPlayground'] = base.lastPlayground
+
+        with open('data/ToonData.json', 'w') as f:
+            json.dump(data, f, sort_keys=True, indent=2)
+
+    def getLastPlayground(self):
+        with open('data/ToonData.json', 'r') as f:
+            data = json.load(f)
+
+        return data[base.buttonPressed]['lastPlayground']
+
     def getData(self, buttonName):
         base.buttonPressed = buttonName
         with open('data/ToonData.json') as jsonFile:

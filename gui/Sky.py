@@ -1,6 +1,8 @@
 from direct.task import Task
 from pandac.PandaModules import *
 
+notify = directNotify.newCategory('SkyUtil')
+
 
 class Sky:
 

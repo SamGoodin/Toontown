@@ -185,6 +185,7 @@ CBHQ = "Cashbot HQ"
 LBHQ = "Lawbot HQ"
 SBHQ = "Sellbot HQ"
 OZZone = "Outdoor Zone"
+GZone = "Golf Zone"
 StreetZone = "-street"
 hoodId2Name = {
         DonaldsDock: 'dd',
@@ -206,14 +207,14 @@ HoodsForTeleportAll = (DDZone,
                        BRZone,
                        MMZone,
                        DGZone,
-                       OutdoorZone,
+                       OZZone,
                        GSZone,
                        DDLZone,
-                       BossbotHQ,
-                       SellbotHQ,
-                       CashbotHQ,
-                       LawbotHQ,
-                       GolfZone
+                       BBHQ,
+                       SBHQ,
+                       CBHQ,
+                       LBHQ,
+                       GZone
                        )
 InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  1: '',
@@ -285,3 +286,6 @@ def setCameraBitmask(default, node_path, camera_bitmask, tag = None, tag_functio
 
 def renderReflection(default, node_path, tag = None, tag_function = None, context = None):
     setCameraBitmask(default, node_path, BitMask32.bit(1), tag, tag_function, context)
+
+SPRender = 2
+SPDonaldsBoat = 3

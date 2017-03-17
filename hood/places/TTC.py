@@ -1,39 +1,41 @@
 import random
-
 from direct.showbase.DirectObject import DirectObject
-
+from hood.places.Hood import Hood
 import Globals
 from dna.DNALoader import *
 from gui import Sky
 from gui.LoadingScreen import LoadingScreen
 
 SpawnPoints = [
-    (-60, -8, 1.3, -90, 0, 0),
-    (-66, -9, 1.3, -274, 0, 0),
-    (17, -28, 4.1, -44, 0, 0),
-    (87.7, -22, 4, 66, 0, 0),
-    (-9.6, 61.1, 0, 176.253, 0, 0),
-    (-109.0, -2.5, -1.656, -90, 0, 0),
-    (95.2458, -140.175, 2.5, -11.9715, 0, 0),
-    (25, 123.4, 2.55, 272, 0, 0),
-    (48, 39, 4, 201, 0, 0),
-    (-80, -61, 0.1, -265, 0, 0),
-    (-46.875, 43.68, -1.05, 124, 0, 0),
-    (34, -105, 2.55, 45, 0, 0),
-    (16, -75, 2.55, 56, 0, 0),
-    (-27, -56, 0.1, 45, 0, 0),
-    (-70, 4.6, -1.9, 90, 0, 0)
+    [-60, -8, 1.3, -90, 0, 0],
+    [-66, -9, 1.3, -274, 0, 0],
+    [17, -28, 4.1, -44, 0, 0],
+    [87.7, -22, 4, 66, 0, 0],
+    [-9.6, 61.1, 0, 132, 0, 0],
+    [-109.0, -2.5, -1.656, -90, 0, 0],
+    [-35.4, -81.3, 0.5, -4, 0, 0],
+    [-103, 72, 0, -141, 0, 0],
+    [93.5, -148.4, 2.5, 43, 0, 0],
+    [25, 123.4, 2.55, 272, 0, 0],
+    [48, 39, 4, 201, 0, 0],
+    [-80, -61, 0.1, -265, 0, 0],
+    [-46.875, 43.68, -1.05, 124, 0, 0],
+    [34, -105, 2.55, 45, 0, 0],
+    [16, -75, 2.55, 56, 0, 0],
+    [-27, -56, 0.1, 45, 0, 0],
+    [100, 27, 4.1, 150, 0, 0],
+    [-70, 4.6, -1.9, 90, 0, 0],
+    [-130.7, 50, 0.55, -111, 0, 0]
 ]
 
-class TTC(DirectObject):
+class TTC(DirectObject, Hood):
 
     def __init__(self, toon, startPosHpr=1):
         DirectObject.__init__(self)
-        self.ls = LoadingScreen()
-        self.accept('tick', self.tick)
+        Hood.__init__(self)
         self.accept('unloadZone', self.unload)
         self.toon = toon
-        self.music = None
+        self.musicFile = "phase_4/audio/bgm/TC_nbrhood.ogg"
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
@@ -41,37 +43,36 @@ class TTC(DirectObject):
         self.pgStorageFile = 'Resources/phase_4/dna/storage_TT.pdna'
         self.szStorageFile = 'Resources/phase_4/dna/storage_TT_sz.pdna'
         self.szDNAFile = 'Resources/phase_4/dna/toontown_central_sz.pdna'
-        base.cTrav = CollisionTraverser()
-        base.camera.hide()
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:
             spawn = startPosHpr
         self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
+        self.titleColor = (1.0, 0.5, 0.4, 1.0)
+        self.titleText = "Toontown Central"
 
-    def tick(self):
-        self.ls.tick()
-
-    def load(self, sky=1):
+    def load(self):
         self.ls.begin(100)
         self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
-        self.ttc = self.dna.returnGeom()
-        self.ttc.reparentTo(base.render)
-        self.ls.tick()
-        bank = self.ttc.find('**/*toon_landmark_TT_bank_DNARoot')
+        self.loadHood()
+        self.tick()
+        self.startSky()
+        self.tick()
+        self.startMusic(self.musicFile)
+        self.loadHoodSpecifics()
+        self.tick()
+        base.setCurrentZone(Globals.TTCZone)
+        self.enterHood()
+        self.ls.end()
+
+    def loadHoodSpecifics(self):
+        bank = self.playground.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
         doorTrigger.setY(doorTrigger.getY() - 1.5)
-        self.sky = Sky.Sky()
-        self.sky.setupSky(self.skyFile)
-        self.ls.tick()
-        self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
-        base.playMusic(self.music, looping=1)
         base.taskMgr.add(self.sillyStreet, 'sillyStreet')
         base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
         base.taskMgr.add(self.loopyLane, 'loopyLane')
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
-        base.setCurrentZone(Globals.TTCZone)
-        self.ls.end()
 
     def unload(self):
         base.taskMgr.remove('sillyStreet')
@@ -79,16 +80,8 @@ class TTC(DirectObject):
         base.taskMgr.remove('loopyLane')
         base.taskMgr.remove('goofySpeedway')
         self.ignoreAll()
-        self.music.stop()
-        del self.music
-        self.sky.unload()
-        del self.sky
-        self.ttc.removeNode()
-        del self.ttc
         self.dna.unload()
         del self.dna
-        self.ls.destroy()
-        del self.ls
         self.ignore('unloadZone')
 
     def goofySpeedway(self, task):

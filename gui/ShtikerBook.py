@@ -127,7 +127,9 @@ class ShtikerBook(DirectFrame):
                 rolloverSound=None,
                 clickSound=None,
                 pressEffect=0,
-                sortOrder=1)
+                sortOrder=1,
+                command=self.teleportToZone,
+                extraArgs=fullname)
             label.resetFrameSize()
             self.labels.append(label)
             hoodClouds = []
@@ -151,6 +153,27 @@ class ShtikerBook(DirectFrame):
         self.safeZoneButton.hide()
         self.hide()
         self.estate = None
+
+    def teleportToZone(self, *args):
+        self.zone = ""
+        for arg in args:
+            self.zone += arg
+        track = Sequence(Func(self.closeBook), Wait(2), Func(base.toon.enterTeleportOut), Wait(4),
+                         Func(self.loadNewZone))
+        track.start()
+
+    def loadNewZone(self):
+        self.unloadCurrentPlayground()
+        def ttc():
+            messenger.send('loadTTC')
+
+        def dock():
+            messenger.send('loadDock')
+
+        options = {Globals.TTCZone: ttc,
+                   Globals.DDZone: dock}
+        options[self.zone]()
+        messenger.send('teleportIn')
 
     def startOpenBook(self):
         self.track = Sequence(Func(base.toon.enterBook), Wait(.6), Func(self.openBook), Func(base.toon.enterReadBook),

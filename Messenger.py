@@ -8,6 +8,7 @@ from gui.ShtikerBook import ShtikerBook
 from StartMenu import StartMenu
 from hood.places.estate.Estate import Estate
 from hood.places.TTC import TTC
+from hood.places.DDock import DDock
 from makeatoon import MakeAToon
 from gui import FriendsList
 
@@ -20,7 +21,7 @@ class Messenger(DirectObject.DirectObject):
         self.startMenu = None
         self.toon = None
         self.toonName = None
-        self.ttc = None
+        self.playground = None
         self.accept('exit', self.exit)
         self.accept('enterMAT', self.enterMakeAToon)
         self.accept('StartMenu', self.enterStartMenu)
@@ -35,18 +36,33 @@ class Messenger(DirectObject.DirectObject):
         self.accept('backToPlayground', self.backToPlayground)
         self.accept('showFriendsListButton', self.showFriendsListButton)
         self.accept('hideFriendsListButton', self.hideFriendsListButton)
+        self.accept('teleportIn', self.teleportInSequence)
+        self.accept('loadTTC', self.loadTTC)
+        self.accept('loadDock', self.loadDock)
 
     @staticmethod
     def exit():
         sys.exit()
 
+    def loadTTC(self):
+        ttc = TTC(self.toon)
+        self.playground = ttc.load()
+        geom = self.toon.getGeomNode()
+        geom.getChild(0).setSx(0.730000019073)
+        geom.getChild(0).setSz(0.730000019073)
+
+    def loadDock(self):
+        dock = DDock(self.toon)
+        self.playground = dock.load()
+        geom = self.toon.getGeomNode()
+        geom.getChild(0).setSx(0.730000019073)
+        geom.getChild(0).setSz(0.730000019073)
+
     def backToPlayground(self):
         if base.lastPlayground == Globals.TTCZone:
-            ttc = TTC(self.toon)
-            self.ttc = ttc.load(0)
-            geom = self.toon.getGeomNode()
-            geom.getChild(0).setSx(0.730000019073)
-            geom.getChild(0).setSz(0.730000019073)
+            self.loadTTC()
+        elif base.lastPlayground == Globals.DDZone:
+            self.loadDock()
 
     def enterMakeAToon(self):
         self.MAT = MakeAToon.MakeAToon()
@@ -89,11 +105,8 @@ class Messenger(DirectObject.DirectObject):
         self.toon.initializeNametag3d()
         self.toon.setActiveShadow(1)
         self.toon.rescaleToon()
-        ttc = TTC(self.toon)
-        self.ttc = ttc.load(0)
-        geom = self.toon.getGeomNode()
-        geom.getChild(0).setSx(0.730000019073)
-        geom.getChild(0).setSz(0.730000019073)
+        base.lastPlayground = base.localData.getLastPlayground()
+        self.backToPlayground()
         self.toon.initializeSmartCamera()
         self.toon.setupControls()
         self.shtikerBook = ShtikerBook()
@@ -102,7 +115,7 @@ class Messenger(DirectObject.DirectObject):
         friendsButtonNormal = friendsGui.find('**/FriendsBox_Closed')
         friendsButtonPressed = friendsGui.find('**/FriendsBox_Rollover')
         friendsButtonRollover = friendsGui.find('**/FriendsBox_Rollover')
-        newScale = oldScale = 0.8
+        newScale = 0.8
         self.bFriendsList = DirectButton(image=(friendsButtonNormal, friendsButtonPressed, friendsButtonRollover),
                                          relief=None, pos=(-0.141, 0, -0.125), parent=base.a2dTopRight, scale=newScale,
                                          text=('', 'Friends', 'Friends'),
