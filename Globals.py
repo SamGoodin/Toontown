@@ -175,9 +175,9 @@ GolfZone = 17000
 EstateZone = "Estate"
 TTCZone = "Toontown Central"
 DDZone = "Donald's Dock"
-DDLZone = "Donald's Dreamland"
+DLZone = "Donald's Dreamland"
 MMZone = "Minnie's Melodyland"
-BRZone = "Brrrgh"
+BRZone = "The Brrrgh"
 DGZone = "Daisy Gardens"
 GSZone = "Goofy Speedway"
 BBHQ = "Bossbot HQ"
@@ -209,7 +209,7 @@ HoodsForTeleportAll = (DDZone,
                        DGZone,
                        OZZone,
                        GSZone,
-                       DDLZone,
+                       DLZone,
                        BBHQ,
                        SBHQ,
                        CBHQ,

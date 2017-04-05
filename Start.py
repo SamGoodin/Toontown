@@ -9,12 +9,15 @@ from direct.gui import DirectGuiGlobals
 from gui.MarginManager import MarginManager
 from gui.margins.MarginManager import MarginManager as OtherMarginManager
 from gui.nametag import NametagGlobals
+from panda3d.physics import PhysicsManager, ParticleSystemManager
 
 
 class MyApp(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.physicsMgr = PhysicsManager()
+        self.particleMgr = ParticleSystemManager()
         self.localData = LocalData()
         Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
         Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))

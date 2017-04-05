@@ -30,12 +30,12 @@ class Sky:
         if not skyTrackTask.cloud1.isEmpty() and not skyTrackTask.cloud2.isEmpty():
             taskMgr.add(skyTrackTask, 'skyTrack')
         else:
-            notify.warning("Couln't find clouds!")
+            notify.warning("Couldn't find clouds!")
 
     def cloudSkyTrack(self, task):
         task.h += globalClock.getDt() * 0.25
         if task.cloud1.isEmpty() or task.cloud2.isEmpty():
-            notify.warning("Couln't find clouds!")
+            notify.warning("Couldn't find clouds!")
             return Task.done
 
         task.cloud1.setH(task.h)

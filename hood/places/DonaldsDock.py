@@ -4,6 +4,7 @@ import Globals
 from dna.DNALoader import *
 from hood.places.Hood import Hood
 from gui.Boat import Boat
+from direct.task.Task import Task
 
 SpawnPoints = [
     [-28, -2.5, 5.8, 120, 0, 0],
@@ -42,6 +43,7 @@ class DDock(DirectObject, Hood):
         self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
         self.titleColor = (0.8, 0.6, 0.5, 1.0)
         self.titleText = "Donald's Dock"
+        self.fog = Fog('DDFog')
 
     def load(self):
         self.ls.begin(100)
@@ -58,6 +60,12 @@ class DDock(DirectObject, Hood):
         self.ls.end()
 
     def loadHoodSpecifics(self):
+        self.fog.setColor(self.whiteFogColor)
+        self.fog.setLinearRange(0, 400)
+        render.clearFog()
+        render.setFog(self.fog)
+        self.sky.sky.clearFog()
+        self.sky.sky.setFog(self.fog)
         self.seagullSound = base.loadSfx('phase_6/audio/sfx/SZ_DD_Seagull.ogg')
         self.underwaterSound = base.loadSfx('phase_4/audio/sfx/AV_ambient_water.ogg')
         self.swimSound = base.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.ogg')
@@ -81,8 +89,29 @@ class DDock(DirectObject, Hood):
         self.waterSound = base.loadSfx('phase_6/audio/sfx/SZ_DD_waterlap.ogg')
         self.boatClass = Boat(self.boat, self.playground)
         self.boatClass.generateBoat()
+        self.nextSeagullTime = 0
+        taskMgr.add(self.__seagulls, 'dd-seagulls')
+
+    def __seagulls(self, task):
+        if task.time < self.nextSeagullTime:
+            return Task.cont
+        base.playSfx(self.seagullSound)
+        self.nextSeagullTime = task.time + random.random() * 4.0 + 8.0
+        return Task.cont
 
     def unload(self):
+        taskMgr.remove('dd-seagulls')
+        render.clearFog()
+        self.sky.sky.clearFog()
+        del self.seagullSound
+        del self.underwaterSound
+        del self.swimSound
+        del self.dockSound
+        del self.foghornSound
+        del self.bellSound
+        del self.waterSound
+        del self.submergeSound
+        del self.boat
         self.ignoreAll()
         self.dna.unload()
         del self.dna

@@ -17,7 +17,9 @@ class Hood:
         self.skyFile = None
         self.playground = None
         self.dna = None
+        self.fog = None
         self.notify = DirectNotifyGlobal.directNotify.newCategory('HoodLoader')
+        self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
         self.playground = self.dna.returnGeom()

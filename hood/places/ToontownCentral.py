@@ -5,6 +5,7 @@ import Globals
 from dna.DNALoader import *
 from gui import Sky
 from gui.LoadingScreen import LoadingScreen
+from direct.task.Task import Task
 
 SpawnPoints = [
     [-60, -8, 1.3, -90, 0, 0],
@@ -73,12 +74,24 @@ class TTC(DirectObject, Hood):
         base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
         base.taskMgr.add(self.loopyLane, 'loopyLane')
         base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
+        self.birdSound = map(base.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
+                                            'phase_4/audio/sfx/SZ_TC_bird2.ogg',
+                                            'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
+        taskMgr.doMethodLater(1, self.__birds, 'TT-birds')
+
+    def __birds(self, task):
+        base.playSfx(random.choice(self.birdSound))
+        time = random.random() * 20.0 + 1
+        taskMgr.doMethodLater(time, self.__birds, 'TT-birds')
+        return Task.done
 
     def unload(self):
         base.taskMgr.remove('sillyStreet')
         base.taskMgr.remove('punchlinePlace')
         base.taskMgr.remove('loopyLane')
         base.taskMgr.remove('goofySpeedway')
+        taskMgr.remove('TT-birds')
+        del self.birdSound
         self.ignoreAll()
         self.dna.unload()
         del self.dna
@@ -295,78 +308,6 @@ class LoopyLane(DirectObject):
         if self.toon.getX() <= -69 and self.toon.getX() >= -70.1:
             if self.toon.getY() <= 103 and self.toon.getY() >= 87:
                 TTC(self.toon, (-145.759, 4.73623, 0.527567, -86.817, 0, 0)).load()
-                self.unload()
-                return task.done
-        return task.cont
-
-class GoofySpeedway(DirectObject):
-
-    def __init__(self, toon):
-        DirectObject.__init__(self)
-        self.ls = LoadingScreen()
-        self.toon = toon
-        self.musicFile = "phase_6/audio/bgm/GS_SZ.ogg"
-        self.music = None
-        self.sky = None
-        self.skyFile = "phase_3.5/models/props/TT_sky"
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_6/dna/storage_GS.pdna'
-        self.szStorageFile = 'Resources/phase_6/dna/storage_GS_sz.pdna'
-        self.szDNAFile = 'Resources/phase_6/dna/goofy_speedway_sz.pdna'
-        self.accept('unloadZone', self.unload)
-
-    def tick(self):
-        self.ls.tick()
-
-    def load(self):
-        self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
-        self.street = self.dna.returnGeom()
-        self.street.reparentTo(render)
-        self.ls.tick()
-        self.sky = Sky.Sky()
-        self.sky.setupSky(self.skyFile)
-        self.ls.tick()
-        self.music = loader.loadMusic(self.musicFile)
-        base.playMusic(self.music, looping=1)
-        self.ls.tick()
-        base.taskMgr.add(self.ttc, 'ttcTunnel')
-        blimp = self.street.find('**/GS_blimp')
-        blimp.setPos(-70, 250, -70)
-        blimpBase = NodePath('blimpBase')
-        blimpBase.setPos(0, -200, 25)
-        blimpBase.setH(-40)
-        blimp.reparentTo(blimpBase)
-        blimpRoot = NodePath('blimpRoot')
-        blimpRoot.setPos(0, -70, 40)
-        blimpRoot.reparentTo(self.street)
-        blimpBase.reparentTo(blimpRoot)
-        self.rotateBlimp = blimpRoot.hprInterval(360, Vec3(360, 0, 0))
-        self.rotateBlimp.loop()
-        base.setCurrentZone(Globals.TTCZone + "-" + Globals.GSZone)
-        self.ls.end()
-
-    def unload(self):
-        base.taskMgr.remove('ttcTunnel')
-        self.ignoreAll()
-        self.music.stop()
-        del self.music
-        self.sky.unload()
-        del self.sky
-        self.street.removeNode()
-        del self.street
-        self.rotateBlimp.finish()
-        del self.rotateBlimp
-        self.dna.unload()
-        del self.dna
-        self.ls.destroy()
-        del self.ls
-        self.ignore('unloadZone')
-
-    def ttc(self, task):
-        if self.toon.getX() <= 8.3 and self.toon.getX() >= -8.3:
-            if self.toon.getY() <= 83.5 and self.toon.getY() >= 83.2:
-                TTC(self.toon, (31.0937, 153.423, 3.02421, -149.957, 0, 0)).load()
                 self.unload()
                 return task.done
         return task.cont

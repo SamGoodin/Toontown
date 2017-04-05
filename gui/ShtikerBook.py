@@ -164,14 +164,35 @@ class ShtikerBook(DirectFrame):
 
     def loadNewZone(self):
         self.unloadCurrentPlayground()
+
         def ttc():
             messenger.send('loadTTC')
 
         def dock():
             messenger.send('loadDock')
 
+        def garden():
+            messenger.send('loadGardens')
+
+        def melody():
+            messenger.send('loadMelody')
+
+        def brrrgh():
+            messenger.send('loadBrrrgh')
+
+        def dreamland():
+            messenger.send('loadDreamland')
+
+        def speedway():
+            messenger.send('loadSpeedway')
+
         options = {Globals.TTCZone: ttc,
-                   Globals.DDZone: dock}
+                   Globals.DDZone: dock,
+                   Globals.DGZone: garden,
+                   Globals.MMZone: melody,
+                   Globals.BRZone: brrrgh,
+                   Globals.DLZone: dreamland,
+                   Globals.GSZone: speedway}
         options[self.zone]()
         messenger.send('teleportIn')
 
@@ -240,12 +261,7 @@ class ShtikerBook(DirectFrame):
 
     def goBackToPlayground(self):
         self.unloadCurrentPlayground()
-
-        def ttc():
-            messenger.send('backToPlayground')
-
-        options = {Globals.TTCZone: ttc}
-        options[base.lastPlayground]()
+        messenger.send('backToPlayground')
 
     def finishBackToPlayground(self):
         self.finishCloseBook()

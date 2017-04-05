@@ -4,26 +4,29 @@ from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 import Globals
 from direct.directutil import Mopath
+from direct.task.Task import Task
+from direct.showbase.DirectObject import DirectObject
 
 
-class Boat:
+class Boat(DirectObject):
 
     def __init__(self, boat, playground):
+        DirectObject.__init__(self)
         self.boat = boat
         self.playground = playground
         self.boatFsm = ClassicFSM.ClassicFSM(
             'Boat',
             [
                 State.State('off', self.enterOff, self.exitOff,
-                            ['DockedEast']),
+                            ['DockedEast', 'SailingWest', 'DockedWest', 'SailingEast']),
                 State.State('DockedEast', self.enterDockedEast, self.exitDockedEast,
-                            ['SailingWest']),
+                            ['SailingWest', 'SailingEast', 'DockedWest']),
                 State.State('SailingWest', self.enterSailingWest, self.exitSailingWest,
-                            ['DockedWest']),
+                            ['DockedWest', 'SailingEast', 'DockedEast']),
                 State.State('DockedWest', self.enterDockedWest, self.exitDockedWest,
-                            ['SailingEast']),
+                            ['SailingEast', 'SailingWest', 'DockedEast']),
                 State.State('SailingEast', self.enterSailingEast, self.exitSailingEast,
-                            ['DockedEast'])
+                            ['DockedEast', 'DockedWest', 'SailingWest'])
             ], 'off', 'off')
         self.boatFsm.enterInitialState()
         self.dockSound = base.loadSfx('phase_6/audio/sfx/SZ_DD_dockcreak.ogg')
@@ -72,12 +75,12 @@ class Boat:
         self.weTrack = ParallelEndTogether(Parallel(weBoatTrack, wPierDownTrack), ePierUpTrack, name='we-track')
         self.start()
 
-    def enterOnBoat(self):
-        base.localAvatar.b_setParent(Globals.SPDonaldsBoat)
+    def enterOnBoat(self, idk):
+        base.localAvatar.reparentTo(self.boat)
         base.playSfx(self.waterSound, looping=1)
 
-    def exitOnBoat(self):
-        base.localAvatar.b_setParent(Globals.SPRender)
+    def exitOnBoat(self, idk):
+        base.localAvatar.reparentTo(base.render)
         self.waterSound.stop()
 
     def enterDockedEast(self):
@@ -89,9 +92,9 @@ class Boat:
         taskMgr.remove('depart-east')
         return None
 
-    def enterSailingWest(self, ts):
+    def enterSailingWest(self):
         taskMgr.doMethodLater(20.0, self.__dockWest, 'dock-west')
-        self.ewTrack.start(ts)
+        self.ewTrack.start()
 
     def exitSailingWest(self):
         taskMgr.remove('dock-west')
@@ -106,9 +109,9 @@ class Boat:
         taskMgr.remove('depart-west')
         return None
 
-    def enterSailingEast(self, ts):
+    def enterSailingEast(self):
         taskMgr.doMethodLater(20.0, self.__dockEast, 'dock-east')
-        self.weTrack.start(ts)
+        self.weTrack.start()
 
     def exitSailingEast(self):
         #TODO: Boat
@@ -117,7 +120,7 @@ class Boat:
         return None
 
     def start(self):
-        print self.boatFsm.request('DockedEast')
+        self.boatFsm.request('DockedEast')
 
     def enterOff(self):
         pass

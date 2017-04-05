@@ -7,8 +7,13 @@ import Globals
 from gui.ShtikerBook import ShtikerBook
 from StartMenu import StartMenu
 from hood.places.estate.Estate import Estate
-from hood.places.TTC import TTC
-from hood.places.DDock import DDock
+from hood.places.ToontownCentral import TTC
+from hood.places.DonaldsDock import DDock
+from hood.places.DaisyGardens import DG
+from hood.places.MinniesMelodyland import MM
+from hood.places.Brrrgh import Brrrgh
+from hood.places.DonaldsDreamland import Dreamland
+from hood.places.GoofySpeedway import GoofySpeedway
 from makeatoon import MakeAToon
 from gui import FriendsList
 
@@ -39,6 +44,11 @@ class Messenger(DirectObject.DirectObject):
         self.accept('teleportIn', self.teleportInSequence)
         self.accept('loadTTC', self.loadTTC)
         self.accept('loadDock', self.loadDock)
+        self.accept('loadGardens', self.loadGardens)
+        self.accept('loadMelody', self.loadMelody)
+        self.accept('loadBrrrgh', self.loadBrrrgh)
+        self.accept('loadDreamland', self.loadDreamland)
+        self.accept('loadSpeedway', self.loadSpeedway)
 
     @staticmethod
     def exit():
@@ -47,22 +57,46 @@ class Messenger(DirectObject.DirectObject):
     def loadTTC(self):
         ttc = TTC(self.toon)
         self.playground = ttc.load()
-        geom = self.toon.getGeomNode()
-        geom.getChild(0).setSx(0.730000019073)
-        geom.getChild(0).setSz(0.730000019073)
 
     def loadDock(self):
         dock = DDock(self.toon)
         self.playground = dock.load()
-        geom = self.toon.getGeomNode()
-        geom.getChild(0).setSx(0.730000019073)
-        geom.getChild(0).setSz(0.730000019073)
+
+    def loadGardens(self):
+        gardens = DG(self.toon)
+        self.playground = gardens.load()
+
+    def loadMelody(self):
+        melody = MM(self.toon)
+        self.playground = melody.load()
+
+    def loadBrrrgh(self):
+        brrrgh = Brrrgh(self.toon)
+        self.playground = brrrgh.load()
+
+    def loadDreamland(self):
+        dream = Dreamland(self.toon)
+        self.playground = dream.load()
+
+    def loadSpeedway(self):
+        speedway = GoofySpeedway(self.toon)
+        self.playground = speedway.load()
 
     def backToPlayground(self):
         if base.lastPlayground == Globals.TTCZone:
             self.loadTTC()
         elif base.lastPlayground == Globals.DDZone:
             self.loadDock()
+        elif base.lastPlayground == Globals.DGZone:
+            self.loadGardens()
+        elif base.lastPlayground == Globals.MMZone:
+            self.loadMelody()
+        elif base.lastPlayground == Globals.BRZone:
+            self.loadBrrrgh()
+        elif base.lastPlayground == Globals.DLZone:
+            self.loadDreamland()
+        elif base.lastPlayground == Globals.GSZone:
+            self.loadSpeedway()
 
     def enterMakeAToon(self):
         self.MAT = MakeAToon.MakeAToon()
@@ -98,6 +132,8 @@ class Messenger(DirectObject.DirectObject):
         self.teleportInTrack.setAutoFinish(True)
 
     def enterGame(self):
+        base.lastPlayground = base.localData.getLastPlayground()
+        self.backToPlayground()
         base.camera.reparentTo(self.toon)
         self.toon.reparentTo(render)
         self.toon.initializeBodyCollisions()
@@ -105,10 +141,9 @@ class Messenger(DirectObject.DirectObject):
         self.toon.initializeNametag3d()
         self.toon.setActiveShadow(1)
         self.toon.rescaleToon()
-        base.lastPlayground = base.localData.getLastPlayground()
-        self.backToPlayground()
         self.toon.initializeSmartCamera()
         self.toon.setupControls()
+        base.localAvatar = self.toon
         self.shtikerBook = ShtikerBook()
         self.laffMeter = self.toon.setupLaffMeter()
         friendsGui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
