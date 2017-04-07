@@ -186,13 +186,17 @@ class ShtikerBook(DirectFrame):
         def speedway():
             messenger.send('loadSpeedway')
 
+        def oz():
+            messenger.send('loadOutdoorZone')
+
         options = {Globals.TTCZone: ttc,
                    Globals.DDZone: dock,
                    Globals.DGZone: garden,
                    Globals.MMZone: melody,
                    Globals.BRZone: brrrgh,
                    Globals.DLZone: dreamland,
-                   Globals.GSZone: speedway}
+                   Globals.GSZone: speedway,
+                   Globals.OZZone: oz}
         options[self.zone]()
         messenger.send('teleportIn')
 

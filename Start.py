@@ -10,6 +10,7 @@ from gui.MarginManager import MarginManager
 from gui.margins.MarginManager import MarginManager as OtherMarginManager
 from gui.nametag import NametagGlobals
 from panda3d.physics import PhysicsManager, ParticleSystemManager
+from gui.DTimer import DTimer
 
 
 class MyApp(ShowBase):
@@ -18,6 +19,7 @@ class MyApp(ShowBase):
         ShowBase.__init__(self)
         self.physicsMgr = PhysicsManager()
         self.particleMgr = ParticleSystemManager()
+        self.DTimer = DTimer()
         self.localData = LocalData()
         Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
         Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))

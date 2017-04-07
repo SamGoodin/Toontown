@@ -67,6 +67,7 @@ class GoofySpeedway(DirectObject, Hood):
         self.rotateBlimp.loop()
 
     def unload(self):
+        Hood.unload(self)
         base.taskMgr.remove('ttcTunnel')
         self.rotateBlimp.finish()
         self.ignoreAll()
@@ -77,7 +78,7 @@ class GoofySpeedway(DirectObject, Hood):
     def ttc(self, task):
         if self.toon.getX() <= 8.3 and self.toon.getX() >= -8.3:
             if self.toon.getY() <= 83.5 and self.toon.getY() >= 83.2:
-                TTC(self.toon, (31.0937, 153.423, 3.02421, -149.957, 0, 0)).load()
-                self.unload()
+                messenger.send('unloadZone')
+                messenger.send('loadTTC', [(31.0937, 153.423, 3.02421, -149.957, 0, 0)])
                 return task.done
         return task.cont

@@ -76,6 +76,7 @@ class Brrrgh(DirectObject, Hood):
         return Task.done
 
     def unload(self):
+        Hood.unload(self)
         self.snow.cleanup()
         self.snowRender.removeNode()
         taskMgr.remove('BR-wind')

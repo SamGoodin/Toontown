@@ -2,27 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="807afd3e-457b-463f-a582-727ea631000d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/battle/BattleParticles.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/battle/ParticleDefs.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/battle/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/Brrrgh.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/DaisyGardens.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/DonaldsDreamland.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/GoofySpeedway.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/MinniesMelodyland.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/hood/places/DDock.py" afterPath="$PROJECT_DIR$/hood/places/DonaldsDock.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/hood/places/TTC.py" afterPath="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Toontown.iml" afterPath="$PROJECT_DIR$/.idea/Toontown.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/DTimer.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/effects/Bubbles.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/effects/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hood/places/OutdoorZone.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Globals.py" afterPath="$PROJECT_DIR$/Globals.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messenger.py" afterPath="$PROJECT_DIR$/Messenger.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Start.py" afterPath="$PROJECT_DIR$/Start.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/ToonData.json" afterPath="$PROJECT_DIR$/data/ToonData.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/Boat.py" afterPath="$PROJECT_DIR$/gui/Boat.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/ShtikerBook.py" afterPath="$PROJECT_DIR$/gui/ShtikerBook.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/Sky.py" afterPath="$PROJECT_DIR$/gui/Sky.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/Brrrgh.py" afterPath="$PROJECT_DIR$/hood/places/Brrrgh.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/DaisyGardens.py" afterPath="$PROJECT_DIR$/hood/places/DaisyGardens.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/DonaldsDock.py" afterPath="$PROJECT_DIR$/hood/places/DonaldsDock.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/DonaldsDreamland.py" afterPath="$PROJECT_DIR$/hood/places/DonaldsDreamland.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/GoofySpeedway.py" afterPath="$PROJECT_DIR$/hood/places/GoofySpeedway.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/Hood.py" afterPath="$PROJECT_DIR$/hood/places/Hood.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/MinniesMelodyland.py" afterPath="$PROJECT_DIR$/hood/places/MinniesMelodyland.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/ToontownCentral.py" afterPath="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,11 +29,33 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MinniesMelodyland.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hood/places/MinniesMelodyland.py">
+      <file leaf-file-name="DonaldsDreamland.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hood/places/DonaldsDreamland.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="33" />
+            <state relative-caret-position="252">
+              <caret line="58" column="12" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Hood.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="354">
+              <caret line="64" column="31" lean-forward="false" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OutdoorZone.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hood/places/OutdoorZone.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="31">
+              <caret line="391" column="45" lean-forward="false" selection-start-line="391" selection-start-column="45" selection-end-line="391" selection-end-column="45" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -46,52 +63,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ToontownCentral.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hood/places/ToontownCentral.py">
+      <file leaf-file-name="Globals.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Globals.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4366">
-              <caret line="312" column="24" lean-forward="false" selection-start-line="312" selection-start-column="24" selection-end-line="312" selection-end-column="24" />
+            <state relative-caret-position="-117">
+              <caret line="211" column="24" lean-forward="false" selection-start-line="211" selection-start-column="24" selection-end-line="211" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DTimer.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/DTimer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#0#50#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GoofySpeedway.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hood/places/GoofySpeedway.py">
+      <file leaf-file-name="Bubbles.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/effects/Bubbles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+            <state relative-caret-position="456">
+              <caret line="61" column="29" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ToonData.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/ToonData.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="42" lean-forward="true" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-              <folding>
-                <marker date="1491398843026" expanded="true" signature="181:249" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="395:463" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="481:725" ph="{&quot;name&quot;: null...}" />
-                <marker date="1491398843026" expanded="true" signature="738:1179" ph="{&quot;name&quot;: &quot;Weabb&quot;...}" />
-                <marker date="1491398843026" expanded="true" signature="777:845" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="907:975" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="1122:1175" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="1194:1647" ph="{&quot;name&quot;: &quot;Meep&quot;...}" />
-                <marker date="1491398843026" expanded="true" signature="1233:1301" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="1363:1431" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="1575:1643" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="1659:1903" ph="{&quot;name&quot;: null...}" />
-                <marker date="1491398843026" expanded="true" signature="1918:2372" ph="{&quot;name&quot;: &quot;Plateau&quot;...}" />
-                <marker date="1491398843026" expanded="true" signature="1957:2025" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="2087:2154" ph="[...]" />
-                <marker date="1491398843026" expanded="true" signature="2300:2368" ph="[...]" />
+                <element signature="e#0#33#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,8 +100,18 @@
       <file leaf-file-name="Start.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Start.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="19" column="48" lean-forward="false" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
+            <state relative-caret-position="51">
+              <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShtikerBook.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="194" column="42" lean-forward="true" selection-start-line="194" selection-start-column="42" selection-end-line="194" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -110,31 +120,11 @@
       <file leaf-file-name="Messenger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Messenger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1397">
-              <caret line="92" column="29" lean-forward="true" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
+            <state relative-caret-position="323">
+              <caret line="118" column="32" lean-forward="true" selection-start-line="118" selection-start-column="32" selection-end-line="118" selection-end-column="32" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShtikerBook.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="193" column="45" lean-forward="true" selection-start-line="193" selection-start-column="45" selection-end-line="193" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Globals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Globals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="830">
-              <caret line="211" column="24" lean-forward="false" selection-start-line="211" selection-start-column="24" selection-end-line="211" selection-end-column="24" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -158,18 +148,38 @@
       <find>base.localAv</find>
       <find>base.localAva</find>
       <find>base.localAvat</find>
-      <find>base.localAvatar</find>
       <find>enterdonalds_boat_floor</find>
+      <find>base.localAvatar</find>
+      <find>m</find>
+      <find>me</find>
+      <find>mess</find>
+      <find>messeng</find>
+      <find>messenge</find>
+      <find>messenger</find>
+      <find>messenger.s</find>
+      <find>messenger.sen</find>
+      <find>remove</find>
+      <find>messenger.send</find>
+      <find>cu</find>
+      <find>cur</find>
+      <find>curren</find>
+      <find>current</find>
+      <find>currentZ</find>
+      <find>currentZone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Sam &lt;samuelgoodin@sbcglobal.net&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/gui/Boat.py" />
-        <option value="$PROJECT_DIR$/hood/places/Hood.py" />
         <option value="$PROJECT_DIR$/gui/Sky.py" />
         <option value="$PROJECT_DIR$/hood/places/DDock.py" />
         <option value="$PROJECT_DIR$/hood/places/TTC.py" />
@@ -178,14 +188,23 @@
         <option value="$PROJECT_DIR$/battle/BattleParticles.py" />
         <option value="$PROJECT_DIR$/battle/ParticleDefs.py" />
         <option value="$PROJECT_DIR$/data/ToonData.json" />
-        <option value="$PROJECT_DIR$/Start.py" />
-        <option value="$PROJECT_DIR$/hood/places/Brrrgh.py" />
         <option value="$PROJECT_DIR$/Globals.py" />
         <option value="$PROJECT_DIR$/hood/places/Dreamland.py" />
-        <option value="$PROJECT_DIR$/hood/places/GoofySpeedway.py" />
         <option value="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
+        <option value="$PROJECT_DIR$/hood/places/GoofySpeedway.py" />
+        <option value="$PROJECT_DIR$/hood/places/MinniesMelodyland.py" />
+        <option value="$PROJECT_DIR$/hood/places/Brrrgh.py" />
+        <option value="$PROJECT_DIR$/hood/places/DaisyGardens.py" />
+        <option value="$PROJECT_DIR$/hood/places/DonaldsDock.py" />
+        <option value="$PROJECT_DIR$/hood/places/DonaldsDreamland.py" />
+        <option value="$PROJECT_DIR$/config/Config.prc" />
         <option value="$PROJECT_DIR$/gui/ShtikerBook.py" />
+        <option value="$PROJECT_DIR$/gui/effects/Bubbles.py" />
+        <option value="$PROJECT_DIR$/Start.py" />
+        <option value="$PROJECT_DIR$/hood/places/Hood.py" />
+        <option value="$PROJECT_DIR$/gui/DTimer.py" />
         <option value="$PROJECT_DIR$/Messenger.py" />
+        <option value="$PROJECT_DIR$/hood/places/OutdoorZone.py" />
       </list>
     </option>
   </component>
@@ -256,6 +275,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="places" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="effects" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -378,6 +429,14 @@
       <option name="presentableId" value="Default" />
       <updated>1491224069575</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added various playgrounds">
+      <created>1491398973110</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1491398973110</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -406,6 +465,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added various playgrounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added various playgrounds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -468,34 +531,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="14" column="29" lean-forward="true" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/Sky.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="14" column="30" lean-forward="false" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/DonaldsDock.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="102" column="37" lean-forward="true" selection-start-line="102" selection-start-column="37" selection-end-line="102" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#13#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Panda3D-1.9.4/direct/particles/Particles.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -507,33 +542,25 @@
     <entry file="file://$PROJECT_DIR$/data/ToonData.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="42" lean-forward="true" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+          <caret line="9" column="40" lean-forward="true" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
           <folding>
-            <marker date="1491398843026" expanded="true" signature="181:249" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="395:463" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="481:725" ph="{&quot;name&quot;: null...}" />
-            <marker date="1491398843026" expanded="true" signature="738:1179" ph="{&quot;name&quot;: &quot;Weabb&quot;...}" />
-            <marker date="1491398843026" expanded="true" signature="777:845" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="907:975" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="1122:1175" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="1194:1647" ph="{&quot;name&quot;: &quot;Meep&quot;...}" />
-            <marker date="1491398843026" expanded="true" signature="1233:1301" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="1363:1431" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="1575:1643" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="1659:1903" ph="{&quot;name&quot;: null...}" />
-            <marker date="1491398843026" expanded="true" signature="1918:2372" ph="{&quot;name&quot;: &quot;Plateau&quot;...}" />
-            <marker date="1491398843026" expanded="true" signature="1957:2025" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="2087:2154" ph="[...]" />
-            <marker date="1491398843026" expanded="true" signature="2300:2368" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="181:249" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="395:463" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="481:725" ph="{&quot;name&quot;: null...}" />
+            <marker date="1491571694890" expanded="true" signature="738:1179" ph="{&quot;name&quot;: &quot;Weabb&quot;...}" />
+            <marker date="1491571694890" expanded="true" signature="777:845" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="907:975" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="1122:1175" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="1194:1647" ph="{&quot;name&quot;: &quot;Meep&quot;...}" />
+            <marker date="1491571694890" expanded="true" signature="1233:1301" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="1363:1431" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="1575:1643" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="1659:1903" ph="{&quot;name&quot;: null...}" />
+            <marker date="1491571694890" expanded="true" signature="1918:2372" ph="{&quot;name&quot;: &quot;Plateau&quot;...}" />
+            <marker date="1491571694890" expanded="true" signature="1957:2025" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="2087:2154" ph="[...]" />
+            <marker date="1491571694890" expanded="true" signature="2300:2368" ph="[...]" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Start.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="19" column="48" lean-forward="false" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -557,28 +584,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/DaisyGardens.py">
+    <entry file="file://$PROJECT_DIR$/TestingFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/Brrrgh.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="55" column="43" lean-forward="true" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#13#0" expanded="false" />
+            <element signature="e#0#45#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/DonaldsDreamland.py">
+    <entry file="file://$PROJECT_DIR$/hood/places/GoofySpeedway.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        <state relative-caret-position="167">
+          <caret line="69" column="25" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="25" />
           <folding>
             <element signature="e#0#13#0" expanded="false" />
           </folding>
@@ -587,57 +606,153 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hood/places/MinniesMelodyland.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="33" />
+        <state relative-caret-position="320">
+          <caret line="60" column="25" lean-forward="false" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Globals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="830">
-          <caret line="211" column="24" lean-forward="false" selection-start-line="211" selection-start-column="24" selection-end-line="211" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hood/places/ToontownCentral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4366">
-          <caret line="312" column="24" lean-forward="false" selection-start-line="312" selection-start-column="24" selection-end-line="312" selection-end-column="24" />
+        <state relative-caret-position="762">
+          <caret line="91" column="40" lean-forward="true" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/GoofySpeedway.py">
+    <entry file="file://$PROJECT_DIR$/gui/Sky.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="81" column="32" lean-forward="true" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/Config.prc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/Brrrgh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="78" column="25" lean-forward="false" selection-start-line="78" selection-start-column="25" selection-end-line="78" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/DaisyGardens.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="73" column="25" lean-forward="false" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Messenger.py">
+    <entry file="file://$PROJECT_DIR$/hood/places/DonaldsDock.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1397">
-          <caret line="92" column="29" lean-forward="true" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
+        <state relative-caret-position="82">
+          <caret line="102" column="25" lean-forward="false" selection-start-line="102" selection-start-column="25" selection-end-line="102" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/DonaldsDreamland.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="58" column="12" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/effects/Bubbles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="61" column="29" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Panda3D-1.9.4/direct/distributed/DistributedObjectBase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Globals.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-117">
+          <caret line="211" column="24" lean-forward="false" selection-start-line="211" selection-start-column="24" selection-end-line="211" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/DTimer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/ShtikerBook.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="193" column="45" lean-forward="true" selection-start-line="193" selection-start-column="45" selection-end-line="193" selection-end-column="45" />
+        <state relative-caret-position="337">
+          <caret line="194" column="42" lean-forward="true" selection-start-line="194" selection-start-column="42" selection-end-line="194" selection-end-column="42" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Messenger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="118" column="32" lean-forward="true" selection-start-line="118" selection-start-column="32" selection-end-line="118" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Start.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="64" column="31" lean-forward="false" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/OutdoorZone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="391" column="45" lean-forward="false" selection-start-line="391" selection-start-column="45" selection-end-line="391" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

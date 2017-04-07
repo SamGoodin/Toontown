@@ -4,7 +4,7 @@ from panda3d.core import *
 import Globals
 from gui.LoadingScreen import LoadingScreen
 from gui import Sky
-from direct.directnotify import DirectNotifyGlobal
+from pandac.PandaModules import *
 
 
 class Hood:
@@ -18,7 +18,7 @@ class Hood:
         self.playground = None
         self.dna = None
         self.fog = None
-        self.notify = DirectNotifyGlobal.directNotify.newCategory('HoodLoader')
+        self.notify = directNotify.newCategory('HoodLoader')
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
@@ -33,9 +33,9 @@ class Hood:
         self.doSpawnTitleText()
         base.cTrav = CollisionTraverser()
         base.camera.hide()
+        self.notify.warning("Hood load successful.")
 
     def unload(self):
-        print 'unload inheritance'
         self.music.stop()
         del self.music
         self.sky.unload()
@@ -44,6 +44,7 @@ class Hood:
         del self.playground
         del self.titleColor
         del self.titleText
+        self.notify.warning("Hood unload successful.")
 
     def startSky(self):
         self.sky = Sky.Sky()
@@ -51,7 +52,7 @@ class Hood:
 
     def startMusic(self, musicFile):
         self.music = base.loadMusic(musicFile)
-        base.playMusic(self.music, looping=1)
+        base.playMusic(self.music, looping=1, volume=0.8)
 
     def doSpawnTitleText(self):
         self.titleText.show()

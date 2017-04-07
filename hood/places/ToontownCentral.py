@@ -86,6 +86,7 @@ class TTC(DirectObject, Hood):
         return Task.done
 
     def unload(self):
+        Hood.unload(self)
         base.taskMgr.remove('sillyStreet')
         base.taskMgr.remove('punchlinePlace')
         base.taskMgr.remove('loopyLane')
@@ -100,9 +101,8 @@ class TTC(DirectObject, Hood):
     def goofySpeedway(self, task):
         if self.toon.getX() <= 33.4 and self.toon.getX() >= 20.9:
             if self.toon.getY() <= 165.4 and self.toon.getY() >= 157.9:
-                GoofySpeedway(self.toon).load()
-                self.unload()
-                self.toon.setPosHpr(0.353092, 79.5724, 0.0892678, 179.516, 0, 0)
+                messenger.send('unloadZone')
+                messenger.send('loadSpeedway', [(0.353092, 79.5724, 0.0892678, 179.516, 0, 0)])
                 return task.done
         return task.cont
 

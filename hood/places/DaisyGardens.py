@@ -71,6 +71,7 @@ class DG(DirectObject, Hood):
         return Task.done
 
     def unload(self):
+        Hood.unload(self)
         taskMgr.remove('DG-birds')
         del self.birdSound
         self.ignoreAll()

@@ -100,6 +100,7 @@ class DDock(DirectObject, Hood):
         return Task.cont
 
     def unload(self):
+        Hood.unload(self)
         taskMgr.remove('dd-seagulls')
         render.clearFog()
         self.sky.sky.clearFog()

@@ -14,6 +14,7 @@ from hood.places.MinniesMelodyland import MM
 from hood.places.Brrrgh import Brrrgh
 from hood.places.DonaldsDreamland import Dreamland
 from hood.places.GoofySpeedway import GoofySpeedway
+from hood.places.OutdoorZone import OutdoorZone
 from makeatoon import MakeAToon
 from gui import FriendsList
 
@@ -49,38 +50,59 @@ class Messenger(DirectObject.DirectObject):
         self.accept('loadBrrrgh', self.loadBrrrgh)
         self.accept('loadDreamland', self.loadDreamland)
         self.accept('loadSpeedway', self.loadSpeedway)
+        self.accept('loadOutdoorZone', self.loadOutdoorZone)
 
     @staticmethod
     def exit():
         sys.exit()
 
-    def loadTTC(self):
-        ttc = TTC(self.toon)
+    def loadTTC(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        ttc = TTC(self.toon, startPosHpr)
         self.playground = ttc.load()
 
-    def loadDock(self):
-        dock = DDock(self.toon)
+    def loadDock(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        dock = DDock(self.toon, startPosHpr)
         self.playground = dock.load()
 
-    def loadGardens(self):
-        gardens = DG(self.toon)
+    def loadGardens(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        gardens = DG(self.toon, startPosHpr)
         self.playground = gardens.load()
 
-    def loadMelody(self):
-        melody = MM(self.toon)
+    def loadMelody(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        melody = MM(self.toon, startPosHpr)
         self.playground = melody.load()
 
-    def loadBrrrgh(self):
-        brrrgh = Brrrgh(self.toon)
+    def loadBrrrgh(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        brrrgh = Brrrgh(self.toon, startPosHpr)
         self.playground = brrrgh.load()
 
-    def loadDreamland(self):
-        dream = Dreamland(self.toon)
+    def loadDreamland(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        dream = Dreamland(self.toon, startPosHpr)
         self.playground = dream.load()
 
-    def loadSpeedway(self):
-        speedway = GoofySpeedway(self.toon)
+    def loadSpeedway(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        speedway = GoofySpeedway(self.toon, startPosHpr)
         self.playground = speedway.load()
+
+    def loadOutdoorZone(self, startPosHpr=None):
+        if not startPosHpr:
+            startPosHpr = 1
+        outdoorzone = OutdoorZone(self.toon, startPosHpr)
+        self.playground = outdoorzone.load()
 
     def backToPlayground(self):
         if base.lastPlayground == Globals.TTCZone:
@@ -97,6 +119,8 @@ class Messenger(DirectObject.DirectObject):
             self.loadDreamland()
         elif base.lastPlayground == Globals.GSZone:
             self.loadSpeedway()
+        elif base.lastPlayground == Globals.OZZone:
+            self.loadOutdoorZone()
 
     def enterMakeAToon(self):
         self.MAT = MakeAToon.MakeAToon()

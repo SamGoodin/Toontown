@@ -59,6 +59,7 @@ class Dreamland(DirectObject, Hood):
         pass
 
     def unload(self):
+        Hood.unload(self)
         self.ignoreAll()
         self.dna.unload()
         del self.dna
