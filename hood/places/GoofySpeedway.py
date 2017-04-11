@@ -25,10 +25,9 @@ class GoofySpeedway(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_6/dna/storage_GS.pdna'
-        self.szStorageFile = 'Resources/phase_6/dna/storage_GS_sz.pdna'
-        self.szDNAFile = 'Resources/phase_6/dna/goofy_speedway_sz.pdna'
+        self.pgStorageFile = 'phase_6/dna/storage_GS.pdna'
+        self.szStorageFile = 'phase_6/dna/storage_GS_sz.pdna'
+        self.szDNAFile = 'phase_6/dna/goofy_speedway_sz.pdna'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:

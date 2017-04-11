@@ -11,6 +11,7 @@ from gui.margins.MarginManager import MarginManager as OtherMarginManager
 from gui.nametag import NametagGlobals
 from panda3d.physics import PhysicsManager, ParticleSystemManager
 from gui.DTimer import DTimer
+import os
 
 
 class MyApp(ShowBase):
@@ -21,10 +22,12 @@ class MyApp(ShowBase):
         self.particleMgr = ParticleSystemManager()
         self.DTimer = DTimer()
         self.localData = LocalData()
-        Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
-        Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
-        Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
-        Globals.setInterfaceFont(loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
+        self.setupVfs()
+        self.setCursorAndIcon()
+        Globals.setSignFont(self.loader.loadFont('phase_3/models/fonts/MickeyFont'))
+        Globals.setRolloverSound(self.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
+        Globals.setClickSound(self.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
+        Globals.setInterfaceFont(self.loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
         DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
@@ -33,7 +36,7 @@ class MyApp(ShowBase):
         NametagGlobals.setChatBalloon3dModel('phase_3/models/props/chatbox.bam')
         NametagGlobals.setChatBalloon2dModel('phase_3/models/props/chatbox_noarrow.bam')
         NametagGlobals.setThoughtBalloonModel('phase_3/models/props/chatbox_thought_cutout.bam')
-        Globals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
+        Globals.setDefaultDialogGeom(self.loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.setupMargins()
         self.currentZone = None
         self.lastPlayground = None
@@ -58,6 +61,31 @@ class MyApp(ShowBase):
         self.startMenuClass = StartMenu()
         self.setBackgroundColor(Globals.defaultBackgroundColor)
         self.startMenuClass.loadStartMenu()
+
+    def setupVfs(self):
+        self.vfs = VirtualFileSystem.getGlobalPtr()
+        for filename in os.listdir(os.getcwd()):
+            self.vfs.mount(filename, ".", VirtualFileSystem.MFReadOnly)
+
+    def setCursorAndIcon(self):
+        import tempfile, atexit, shutil
+        tempdir = tempfile.mkdtemp()
+        atexit.register(shutil.rmtree, tempdir)
+        searchPath = DSearchPath()
+        if __debug__:
+            searchPath.appendDirectory(Filename('Resources/phase_3/etc'))
+        searchPath.appendDirectory(Filename('/phase_3/etc'))
+        for filename in ['toonmono.cur', 'icon.ico']:
+            p3filename = Filename(filename)
+            found = self.vfs.resolveFilename(p3filename, searchPath)
+            if not found:
+                return
+            with open(os.path.join(tempdir, filename), 'wb') as f:
+                f.write(self.vfs.readFile(p3filename, False))
+        wp = WindowProperties()
+        wp.setCursorFilename(Filename.fromOsSpecific(os.path.join(tempdir, 'toonmono.cur')))
+        wp.setIconFilename(Filename.fromOsSpecific(os.path.join(tempdir, 'icon.ico')))
+        self.win.requestProperties(wp)
 
 
 game = MyApp()

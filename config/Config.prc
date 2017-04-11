@@ -6,8 +6,11 @@ undecorated false
 cursor-hidden false
 sync-video true
 show-frame-rate-meter true
-cursor-filename phase_3/etc/toonmono.cur
 default-model-extension .bam
 audio-volume 0.0
-model-path Resources/
 want-new-anims 1
+preload-textures 0
+preload-simple-textures 1
+texture-compression 1
+allow-incomplete-render 1
+#want-pstats 1

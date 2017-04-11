@@ -19,7 +19,6 @@ class DTimer:
 
     def setStartTime(self, time):
         self.startTime = time
-        print 'TIMER startTime %s' % time
 
     def getStartTime(self):
         return self.startTime

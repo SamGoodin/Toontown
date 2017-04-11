@@ -40,10 +40,9 @@ class TTC(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_4/dna/storage_TT.pdna'
-        self.szStorageFile = 'Resources/phase_4/dna/storage_TT_sz.pdna'
-        self.szDNAFile = 'Resources/phase_4/dna/toontown_central_sz.pdna'
+        self.pgStorageFile = 'phase_4/dna/storage_TT.pdna'
+        self.szStorageFile = 'phase_4/dna/storage_TT_sz.pdna'
+        self.szDNAFile = 'phase_4/dna/toontown_central_sz.pdna'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:

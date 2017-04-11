@@ -31,10 +31,9 @@ class DG(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_8/dna/storage_DG.pdna'
-        self.szStorageFile = 'Resources/phase_8/dna/storage_DG_sz.pdna'
-        self.szDNAFile = 'Resources/phase_8/dna/daisys_garden_sz.pdna'
+        self.pgStorageFile = 'phase_8/dna/storage_DG.pdna'
+        self.szStorageFile = 'phase_8/dna/storage_DG_sz.pdna'
+        self.szDNAFile = 'phase_8/dna/daisys_garden_sz.pdna'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:

@@ -28,10 +28,9 @@ class MM(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_6/models/props/MM_sky"
         self.dna = None
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_6/dna/storage_MM.pdna'
-        self.szStorageFile = 'Resources/phase_6/dna/storage_MM_sz.pdna'
-        self.szDNAFile = 'Resources/phase_6/dna/minnies_melody_land_sz.pdna'
+        self.pgStorageFile = 'phase_6/dna/storage_MM.pdna'
+        self.szStorageFile = 'phase_6/dna/storage_MM_sz.pdna'
+        self.szDNAFile = 'phase_6/dna/minnies_melody_land_sz.pdna'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:

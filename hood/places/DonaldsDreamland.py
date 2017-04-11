@@ -29,10 +29,9 @@ class Dreamland(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_8/models/props/DL_sky"
         self.dna = None
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorageFile = 'Resources/phase_8/dna/storage_DL.pdna'
-        self.szStorageFile = 'Resources/phase_8/dna/storage_DL_sz.pdna'
-        self.szDNAFile = 'Resources/phase_8/dna/donalds_dreamland_sz.pdna'
+        self.pgStorageFile = 'phase_8/dna/storage_DL.pdna'
+        self.szStorageFile = 'phase_8/dna/storage_DL_sz.pdna'
+        self.szDNAFile = 'phase_8/dna/donalds_dreamland_sz.pdna'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:
