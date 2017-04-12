@@ -40,7 +40,7 @@ class MyApp(ShowBase):
         self.setupMargins()
         self.currentZone = None
         self.lastPlayground = None
-        self.loader.loadMusic("phase_3/audio/bgm/tti_theme.ogg").play()
+        self.loader.loadMusic("phase_3/audio/bgm/ttr_theme.ogg").play()
         self.toon = None
         self.toonClass = None
         self.go()
@@ -64,8 +64,8 @@ class MyApp(ShowBase):
 
     def setupVfs(self):
         self.vfs = VirtualFileSystem.getGlobalPtr()
-        for filename in os.listdir(os.getcwd()):
-            self.vfs.mount(filename, ".", VirtualFileSystem.MFReadOnly)
+        for mount in Globals.mounts:
+            self.vfs.mount("multifiles/" + mount, "resources", 0)
 
     def setCursorAndIcon(self):
         import tempfile, atexit, shutil
@@ -73,8 +73,8 @@ class MyApp(ShowBase):
         atexit.register(shutil.rmtree, tempdir)
         searchPath = DSearchPath()
         if __debug__:
-            searchPath.appendDirectory(Filename('Resources/phase_3/etc'))
-        searchPath.appendDirectory(Filename('/phase_3/etc'))
+            searchPath.appendDirectory(Filename('resources/phase_3/etc'))
+        searchPath.appendDirectory(Filename('phase_3/etc'))
         for filename in ['toonmono.cur', 'icon.ico']:
             p3filename = Filename(filename)
             found = self.vfs.resolveFilename(p3filename, searchPath)

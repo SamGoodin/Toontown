@@ -9,8 +9,5 @@ show-frame-rate-meter true
 default-model-extension .bam
 audio-volume 0.0
 want-new-anims 1
-preload-textures 0
-preload-simple-textures 1
-texture-compression 1
-allow-incomplete-render 1
-#want-pstats 1
+#want-pstats 0
+model-path resources
