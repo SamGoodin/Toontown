@@ -1,7 +1,6 @@
 import random
 from direct.showbase.DirectObject import DirectObject
 import Globals
-from dna.DNALoader import *
 from hood.places.Hood import Hood
 from direct.actor import Actor
 from gui.effects import Bubbles

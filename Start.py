@@ -12,22 +12,30 @@ from gui.nametag import NametagGlobals
 from panda3d.physics import PhysicsManager, ParticleSystemManager
 from gui.DTimer import DTimer
 import os
+from direct.showbase.Transitions import Transitions
+import ToontownLoader
+from dna.DNAStorage import DNAStorage
 
 
 class MyApp(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.setupVfs()
+        Globals.setInterfaceFont(self.loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
+        oldLoader = self.loader
+        self.loader = ToontownLoader.ToontownLoader(self)
         self.physicsMgr = PhysicsManager()
         self.particleMgr = ParticleSystemManager()
         self.DTimer = DTimer()
         self.localData = LocalData()
-        self.setupVfs()
         self.setCursorAndIcon()
+        self.transitions = Transitions(self.loader)
+        self.transitions.IrisModelName = 'phase_3/models/misc/iris'
+        self.transitions.FadeModelName = 'phase_3/models/misc/fade'
         Globals.setSignFont(self.loader.loadFont('phase_3/models/fonts/MickeyFont'))
         Globals.setRolloverSound(self.loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
         Globals.setClickSound(self.loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
-        Globals.setInterfaceFont(self.loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
         DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
@@ -43,6 +51,7 @@ class MyApp(ShowBase):
         self.loader.loadMusic("phase_3/audio/bgm/ttr_theme.ogg").play()
         self.toon = None
         self.toonClass = None
+        self.loadDnaStore()
         self.go()
 
     def setupMargins(self):
@@ -86,6 +95,18 @@ class MyApp(ShowBase):
         wp.setCursorFilename(Filename.fromOsSpecific(os.path.join(tempdir, 'toonmono.cur')))
         wp.setIconFilename(Filename.fromOsSpecific(os.path.join(tempdir, 'icon.ico')))
         self.win.requestProperties(wp)
+
+    def loadDnaStore(self):
+        if not hasattr(self, 'dnaStore'):
+            self.dnaStore = DNAStorage()
+
+            self.loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
+
+            self.dnaStore.storeFont(Globals.getInterfaceFont(), 'humanist')
+            self.dnaStore.storeFont(Globals.getSignFont(), 'mickey')
+            #self.dnaStore.storeFont(Globals.getSuitFont(), 'suit')
+
+            self.loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
 
 
 game = MyApp()

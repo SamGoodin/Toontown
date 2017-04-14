@@ -2,7 +2,6 @@ import random
 from direct.showbase.DirectObject import DirectObject
 from hood.places.Hood import Hood
 import Globals
-from dna.DNALoader import *
 from gui import Sky
 from gui.LoadingScreen import LoadingScreen
 from direct.task.Task import Task
@@ -40,9 +39,9 @@ class TTC(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
-        self.pgStorageFile = 'phase_4/dna/storage_TT.pdna'
-        self.szStorageFile = 'phase_4/dna/storage_TT_sz.pdna'
-        self.szDNAFile = 'phase_4/dna/toontown_central_sz.pdna'
+        self.pgStorageFile = 'phase_4/dna/storage_TT.xml'
+        self.szStorageFile = 'phase_4/dna/storage_TT_sz.xml'
+        self.szDNAFile = 'phase_4/dna/toontown_central_sz.xml'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
         else:

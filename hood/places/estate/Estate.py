@@ -2,7 +2,6 @@ from direct.showbase.DirectObject import DirectObject
 import random
 import Globals
 from dna.DNADoor import DNADoor
-from dna.DNALoader import *
 from gui import Sky
 from gui.LoadingScreen import LoadingScreen
 from hood.places.estate import HouseGlobals

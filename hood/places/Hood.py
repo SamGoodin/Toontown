@@ -18,7 +18,7 @@ class Hood:
         self.playground = None
         self.dna = None
         self.fog = None
-        self.storageFile = 'phase_4/dna/storage.pdna'
+        self.storageFile = 'phase_4/dna/storage.xml'
         self.notify = directNotify.newCategory('HoodLoader')
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 

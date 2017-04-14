@@ -1,7 +1,6 @@
 import random
 from direct.showbase.DirectObject import DirectObject
 import Globals
-from dna.DNALoader import *
 from hood.places.Hood import Hood
 from battle import BattleParticles
 from direct.task.Task import Task

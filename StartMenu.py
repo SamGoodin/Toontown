@@ -5,18 +5,18 @@ import os.path
 import json
 from direct.showbase import DirectObject
 
-POSITIONS = (Vec3(-0.860167, 0, 0.359333),
- Vec3(0, 0, 0.346533),
- Vec3(0.848, 0, 0.3293),
+POSITIONS = (Vec3(-0.840167, 0, 0.359333),
+ Vec3(0.00933349, 0, 0.306533),
+ Vec3(0.862, 0, 0.3293),
  Vec3(-0.863554, 0, -0.445659),
- Vec3(0.00799999, 0, -0.5481),
- Vec3(0.894907, 0, -0.445659))
+ Vec3(0.00999999, 0, -0.5181),
+ Vec3(0.864907, 0, -0.445659))
 
-NAME_POSITIONS = ((0, 0, 0.16),
- (0, 0, 0.3),
+NAME_POSITIONS = ((0, 0, 0.26),
+ (-0.03, 0, 0.25),
  (0, 0, 0.27),
- (0, 0, 0.25),
- (0, 0, 0.26),
+ (-0.03, 0, 0.25),
+ (0.03, 0, 0.26),
  (0, 0, 0.26))
 
 DELETE_POSITIONS = ((0.187, 0, -0.26),
@@ -48,7 +48,14 @@ class StartMenu(DirectObject.DirectObject):
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
+    def fadeOutTrack(self, x=0.5):
+        from direct.interval.IntervalGlobal import Sequence, Func, Wait
+        track = Sequence(Func(lambda x: base.transitions.fadeScreen(x)), Wait(x + 2))
+        track.start()
+        track.setAutoFinish(True)
+
     def enterMakeAToon(self, *args):
+        self.fadeOutTrack()
         buttonName = ""
         for arg in args:
             buttonName += arg
@@ -57,6 +64,7 @@ class StartMenu(DirectObject.DirectObject):
         self.exit()
 
     def enterGame(self, *args):
+        self.fadeOutTrack()
         self.exit()
         buttonName = ""
         for arg in args:
@@ -107,7 +115,7 @@ class StartMenu(DirectObject.DirectObject):
         self.pickAToonBG = newGui.find('**/tt_t_gui_pat_background')
         self.pickAToonBG.flattenStrong()
         self.pickAToonBG.setPos(0.0, 2.73, 0.0)
-        self.pickAToonBG.setScale(1.5, 1, 2)
+        self.pickAToonBG.setScale(1, 1, 1)
         self.title = OnscreenText("Pick A Toon To Play", scale=0.15, parent=hidden,
                                   font=Globals.getSignFont(), fg=(1, 0.9, 0.1, 1), pos=(0.0, 0.82))
         self.title.flattenStrong()
@@ -159,16 +167,23 @@ class AvatarChoice:
 
     def __init__(self):
         self.buttonList = []
+        self.pickAToonGui = loader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui')
+        self.buttonBgs = []
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareRed'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareGreen'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePurple'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
 
     def createButtons(self, buttonsFilled=None, toon=None, *args):
         num = 0
         while num < 6:
-            button = DirectButton(image=None, relief=None, text_font=Globals.getSignFont(), text="Make A\nToon",
-                                       text0_scale=0.1, text1_scale=0.12, text2_scale=0.12, text_pos=(0, 0), scale=1.01,
-                                       pressEffect=1, rolloverSound=Globals.getRolloverSound(),
-                                       clickSound=Globals.getClickSound(), pos=(POSITIONS[num]),
-                                       text0_fg=(0, 1, 0.8, 0.5), text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1),
-                                  extraArgs=ButtonNames[num])
+            button = DirectButton(image=self.buttonBgs[num], relief=None, text_font=Globals.getSignFont(),
+                                  text="Make A\nToon", text0_scale=0.1, text1_scale=0.12, text2_scale=0.12,
+                                  text_pos=(0, 0), scale=1.01, pressEffect=1, rolloverSound=Globals.getRolloverSound(),
+                                  clickSound=Globals.getClickSound(), pos=(POSITIONS[num]), text0_fg=(0, 1, 0.8, 0.5),
+                                  text1_fg=(0, 1, 0.8, 1), text2_fg=(0.3, 1, 0.9, 1), extraArgs=ButtonNames[num])
             button.setName(ButtonNames[num])
 
             toonExists = None
