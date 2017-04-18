@@ -305,3 +305,36 @@ mounts = [
         "phase_12.mf",
         "phase_13.mf"
 ]
+
+
+def importModule(dcImports, moduleName, importSymbols):
+    """
+    Imports the indicated moduleName and all of its symbols
+    into the current namespace.  This more-or-less reimplements
+    the Python import command.
+    """
+    module = __import__(moduleName, globals(), locals(), importSymbols)
+
+    if importSymbols:
+        # "from moduleName import symbolName, symbolName, ..."
+        # Copy just the named symbols into the dictionary.
+        if importSymbols == ['*']:
+            # "from moduleName import *"
+            if hasattr(module, "__all__"):
+                importSymbols = module.__all__
+            else:
+                importSymbols = module.__dict__.keys()
+
+        for symbolName in importSymbols:
+            if hasattr(module, symbolName):
+                dcImports[symbolName] = getattr(module, symbolName)
+            else:
+                raise Exception('Symbol %s not defined in module %s.' % (symbolName, moduleName))
+    else:
+        # "import moduleName"
+
+        # Copy the root module name into the dictionary.
+
+        # Follow the dotted chain down to the actual module.
+        components = moduleName.split('.')
+        dcImports[components[0]] = module

@@ -39,8 +39,8 @@ class TTC(DirectObject, Hood):
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
-        self.pgStorageFile = 'phase_4/dna/storage_TT.xml'
-        self.szStorageFile = 'phase_4/dna/storage_TT_sz.xml'
+        self.storageDNAFile = 'phase_4/dna/storage_TT.xml'
+        self.safeZoneStorageDNAFile = 'phase_4/dna/storage_TT_sz.xml'
         self.szDNAFile = 'phase_4/dna/toontown_central_sz.xml'
         if startPosHpr == 1:
             spawn = random.choice(SpawnPoints)
@@ -51,9 +51,9 @@ class TTC(DirectObject, Hood):
         self.titleText = "Toontown Central"
 
     def load(self):
-        self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorageFile, None, self.szStorageFile, self.szDNAFile)
+        self.ls.begin(100, None, None, None)
         self.loadHood()
+        self.createSafeZone(self.szDNAFile)
         self.tick()
         self.startSky()
         self.tick()

@@ -18,15 +18,95 @@ class Hood:
         self.playground = None
         self.dna = None
         self.fog = None
-        self.storageFile = 'phase_4/dna/storage.xml'
+        self.storageDNAFile = None
+        self.safeZoneStorageDNAFile = None
         self.notify = directNotify.newCategory('HoodLoader')
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
-        self.playground = self.dna.returnGeom()
-        self.playground.reparentTo(base.render)
+        if self.storageDNAFile:
+            loader.loadDNA(self.storageDNAFile).store(base.dnaStore)
+        self.sky = loader.loadModel(self.skyFile)
+        self.sky.setTag('sky', 'Regular')
+        self.sky.setScale(1.0)
+        self.sky.setFogOff()
+
+    def createSafeZone(self, dnaFile):
+        if self.safeZoneStorageDNAFile:
+            loader.loadDNA(self.safeZoneStorageDNAFile).store(base.dnaStore)
+        sceneTree = loader.loadDNA(dnaFile)
+        node = sceneTree.generate(base.dnaStore)
+        base.dnaData = sceneTree.generateData()
+        if node.getNumParents() == 1:
+            self.playground = NodePath(node.getParent(0))
+            self.playground.reparentTo(hidden)
+        else:
+            self.playground = hidden.attachNewNode(node)
+        self.makeDictionaries(sceneTree)
+        self.createAnimatedProps(self.nodeList)
+        self.holidayPropTransforms = {}
+        npl = self.playground.findAllMatches('**/=DNARoot=holiday_prop')
+        for i in range(npl.getNumPaths()):
+            np = npl.getPath(i)
+            np.setTag('transformIndex', `i`)
+            self.holidayPropTransforms[i] = np.getNetTransform()
+
+        self.playground.flattenMedium()
+        gsg = base.win.getGsg()
+        if gsg:
+            self.playground.prepareScene(gsg)
+
+    def makeDictionaries(self, sceneTree):
+        self.nodeList = []
+        for visgroup in base.dnaData.visgroups:
+            groupNode = self.playground.find('**/' + visgroup.name)
+            if groupNode.isEmpty():
+                self.notify.error('Could not find visgroup')
+            self.nodeList.append(groupNode)
+
+        self.removeLandmarkBlockNodes()
+
+    def removeLandmarkBlockNodes(self):
+        npc = self.playground.findAllMatches('**/suit_building_origin')
+        for i in range(npc.getNumPaths()):
+            npc.getPath(i).removeNode()
+
+    def createAnimatedProps(self, nodeList):
+        self.animPropDict = {}
+        for i in nodeList:
+            animPropNodes = i.findAllMatches('**/animated_prop_*')
+            numAnimPropNodes = animPropNodes.getNumPaths()
+            for j in range(numAnimPropNodes):
+                animPropNode = animPropNodes.getPath(j)
+                if animPropNode.getName().startswith('animated_prop_generic'):
+                    className = 'GenericAnimatedProp'
+                else:
+                    className = animPropNode.getName()[14:-8]
+                symbols = {}
+                Globals.importModule(symbols, 'hood.folder', [className])
+                classObj = getattr(symbols[className], className)
+                animPropObj = classObj(animPropNode)
+                animPropList = self.animPropDict.setdefault(i, [])
+                animPropList.append(animPropObj)
+
+            interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
+            numInteractivePropNodes = interactivePropNodes.getNumPaths()
+            for j in range(numInteractivePropNodes):
+                interactivePropNode = interactivePropNodes.getPath(j)
+                className = 'GenericAnimatedProp'
+                symbols = {}
+                Globals.importModule(symbols, 'hood.folder', [className])
+                classObj = getattr(symbols[className], className)
+                interactivePropObj = classObj(interactivePropNode)
+                animPropList = self.animPropDict.get(i)
+                if animPropList is None:
+                    animPropList = self.animPropDict.setdefault(i, [])
+                animPropList.append(interactivePropObj)
+
+        return
 
     def enterHood(self):
+        self.playground.reparentTo(render)
         base.lastPlayground = self.titleText
         base.localData.updateLastPlayground()
         self.titleText = OnscreenText.OnscreenText(self.titleText, fg=self.titleColor, font=Globals.getSignFont(),

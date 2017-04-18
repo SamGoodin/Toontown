@@ -552,7 +552,6 @@ class Toon(Actor, ShadowCaster):
         self.nametag = NametagGroup()
         self.nametag.setAvatar(self)
         self.nametag.setFont(Globals.getInterfaceFont())
-        self.nametag.setChatFont(Globals.getInterfaceFont())
         self.nametag3d = self.attachNewNode('nametag3d')
         self.nametag3d.setTag('cam', 'nametag')
         self.nametag3d.setLightOff()
@@ -1057,17 +1056,10 @@ class Toon(Actor, ShadowCaster):
         self.deleteNametag3d()
         nametagNode = self.nametag.getNametag3d()
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
-        iconNodePath = self.nametag.getIcon()
+        iconNodePath = self.nametag.getNameIcon()
         for cJoint in self.getNametagJoints():
             cJoint.clearNetTransforms()
             cJoint.addNetTransform(nametagNode)
-        self.nametag.setText(self.getName())
-        nametagNode.showNametag()
-        nametagNode.showChat()
-        nametagNode.showThought()
-        nametagNode.update()
-        self.nametag3d.setBin('fixed', 0)
-        self.nametag.updateAll()
 
     def getNametagJoints(self):
         joints = []

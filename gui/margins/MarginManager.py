@@ -1,76 +1,83 @@
-from pandac.PandaModules import PandaNode
+from pandac.PandaModules import *
+from MarginCell import MarginCell
 import random
-
-from gui.margins.MarginCell import MarginCell
-
 
 class MarginManager(PandaNode):
     def __init__(self):
         PandaNode.__init__(self, 'margins')
 
         self.cells = set()
-        self.visibles = set()
+        self.visiblePopups = set()
 
-    def addCell(self, x, y, a2dMarker):
-        cell = MarginCell()
-        cell.reparentTo(a2dMarker)
-        cell.setPos(x, 0, y)
+    def addGridCell(self, x, y, a2d):
+        # Yucky!
+        nodePath = NodePath.anyPath(self)
+        a2d.reparentTo(nodePath)
+        cell = MarginCell(self)
+        cell.reparentTo(a2d)
         cell.setScale(0.2)
-        cell.setActive(True)
+        cell.setPos(x, 0, y)
+        cell.setAvailable(True)
+        cell.setPythonTag('MarginCell', cell)
 
         self.cells.add(cell)
         self.reorganize()
 
         return cell
 
-    def removeCell(self, cell):
-        if cell in self.cells:
-            self.cells.remove(cell)
-            self.reorganize()
-
-    def addVisible(self, visible):
-        self.visibles.add(visible)
+    def setCellAvailable(self, cell, available):
+        cell = cell.getPythonTag('MarginCell')
+        cell.setAvailable(available)
         self.reorganize()
 
-    def removeVisible(self, visible):
-        if visible in self.visibles:
-            self.visibles.remove(visible)
-            self.reorganize()
+    def addVisiblePopup(self, popup):
+        self.visiblePopups.add(popup)
+        self.reorganize()
 
-    def getActiveCells(self):
-        return [cell for cell in self.cells if cell.getActive()]
+    def removeVisiblePopup(self, popup):
+        if popup not in self.visiblePopups: return
+        self.visiblePopups.remove(popup)
+        self.reorganize()
 
     def reorganize(self):
-        # First, get all of the active cells:
-        activeCells = self.getActiveCells()
+        # First, get all active cells:
+        activeCells = [cell for cell in self.cells if cell.isAvailable()]
 
-        # Next, get all of the visibles sorted by priority:
-        visibles = list(self.visibles)
-        visibles.sort(key=lambda visible: visible.getPriority(), reverse=True)
+        # Next, get all visible popups, sorted by priority:
+        popups = list(self.visiblePopups)
+        popups.sort(key=lambda x: -x.getPriority())
 
-        # We can only display so many visibles, so truncate them based on the
-        # number of active cells:
-        visibles = visibles[:len(activeCells)]
+        # We can only display so many popups, so truncate to the number of active
+        # margin cells:
+        popups = popups[:len(activeCells)]
 
-        # Now, let's build a list of empty cells:
-        emptyCells = []
+        # Now, we need to build up a list of free cells:
+        freeCells = []
         for cell in activeCells:
-            content = cell.getContent()
-            if content in visibles:
-                # This cell is already displaying something we want to see.
-                # Ignore it:
-                visibles.remove(content)
-                continue
-            elif content is not None:
-                # This cell isn't displaying anything interesting, so let's
-                # empty it:
+            if not cell.hasContent():
+                freeCells.append(cell)
+            elif cell.getContent() in popups:
+                # It's already displaying something we want to show, so we can
+                # safely ignore this cell/popup pair:
+                popups.remove(cell.getContent())
+            else:
+                # It's not displaying something we want to see, evict the old
+                # popup:
                 cell.setContent(None)
-            emptyCells.append(cell)
+                freeCells.append(cell)
 
-        # Assign the visibles to their cells:
-        for visible in visibles:
-            cell = visible.getLastCell()
-            if cell not in emptyCells:
-                cell = random.choice(emptyCells)
-            cell.setContent(visible)
-            emptyCells.remove(cell)
+        # At this point, there should be enough cells to show the popups:
+        assert len(freeCells) >= len(popups)
+
+        # Now we assign the popups:
+        for popup in popups:
+            if popup._lastCell in freeCells and popup._lastCell.isFree():
+                # The last cell it had assigned is available, so let's assign it
+                # again:
+                popup._lastCell.setContent(popup)
+                freeCells.remove(popup._lastCell)
+            else:
+                # We assign a cell at random.
+                cell = random.choice(freeCells)
+                cell.setContent(popup)
+                freeCells.remove(cell)

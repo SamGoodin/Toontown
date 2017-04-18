@@ -50,12 +50,12 @@ class StartMenu(DirectObject.DirectObject):
 
     def fadeOutTrack(self, x=0.5):
         from direct.interval.IntervalGlobal import Sequence, Func, Wait
-        track = Sequence(Func(lambda x: base.transitions.fadeScreen(x)), Wait(x + 2))
+        track = Sequence(Func(base.transitions.fadeScreen(.5)), Wait(.5 + 2))
         track.start()
         track.setAutoFinish(True)
 
     def enterMakeAToon(self, *args):
-        self.fadeOutTrack()
+        #self.fadeOutTrack()
         buttonName = ""
         for arg in args:
             buttonName += arg
@@ -64,7 +64,7 @@ class StartMenu(DirectObject.DirectObject):
         self.exit()
 
     def enterGame(self, *args):
-        self.fadeOutTrack()
+        #self.fadeOutTrack()
         self.exit()
         buttonName = ""
         for arg in args:

@@ -1,7 +1,6 @@
 from DNAElement import DNAElement
 from DNAParser import *
 
-
 class DNASceneElement(DNAElement):
     def __init__(self):
         DNAElement.__init__(self)

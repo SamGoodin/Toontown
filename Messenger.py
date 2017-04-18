@@ -145,9 +145,8 @@ class Messenger(DirectObject.DirectObject):
         self.enterGameTrack()
 
     def enterGameTrack(self):
-        self.track = Sequence(Func(self.enterGame), Func(self.teleportInSequence))
-        self.track.start()
-        self.track.setAutoFinish(True)
+        self.enterGame()
+        #self.teleportInSequence()
 
     def teleportInSequence(self):
         self.teleportInTrack = Sequence(Func(self.toon.enterTeleportIn), Wait(2), Func(self.toon.exitTeleportIn),

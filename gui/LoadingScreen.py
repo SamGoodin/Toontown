@@ -56,7 +56,7 @@ class LoadingScreen:
     def end(self):
         self.waitBar.finish()
         self.waitBar.reparentTo(self.gui)
-        self.title.reparentTo(self.gui)
+        #self.title.reparentTo(self.gui)
         self.gui.reparentTo(hidden)
         self.logo.reparentTo(hidden)
         return (self.__expectedCount, self.__count)
