@@ -2,7 +2,7 @@ import random
 from direct.showbase.DirectObject import DirectObject
 from hood.places.Hood import Hood
 import Globals
-from gui import Sky
+from gui import SkyUtil
 from gui.LoadingScreen import LoadingScreen
 from direct.task.Task import Task
 
@@ -55,14 +55,11 @@ class TTC(DirectObject, Hood):
         self.loadHood()
         self.createSafeZone(self.szDNAFile)
         self.tick()
-        self.startSky()
-        self.tick()
-        self.startMusic(self.musicFile)
         self.loadHoodSpecifics()
         self.tick()
         base.setCurrentZone(Globals.TTCZone)
-        self.enterHood()
         self.ls.end()
+        self.enterHood()
 
     def loadHoodSpecifics(self):
         bank = self.playground.find('**/*toon_landmark_TT_bank_DNARoot')
@@ -159,7 +156,7 @@ class SillyStreet(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
-        self.sky = Sky.Sky()
+        self.sky = SkyUtil.Sky()
         self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
@@ -218,7 +215,7 @@ class PunchlinePlace(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
-        self.sky = Sky.Sky()
+        self.sky = SkyUtil.Sky()
         self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)
@@ -277,7 +274,7 @@ class LoopyLane(DirectObject):
         self.street = self.dna.returnGeom()
         self.street.reparentTo(render)
         self.ls.tick()
-        self.sky = Sky.Sky()
+        self.sky = SkyUtil.Sky()
         self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = loader.loadMusic(self.musicFile)

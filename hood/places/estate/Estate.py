@@ -2,7 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 import random
 import Globals
 from dna.DNADoor import DNADoor
-from gui import Sky
+from gui import SkyUtil
 from gui.LoadingScreen import LoadingScreen
 from hood.places.estate import HouseGlobals
 from gui.nametag.NametagGroup import NametagGroup
@@ -42,7 +42,7 @@ class Estate(DirectObject):
         self.loadAirplane()
         self.estate.reparentTo(render)
         self.ls.tick()
-        self.sky = Sky.Sky()
+        self.sky = SkyUtil.Sky()
         self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")

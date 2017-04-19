@@ -1,14 +1,21 @@
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
-from direct.task.Task import Task
-from direct.distributed.PyDatagram import PyDatagram
-from direct.distributed.PyDatagramIterator import PyDatagramIterator
+from direct.interval.IntervalGlobal import *
+from direct.showbase.Transitions import Transitions
 
 
 class Window(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.transitions = Transitions(self.loader)
+        self.transitions.IrisModelName = 'phase_3/models/misc/iris'
+        self.transitions.FadeModelName = 'phase_3/models/misc/fade'
+        self.doneEvent = None
+        self.fade()
+
+    def fade(self):
+        base.transitions.fadeOut(finishIval=EventInterval(self.doneEvent))
 
 w = Window()
 w.run()

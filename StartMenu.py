@@ -4,6 +4,7 @@ import Globals
 import os.path
 import json
 from direct.showbase import DirectObject
+from direct.interval.IntervalGlobal import *
 
 POSITIONS = (Vec3(-0.840167, 0, 0.359333),
  Vec3(0.00933349, 0, 0.306533),
@@ -48,11 +49,12 @@ class StartMenu(DirectObject.DirectObject):
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
-    def fadeOutTrack(self, x=0.5):
-        from direct.interval.IntervalGlobal import Sequence, Func, Wait
-        track = Sequence(Func(base.transitions.fadeScreen(.5)), Wait(.5 + 2))
-        track.start()
-        track.setAutoFinish(True)
+    def fadeOutTrack(self):
+        self.track = Sequence(Func(self.fade), Wait(.5))
+        self.track.start()
+
+    def fade(self):
+        base.transitions.fadeOut(finishIval=EventInterval()
 
     def enterMakeAToon(self, *args):
         #self.fadeOutTrack()
@@ -64,7 +66,7 @@ class StartMenu(DirectObject.DirectObject):
         self.exit()
 
     def enterGame(self, *args):
-        #self.fadeOutTrack()
+        self.fadeOutTrack()
         self.exit()
         buttonName = ""
         for arg in args:

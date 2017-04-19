@@ -3,7 +3,7 @@ from direct.gui import OnscreenText
 from panda3d.core import *
 import Globals
 from gui.LoadingScreen import LoadingScreen
-from gui import Sky
+from gui import SkyUtil
 from pandac.PandaModules import *
 
 
@@ -13,7 +13,7 @@ class Hood:
         self.ls = LoadingScreen()
         self.titleColor = None
         self.titleText = None
-        self.music = None
+        self.musicFile = None
         self.skyFile = None
         self.playground = None
         self.dna = None
@@ -30,6 +30,7 @@ class Hood:
         self.sky.setTag('sky', 'Regular')
         self.sky.setScale(1.0)
         self.sky.setFogOff()
+        self.music = base.loadMusic(self.musicFile)
 
     def createSafeZone(self, dnaFile):
         if self.safeZoneStorageDNAFile:
@@ -105,8 +106,27 @@ class Hood:
 
         return
 
+    def deleteAnimatedProps(self):
+        for zoneNode, animPropList in self.animPropDict.items():
+            for animProp in animPropList:
+                animProp.delete()
+
+        del self.animPropDict
+
+    def enterAnimatedProps(self, zoneNode):
+        for animProp in self.animPropDict.get(zoneNode, ()):
+            animProp.enter()
+
+    def exitAnimatedProps(self, zoneNode):
+        for animProp in self.animPropDict.get(zoneNode, ()):
+            animProp.exit()
+
     def enterHood(self):
+        base.playMusic(self.music, looping=1, volume=0.8)
         self.playground.reparentTo(render)
+        for i in self.nodeList:
+            self.enterAnimatedProps(i)
+        self.startSky()
         base.lastPlayground = self.titleText
         base.localData.updateLastPlayground()
         self.titleText = OnscreenText.OnscreenText(self.titleText, fg=self.titleColor, font=Globals.getSignFont(),
@@ -128,8 +148,17 @@ class Hood:
         self.notify.warning("Hood unload successful.")
 
     def startSky(self):
-        self.sky = Sky.Sky()
-        self.sky.setupSky(self.skyFile)
+        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
+        self.notify.warning('The sky is: %s' % self.sky)
+        SkyUtil.startCloudSky(self)
+        self.sky.reparentTo(render)
+        self.sky.setZ(0.0)
+        self.sky.setHpr(0.0, 0.0, 0.0)
+        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
+        self.sky.node().setEffect(ce)
+
+    def skyTrack(self, task):
+        return SkyUtil.cloudSkyTrack(task)
 
     def startMusic(self, musicFile):
         self.music = base.loadMusic(musicFile)

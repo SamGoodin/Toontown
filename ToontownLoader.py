@@ -17,8 +17,6 @@ class ToontownLoader(Loader.Loader):
         return
 
     def destroy(self):
-        self.loadingScreen.destroy()
-        del self.loadingScreen
         Loader.Loader.destroy(self)
 
     def loadDNA(self, filename):
