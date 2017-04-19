@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="807afd3e-457b-463f-a582-727ea631000d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/SkyUtil.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gui/Sky.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/StartMenu.py" afterPath="$PROJECT_DIR$/StartMenu.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TestingFile.py" afterPath="$PROJECT_DIR$/TestingFile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ToontownLoader.py" afterPath="$PROJECT_DIR$/ToontownLoader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/LoadingScreen.py" afterPath="$PROJECT_DIR$/gui/LoadingScreen.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/Hood.py" afterPath="$PROJECT_DIR$/hood/places/Hood.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/ToontownCentral.py" afterPath="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/estate/Estate.py" afterPath="$PROJECT_DIR$/hood/places/estate/Estate.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -127,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/TestingFile.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -499,7 +491,14 @@
       <option name="project" value="LOCAL" />
       <updated>1492521262260</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Testing File">
+      <created>1492607589217</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1492607589217</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -546,7 +545,8 @@
     <MESSAGE value="PStats configured, Hood and other tweaks" />
     <MESSAGE value="VFS works" />
     <MESSAGE value="Changing DNA, unfinished" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changing DNA, unfinished" />
+    <MESSAGE value="Testing File" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing File" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1017,7 +1017,7 @@
     <entry file="file://$PROJECT_DIR$/TestingFile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
-          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>

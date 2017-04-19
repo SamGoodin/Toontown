@@ -12,10 +12,9 @@ class Window(ShowBase):
         self.transitions.IrisModelName = 'phase_3/models/misc/iris'
         self.transitions.FadeModelName = 'phase_3/models/misc/fade'
         self.doneEvent = None
-        self.fade()
 
     def fade(self):
-        base.transitions.fadeOut(finishIval=EventInterval(self.doneEvent))
+        base.transitions.fadeOut(finishIval=EventInterval(self.doneEvent, [self.doneStatus]))
 
 w = Window()
 w.run()
