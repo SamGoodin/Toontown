@@ -1,253 +1,156 @@
-from pandac.PandaModules import VBase4
+camera = None
 
 
-CCNormal = 0
-CCNoChat = 1
-CCNonPlayer = 2
-CCSuit = 3
-CCToonBuilding = 4
-CCSuitBuilding = 5
-CCHouseBuilding = 6
-CCSpeedChat = 7
-CCFreeChat = 8
+def setCamera(cam):
+    global camera
+    camera = cam
 
-CHAT = 0
-SPEEDCHAT = 1
 
-CHAT_BALLOON = 0
-THOUGHT_BALLOON = 1
-
-cardModel = None
 arrowModel = None
-chatBalloon3dModel = None
-chatBalloon3dWidth = 0
-chatBalloon3dHeight = 0
-chatBalloon2dModel = None
-chatBalloon2dWidth = 0
-chatBalloon2dHeight = 0
-thoughtBalloonModel = None
-thoughtBalloonWidth = 0
-thoughtBalloonHeight = 0
-noButton = (None, None, None, None)
-pageButton = (None, None, None, None)
-quitButton = (None, None, None, None)
-quitButtonWidth = 0
-quitButtonHeight = 0
+
+
+def setArrowModel(am):
+    global arrowModel
+    arrowModel = am
+
+
+nametagCardModel = None
+nametagCardDimensions = None
+
+
+def setNametagCard(model, dimensions):
+    global nametagCardModel, nametagCardDimensions
+    nametagCardModel = model
+    nametagCardDimensions = dimensions
+
+
+mouseWatcher = None
+
+
+def setMouseWatcher(mw):
+    global mouseWatcher
+    mouseWatcher = mw
+
+
+speechBalloon3d = None
+
+
+def setSpeechBalloon3d(sb3d):
+    global speechBalloon3d
+    speechBalloon3d = sb3d
+
+
+thoughtBalloon3d = None
+
+
+def setThoughtBalloon3d(tb3d):
+    global thoughtBalloon3d
+    thoughtBalloon3d = tb3d
+
+
+speechBalloon2d = None
+
+
+def setSpeechBalloon2d(sb2d):
+    global speechBalloon2d
+    speechBalloon2d = sb2d
+
+
+thoughtBalloon2d = None
+
+
+def setThoughtBalloon2d(tb2d):
+    global thoughtBalloon2d
+    thoughtBalloon2d = tb2d
+
+
+pageButtons = {}
+
+
+def setPageButton(state, model):
+    pageButtons[state] = model
+
+
+quitButtons = {}
+
+
+def setQuitButton(state, model):
+    quitButtons[state] = model
+
 
 rolloverSound = None
+
+
+def setRolloverSound(ros):
+    global rolloverSound
+    rolloverSound = ros
+
+
 clickSound = None
 
-me = None
-want2dNametags = True
-forceOnscreenChat = False
-force2dNametags = False
-wantActiveNametags = True
 
-
-def setCardModel(model):
-    global cardModel
-    cardModel = loader.loadModel(model)
-
-
-def setArrowModel(model):
-    global arrowModel
-    arrowModel = loader.loadModel(model)
-
-
-def setChatBalloon3dModel(model):
-    global chatBalloon3dModel
-    global chatBalloon3dWidth
-    global chatBalloon3dHeight
-    chatBalloon3dModel = loader.loadModel(model)
-    chatBalloon3dWidth, chatBalloon3dHeight = getModelWidthHeight(chatBalloon3dModel)
-
-
-def setChatBalloon2dModel(model):
-    global chatBalloon2dModel
-    global chatBalloon2dWidth
-    global chatBalloon2dHeight
-    chatBalloon2dModel = loader.loadModel(model)
-    chatBalloon2dWidth, chatBalloon2dHeight = getModelWidthHeight(chatBalloon2dModel)
-
-
-def setThoughtBalloonModel(model):
-    global thoughtBalloonModel
-    global thoughtBalloonWidth
-    global thoughtBalloonHeight
-    thoughtBalloonModel = loader.loadModel(model)
-    thoughtBalloonWidth, thoughtBalloonHeight = getModelWidthHeight(thoughtBalloonModel)
-
-
-def setPageButton(normal, down, rollover, disabled):
-    global pageButton
-    pageButton = (normal, down, rollover, disabled)
-
-
-def setQuitButton(normal, down, rollover, disabled):
-    global quitButton
-    global quitButtonWidth
-    global quitButtonHeight
-    quitButton = (normal, down, rollover, disabled)
-    quitButtonWidth, quitButtonHeight = getModelWidthHeight(normal)
-
-
-def setRolloverSound(sound):
-    global rolloverSound
-    rolloverSound = sound
-
-
-def setClickSound(sound):
+def setClickSound(cs):
     global clickSound
-    clickSound = sound
+    clickSound = cs
 
 
-def setMe(nodePath):
-    global me
-    me = nodePath
+toon = None
 
 
-def setWant2dNametags(value):
-    global want2dNametags
-    want2dNametags = value
+def setToon(t):
+    global toon
+    toon = t
 
 
-def setForceOnscreenChat(value):
-    global forceOnscreenChat
-    forceOnscreenChat = value
+masterArrowsOn = 0
 
 
-def setForce2dNametags(value):
-    global force2dNametags
-    force2dNametags = value
+def setMasterArrowsOn(mao):
+    global masterArrowsOn
+    masterArrowsOn = mao
 
 
-def setWantActiveNametags(value):
-    global wantActiveNametags
-    wantActiveNametags = value
+masterNametagsActive = 0
 
 
-def getModelWidthHeight(model):
-    tightBounds = model.getTightBounds()
-    if tightBounds is None:
-        return (0, 0)
-    minPoint, maxPoint = tightBounds
-    width = maxPoint.getX() - minPoint.getX()
-    height = maxPoint.getZ() - minPoint.getZ()
-    return (width, height)
+def setMasterNametagsActive(mna):
+    global masterNametagsActive
+    masterNametagsActive = mna
 
 
-# Foreground, background:
-NametagColors = {
-    CCNormal: (
-        (VBase4(0.3, 0.3, 0.7, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.3, 0.3, 0.7, 1.0), VBase4(0.2, 0.2, 0.2, 0.1875)),  # Down
-        (VBase4(0.5, 0.5, 1.0, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.3, 0.3, 0.7, 1.0), VBase4(1.0, 1.0, 1.0, 0.375))    # Disabled
-    ),
-    CCNoChat: (
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(0.2, 0.2, 0.2, 0.1875)),  # Click
-        (VBase4(1.0, 0.5, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCNonPlayer: (
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.1875)),  # Down
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.5625)),  # Rollover
-        (VBase4(0.8, 0.4, 0.0, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCSuit: (
-        (VBase4(0.2, 0.2, 0.2, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.2, 0.2, 0.2, 1.0), VBase4(0.2, 0.2, 0.2, 0.1875)),  # Down
-        (VBase4(0.4, 0.4, 0.4, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.2, 0.2, 0.2, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCSuitBuilding: (
-        (VBase4(0.5, 0.5, 0.5, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.5, 0.5, 0.5, 1.0), VBase4(0.8, 0.8, 0.8, 0.1875)),  # Down
-        (VBase4(0.5, 0.5, 0.5, 1.0), VBase4(0.8, 0.8, 0.8, 0.5625)),  # Rollover
-        (VBase4(0.5, 0.5, 0.5, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCToonBuilding: (
-        (VBase4(0.2, 0.6, 0.9, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.2, 0.6, 0.9, 1.0), VBase4(0.8, 0.8, 0.8, 0.1875)),  # Down
-        (VBase4(0.2, 0.6, 0.9, 1.0), VBase4(0.8, 0.8, 0.8, 0.5625)),  # Rollover
-        (VBase4(0.2, 0.6, 0.9, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCHouseBuilding: (
-        (VBase4(0.2, 0.6, 0.9, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.2, 0.2, 0.5, 1.0), VBase4(0.2, 0.2, 0.2, 0.1875)),  # Down
-        (VBase4(0.5, 0.5, 1.0, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.0, 0.6, 0.2, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCSpeedChat: (
-        (VBase4(0.0, 0.6, 0.2, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.0, 0.5, 0.0, 1.0), VBase4(0.5, 0.5, 0.5, 0.1875)),  # Down
-        (VBase4(0.0, 0.7, 0.2, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.0, 0.6, 0.2, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    ),
-    CCFreeChat: (
-        (VBase4(0.3, 0.3, 0.7, 1.0), VBase4(0.8, 0.8, 0.8, 0.375)),   # Normal
-        (VBase4(0.2, 0.2, 0.5, 1.0), VBase4(0.2, 0.2, 0.2, 0.1875)),  # Down
-        (VBase4(0.5, 0.5, 1.0, 1.0), VBase4(1.0, 1.0, 1.0, 0.5625)),  # Rollover
-        (VBase4(0.3, 0.3, 0.7, 1.0), VBase4(0.8, 0.8, 0.8, 0.375))    # Disabled
-    )
-}
+min2dAlpha = 0.0
 
-# Foreground, background:
-ChatColors = {
-    CCNormal: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCNoChat: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Click
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCNonPlayer: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Click
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCSuit: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCSuitBuilding: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCToonBuilding: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCHouseBuilding: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCSpeedChat: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    ),
-    CCFreeChat: (
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Normal
-        (VBase4(1.0, 0.5, 0.5, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Down
-        (VBase4(0.0, 0.6, 0.6, 1.0), VBase4(1.0, 1.0, 1.0, 1.0)),  # Rollover
-        (VBase4(0.0, 0.0, 0.0, 1.0), VBase4(1.0, 1.0, 1.0, 1.0))   # Disabled
-    )
-}
+
+def setMin2dAlpha(m2a):
+    global min2dAlpha
+    min2dAlpha = m2a
+
+
+def getMin2dAlpha():
+    global min2dAlpha
+    return min2dAlpha
+
+
+max2dAlpha = 0.0
+
+
+def setMax2dAlpha(m2a):
+    global max2dAlpha
+    max2dAlpha = m2a
+
+
+def getMax2dAlpha():
+    global max2dAlpha
+    return max2dAlpha
+
+
+onscreenChatForced = 0
+
+
+def setOnscreenChatForced(ocf):
+    global onscreenChatForced
+    onscreenChatForced = ocf
+
+
+def setGlobalNametagScale(s):
+    pass 

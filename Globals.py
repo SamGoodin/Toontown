@@ -167,6 +167,55 @@ OutdoorZone = 6000
 FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
+BossbotHQ = 10000
+SellbotHQ = 11000
+CashbotHQ = 12000
+LawbotHQ = 13000
+GolfZone = 17000
+EstateZone = "Estate"
+TTCZone = "Toontown Central"
+DDZone = "Donald's Dock"
+DLZone = "Donald's Dreamland"
+MMZone = "Minnie's Melodyland"
+BRZone = "The Brrrgh"
+DGZone = "Daisy Gardens"
+GSZone = "Goofy Speedway"
+BBHQ = "Bossbot HQ"
+CBHQ = "Cashbot HQ"
+LBHQ = "Lawbot HQ"
+SBHQ = "Sellbot HQ"
+OZZone = "Outdoor Zone"
+GZone = "Golf Zone"
+StreetZone = "-street"
+hoodId2Name = {
+        DonaldsDock: 'dd',
+        ToontownCentral: 'tt',
+        TheBrrrgh: 'br',
+        MinniesMelodyland: 'mm',
+        DaisyGardens: 'dg',
+        OutdoorZone: 'oz',
+        GoofySpeedway: 'gs',
+        DonaldsDreamland: 'dl',
+        BossbotHQ: 'bosshq',
+        SellbotHQ: 'sellhq',
+        CashbotHQ: 'cashhq',
+        LawbotHQ: 'lawhq',
+        GolfZone: 'gz'
+    }
+HoodsForTeleportAll = (DDZone,
+                       TTCZone,
+                       BRZone,
+                       MMZone,
+                       DGZone,
+                       OZZone,
+                       GSZone,
+                       DLZone,
+                       BBHQ,
+                       SBHQ,
+                       CBHQ,
+                       LBHQ,
+                       GZone
+                       )
 InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  1: '',
  2: '',
@@ -204,6 +253,8 @@ RPdirectFrame = (1.75, 1, 0.75)
 RPskipScale = 0.5
 RPskipPos = (0, -.5)
 
+buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
+
 def setDefaultDialogGeom(string):
     global defaultDialogGeom
     defaultDialogGeom = string
@@ -211,16 +262,6 @@ def setDefaultDialogGeom(string):
 def getDefaultDialogGeom():
     global defaultDialogGeom
     return defaultDialogGeom
-
-EstateZone = "Estate"
-TTCZone = "Toontown Central"
-DDZone = "Donald's Dock"
-DDLZone = "Donald's Dreamland"
-MMZone = "Minnie's Melodyland"
-BRZone = "Brrrgh"
-DGZone = "Daisy Gardens"
-GSZone = "Goofy Speedway"
-StreetZone = "-street"
 
 BuildingNametagShadow = None
 
@@ -245,3 +286,55 @@ def setCameraBitmask(default, node_path, camera_bitmask, tag = None, tag_functio
 
 def renderReflection(default, node_path, tag = None, tag_function = None, context = None):
     setCameraBitmask(default, node_path, BitMask32.bit(1), tag, tag_function, context)
+
+SPRender = 2
+SPDonaldsBoat = 3
+
+mounts = [
+        "phase_3.mf",
+        "phase_3.5.mf",
+        "phase_4.mf",
+        "phase_5.mf",
+        "phase_5.5.mf",
+        "phase_6.mf",
+        "phase_7.mf",
+        "phase_8.mf",
+        "phase_9.mf",
+        "phase_10.mf",
+        "phase_11.mf",
+        "phase_12.mf",
+        "phase_13.mf"
+]
+
+
+def importModule(dcImports, moduleName, importSymbols):
+    """
+    Imports the indicated moduleName and all of its symbols
+    into the current namespace.  This more-or-less reimplements
+    the Python import command.
+    """
+    module = __import__(moduleName, globals(), locals(), importSymbols)
+
+    if importSymbols:
+        # "from moduleName import symbolName, symbolName, ..."
+        # Copy just the named symbols into the dictionary.
+        if importSymbols == ['*']:
+            # "from moduleName import *"
+            if hasattr(module, "__all__"):
+                importSymbols = module.__all__
+            else:
+                importSymbols = module.__dict__.keys()
+
+        for symbolName in importSymbols:
+            if hasattr(module, symbolName):
+                dcImports[symbolName] = getattr(module, symbolName)
+            else:
+                raise Exception('Symbol %s not defined in module %s.' % (symbolName, moduleName))
+    else:
+        # "import moduleName"
+
+        # Copy the root module name into the dictionary.
+
+        # Follow the dotted chain down to the actual module.
+        components = moduleName.split('.')
+        dcImports[components[0]] = module

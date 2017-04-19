@@ -1,47 +1,58 @@
-from direct.stdpy import threading
+import xml.sax
 
-from DNATesting import DNALoader
 
-class DNABulkLoader:
-    def __init__(self, storage, files):
-        self.dnaStorage = storage
-        self.dnaFiles = files
+class DNAError(Exception): pass
 
-    def loadDNAFiles(self):
-        print 'Reading DNA file...', self.dnaFiles
-        loadDNABulk(self.dnaStorage, self.dnaFiles)
-        messenger.send('tick')
-        del self.dnaStorage
-        del self.dnaFiles
 
-def loadDNABulk(dnaStorage, kill):
-    dnaLoader = DNALoader(base)
-    if __debug__:
-        file = kill
-    else:
-        file = kill
-    dnaLoader.loadDNAFile(dnaStorage, file)
-    dnaLoader.destroy()
+class DNAParseError(DNAError): pass
 
-def loadDNAFile(dnaStorage, file):
-    print 'Reading DNA file...', file
-    dnaLoader = DNALoader(base)
-    if __debug__:
-        file = file
-    else:
-        file = file
-    node = dnaLoader.loadDNAFile(dnaStorage, file)
-    dnaLoader.destroy()
-    if node.node().getNumChildren() > 0:
-        return node.node()
-    return None
+elementRegistry = {}
 
-def loadDNAFileAI(dnaStorage, file):
-    dnaLoader = DNALoader()
-    if __debug__:
-        file = file
-    else:
-        file = file
-    data = dnaLoader.loadDNAFileAI(dnaStorage, file)
-    dnaLoader.destroy()
-    return data
+
+def registerElement(element):
+    elementRegistry[element.TAG] = element
+
+
+class DNASaxHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        xml.sax.ContentHandler.__init__(self)
+
+        self.stack = []
+        self.root = None
+
+    def startElement(self, tag, attrs):
+        if self.stack:
+            parent = self.stack[-1]
+            parentTag = parent.TAG
+        else:
+            parent = None
+            parentTag = None
+
+        element = elementRegistry.get(tag)
+        if not element:
+            raise DNAParseError('Unknown element type: ' + tag)
+
+        if parentTag not in element.PARENTS:
+            raise DNAParseError('Cannot put %s below %s element' % (tag, parentTag))
+
+        element = element(**attrs)
+        self.stack.append(element)
+        element.reparentTo(parent)
+
+        if not self.root:
+            self.root = element
+
+    def endElement(self, tag):
+        self.stack.pop(-1)
+
+    def characters(self, chars):
+        if not self.stack:
+            return
+
+        self.stack[-1].handleText(chars)
+
+
+def parse(stream):
+    handler = DNASaxHandler()
+    xml.sax.parse(stream, handler)
+    return handler.root

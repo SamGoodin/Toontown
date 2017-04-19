@@ -534,7 +534,8 @@ class Toon(Actor, ShadowCaster):
                                            State('openBook', self.enterBook, self.exitBook, ['readBook', 'closeBook']),
                                            State('readBook', self.enterReadBook, self.exitReadBook),
                                            State('closeBook', self.enterCloseBook, self.exitCloseBook),
-                                           State('teleportOut', self.enterTeleportOut, self.exitTeleportOut)],
+                                           State('teleportOut', self.enterTeleportOut, self.exitTeleportOut),
+                                           State('TeleportIn', self.enterTeleportIn, self.exitTeleportIn)],
                                   'off', 'off')
         animStateList = self.animFSM.getStates()
         self.animFSM.enterInitialState()
@@ -551,13 +552,15 @@ class Toon(Actor, ShadowCaster):
         self.nametag = NametagGroup()
         self.nametag.setAvatar(self)
         self.nametag.setFont(Globals.getInterfaceFont())
-        self.nametag.setChatFont(Globals.getInterfaceFont())
         self.nametag3d = self.attachNewNode('nametag3d')
         self.nametag3d.setTag('cam', 'nametag')
         self.nametag3d.setLightOff()
         Globals.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
         self.getGeomNode().showThrough(BitMask32.bit(2))
         self.nametag3d.hide(BitMask32.bit(2))
+        self.collTube = None
+        self.battleTube = None
+        self.ghostMode = 0
 
     def enterNeutral(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
         anim = 'neutral'
@@ -569,6 +572,59 @@ class Toon(Actor, ShadowCaster):
 
     def exitNeutral(self):
         self.stop()
+
+    def getTeleportInTrack(self):
+        hole = self.getHoleActors()[0]
+        hole.setBin('shadow', 0)
+        hole.setDepthTest(0)
+        hole.setDepthWrite(0)
+        holeTrack = Sequence()
+        holeTrack.append(Func(hole.reparentTo, self))
+        pos = Point3(0, -2.4, 0)
+        holeTrack.append(Func(hole.setPos, self, pos))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.4, endTime=3.1))
+        holeTrack.append(Wait(0.6))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.1, endTime=3.4))
+
+        def restoreHole(hole):
+            hole.setPos(0, 0, 0)
+            hole.detachNode()
+            hole.clearBin()
+            hole.clearDepthTest()
+            hole.clearDepthWrite()
+
+        holeTrack.append(Func(restoreHole, hole))
+        toonTrack = Sequence(Wait(0.3), Func(self.getGeomNode().show), Func(self.nametag3d.show),
+                             ActorInterval(self, 'jump', startTime=0.45))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('teleportIn')
+        else:
+            trackName = 'teleportIn'
+        return Parallel(holeTrack, toonTrack, name=trackName)
+
+    def enterTeleportIn(self, animMultiplier=1, ts=0, callback=None, extraArgs=[]):
+        self.show()
+        self.playingAnim = 'teleport'
+        self.pose('teleport', self.getNumFrames('teleport') - 1)
+        self.getGeomNode().hide()
+        self.nametag3d.hide()
+        self.track = self.getTeleportInTrack()
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitTeleportIn(self):
+        self.playingAnim = None
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            self.track = None
+        if not self.ghostMode and not self.isDisguised:
+            self.getGeomNode().show()
+            self.nametag3d.show()
+        return
 
     def getHoleActors(self):
         if self.__holeActors:
@@ -975,54 +1031,17 @@ class Toon(Actor, ShadowCaster):
         return head
 
     def setData(self):
-        import json, os
-        data = None
-        headStyle = None
-        dataExists = False
-        if os.path.isfile("data/ToonData.json"):
-            dataExists = True
-            with open('data/ToonData.json') as jsonFile:
-                data = json.load(jsonFile)
-        buttonColors = ['red', 'green', 'purple', 'blue', 'pink', 'yellow']
-        tile = base.buttonPressed
-        toonData = {}
-        for color in buttonColors:
-            toonData[color] = {}
-            if dataExists:
-                headStyle = data[color].get('head')
-            if base.buttonPressed == color:
-                toonData[color].update({
-                    'species': self.species,
-                    'head': self.headStyle,
-                    'torso': self.bodyType,
-                    'legs': self.legsType,
-                    'headColor': self.headColor,
-                    'torsoColor': self.torsoColor,
-                    'legColor': self.legColor,
-                    'name': self.getName(),
-                    'lastPlayground': Globals.TTCZone,
-                    'shirt': self.shirtChoice,
-                    'shorts': self.shortsChoice
-                })
-                print self.species, self.headStyle, self.bodyType, self.legsType, self.headColor, self.torsoColor, self.legColor, self.shirtChoice, self.shortsChoice
-            elif headStyle:
-                toonData[color].update(data[color])
-            else:
-                toonData[color].update({
-                    'species': None,
-                    'head': None,
-                    'torso': None,
-                    'legs': None,
-                    'headColor': None,
-                    'torsoColor': None,
-                    'legColor': None,
-                    'name': None,
-                    'lastPlayground': None,
-                    'shirt': None,
-                    'shorts': None
-                })
-        with open('data/ToonData.json', 'w') as f:
-            json.dump(toonData, f, sort_keys=True, indent=2)
+        messenger.send('setLocalData', [self.species, self.headStyle, self.bodyType, self.legsType, self.headColor,
+                                        self.torsoColor, self.legColor, self.getName(), self.shirtChoice,
+                                        self.shortsChoice])
+        import json
+        names = []
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            for button in Globals.buttonColors:
+                name = data[button].get('name')
+                names.append(name)
+            base.localData.updateAllUserToonNames(names)
 
     def createRandomBoy(self):
         choice = random.choice(['dog', 'cat', 'horse', 'monkey', 'rabbit', 'mouse', 'duck', 'bear', 'pig'])
@@ -1037,11 +1056,10 @@ class Toon(Actor, ShadowCaster):
         self.deleteNametag3d()
         nametagNode = self.nametag.getNametag3d()
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
-        iconNodePath = self.nametag.getIcon()
+        iconNodePath = self.nametag.getNameIcon()
         for cJoint in self.getNametagJoints():
             cJoint.clearNetTransforms()
             cJoint.addNetTransform(nametagNode)
-        self.nametag.setText(self.getName())
 
     def getNametagJoints(self):
         joints = []
@@ -1353,11 +1371,37 @@ class Toon(Actor, ShadowCaster):
         self.setHeight(height)
 
     def setHeight(self, height):
-        pass
+        self.height = height
+        self.adjustNametag3d()
+        if self.collTube:
+            self.collTube.setPointB(0, 0, height - self.getRadius())
+            if self.collNodePath:
+                self.collNodePath.forceRecomputeBounds()
+        if self.battleTube:
+            self.battleTube.setPointB(0, 0, height - self.getRadius())
+
+    def adjustNametag3d(self):
+        self.nametag3d.setPos(0, 0, self.height + 1.5)
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
         return height.getZ() + 0.025
+
+    def getRadius(self):
+        return 1
+
+    def initializeBodyCollisions(self, collIdStr='string'):
+        '''self.collTube = CollisionTube(0, 0, 0.5, 0, 0, self.height - self.getRadius(), self.getRadius())
+        self.collNode = CollisionNode(collIdStr)
+        self.collNode.addSolid(self.collTube)
+        self.collNodePath = self.attachNewNode(self.collNode)
+        if self.ghostMode:
+            self.collNode.setCollideMask(BitMask32(2048))
+        else:
+            self.collNode.setCollideMask(BitMask32(1))
+        self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | BitMask32(256))'''
+        pass
+
 
     def setupControls(self, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
                       wallBitmask = Globals.WallBitmask, floorBitmask = Globals.FloorBitmask,
@@ -1712,10 +1756,425 @@ class Toon(Actor, ShadowCaster):
                                             extraArgs])
         return
 
-    def setupCameraPositions(self):
-        camHeight = max(2.0, 3.0)
-        defLookAt = Point3(0.0, 1.5, 0)
-        self.cameraPositions = (Point3(0.0, -10.0, camHeight - .5))
-        base.camera.setPos(Point3(self.cameraPositions))
-        base.camera.setHpr(defLookAt)
+    #-----------------------------------CAMERA STUFF--------------------------------------------------------------------
 
+    def initializeSmartCamera(self):
+        self.fov = 52.0
+        self.cTrav = CollisionTraverser('base.cTrav')
+        base.pushCTrav(self.cTrav)
+        self.cTrav.setRespectPrevTransform(1)
+        self.isPageUp = 0
+        self.isPageDown = 0
+        self.__idealCameraObstructed = 0
+        self.closestObstructionDistance = 0.0
+        self.cameraIndex = 0
+        self.auxCameraPositions = []
+        self.cameraZOffset = 0.0
+        self.__onLevelGround = 0
+        self.__camCollCanMove = 0
+        self.__geom = render
+        self.__disableSmartCam = 0
+        self.initializeSmartCameraCollisions()
+        self._smartCamEnabled = False
+        self.startUpdateSmartCamera()
+
+    def initializeSmartCameraCollisions(self):
+        self.ccTrav = CollisionTraverser('LocalAvatar.ccTrav')
+        self.ccLine = CollisionSegment(0.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+        self.ccLineNode = CollisionNode('ccLineNode')
+        self.ccLineNode.addSolid(self.ccLine)
+        self.ccLineNodePath = self.attachNewNode(self.ccLineNode)
+        self.ccLineBitMask = BitMask32(4)
+        self.ccLineNode.setFromCollideMask(self.ccLineBitMask)
+        self.ccLineNode.setIntoCollideMask(BitMask32.allOff())
+        self.camCollisionQueue = CollisionHandlerQueue()
+        self.ccTrav.addCollider(self.ccLineNodePath, self.camCollisionQueue)
+        self.ccSphere = CollisionSphere(0, 0, 0, 1)
+        self.ccSphereNode = CollisionNode('ccSphereNode')
+        self.ccSphereNode.addSolid(self.ccSphere)
+        self.ccSphereNodePath = base.camera.attachNewNode(self.ccSphereNode)
+        self.ccSphereNode.setFromCollideMask(BitMask32(4))
+        self.ccSphereNode.setIntoCollideMask(BitMask32.allOff())
+        self.camPusher = CollisionHandlerPusher()
+        self.camPusher.addCollider(self.ccSphereNodePath, base.camera)
+        self.camPusher.setCenter(self)
+        self.ccPusherTrav = CollisionTraverser('LocalAvatar.ccPusherTrav')
+        self.ccSphere2 = self.ccSphere
+        self.ccSphereNode2 = CollisionNode('ccSphereNode2')
+        self.ccSphereNode2.addSolid(self.ccSphere2)
+        self.ccSphereNodePath2 = base.camera.attachNewNode(self.ccSphereNode2)
+        self.ccSphereNode2.setFromCollideMask(BitMask32(4))
+        self.ccSphereNode2.setIntoCollideMask(BitMask32.allOff())
+        self.camPusher2 = CollisionHandlerPusher()
+        self.ccPusherTrav.addCollider(self.ccSphereNodePath2, self.camPusher2)
+        self.camPusher2.addCollider(self.ccSphereNodePath2, base.camera)
+        self.camPusher2.setCenter(self)
+        self.camFloorRayNode = self.attachNewNode('camFloorRayNode')
+        self.ccRay = CollisionRay(0.0, 0.0, 0.0, 0.0, 0.0, -1.0)
+        self.ccRayNode = CollisionNode('ccRayNode')
+        self.ccRayNode.addSolid(self.ccRay)
+        self.ccRayNodePath = self.camFloorRayNode.attachNewNode(self.ccRayNode)
+        self.ccRayBitMask = BitMask32(2)
+        self.ccRayNode.setFromCollideMask(self.ccRayBitMask)
+        self.ccRayNode.setIntoCollideMask(BitMask32.allOff())
+        self.ccTravFloor = CollisionTraverser('LocalAvatar.ccTravFloor')
+        self.camFloorCollisionQueue = CollisionHandlerQueue()
+        self.ccTravFloor.addCollider(self.ccRayNodePath, self.camFloorCollisionQueue)
+        self.ccTravOnFloor = CollisionTraverser('LocalAvatar.ccTravOnFloor')
+        self.ccRay2 = CollisionRay(0.0, 0.0, 0.0, 0.0, 0.0, -1.0)
+        self.ccRay2Node = CollisionNode('ccRay2Node')
+        self.ccRay2Node.addSolid(self.ccRay2)
+        self.ccRay2NodePath = self.camFloorRayNode.attachNewNode(self.ccRay2Node)
+        self.ccRay2BitMask = BitMask32(2)
+        self.ccRay2Node.setFromCollideMask(self.ccRay2BitMask)
+        self.ccRay2Node.setIntoCollideMask(BitMask32.allOff())
+        self.ccRay2MoveNodePath = hidden.attachNewNode('ccRay2MoveNode')
+        self.camFloorCollisionBroadcaster = CollisionHandlerFloor()
+        self.camFloorCollisionBroadcaster.setInPattern('on-floor')
+        self.camFloorCollisionBroadcaster.setOutPattern('off-floor')
+        self.camFloorCollisionBroadcaster.addCollider(self.ccRay2NodePath, self.ccRay2MoveNodePath)
+
+    def getHeight(self):
+        return self.height
+
+    def getClampedAvatarHeight(self):
+        return max(self.getHeight(), 3.0)
+
+    def initCameraPositions(self):
+        camHeight = self.getClampedAvatarHeight()
+        heightScaleFactor = camHeight * 0.3333333333
+        defLookAt = Point3(0.0, 1.5, camHeight)
+        scXoffset = 3.0
+        scPosition = (Point3(scXoffset - 1, -10.0, camHeight + 5.0), Point3(scXoffset, 2.0, camHeight))
+        self.cameraPositions = [(Point3(0.0, -9.0 * heightScaleFactor, camHeight),
+                                 defLookAt,
+                                 Point3(0.0, camHeight, camHeight * 4.0),
+                                 Point3(0.0, camHeight, camHeight * -1.0),
+                                 0),
+                                (Point3(0.0, 0.7, camHeight),
+                                 defLookAt,
+                                 Point3(0.0, camHeight, camHeight * 1.33),
+                                 Point3(0.0, camHeight, camHeight * 0.66),
+                                 1),
+                                (Point3(5.7 * heightScaleFactor, 7.65 * heightScaleFactor, camHeight + 2.0),
+                                 Point3(0.0, 1.0, camHeight),
+                                 Point3(0.0, 1.0, camHeight * 4.0),
+                                 Point3(0.0, 1.0, camHeight * -1.0),
+                                 0),
+                                (Point3(0.0, 8.65 * heightScaleFactor, camHeight),
+                                 Point3(0.0, 1.0, camHeight),
+                                 Point3(0.0, 1.0, camHeight * 4.0),
+                                 Point3(0.0, 1.0, camHeight * -1.0),
+                                 0),
+                                (Point3(-camHeight * 3, 0.0, camHeight),
+                                 Point3(0.0, 0.0, camHeight),
+                                 Point3(0.0, camHeight, camHeight * 1.1),
+                                 Point3(0.0, camHeight, camHeight * 0.9),
+                                 1),
+                                (Point3(camHeight * 3, 0.0, camHeight),
+                                 Point3(0.0, 0.0, camHeight),
+                                 Point3(0.0, camHeight, camHeight * 1.1),
+                                 Point3(0.0, camHeight, camHeight * 0.9),
+                                 1),
+                                (Point3(0.0, -24.0 * heightScaleFactor, camHeight + 4.0),
+                                 defLookAt,
+                                 Point3(0.0, 1.5, camHeight * 4.0),
+                                 Point3(0.0, 1.5, camHeight * -1.0),
+                                 0),
+                                (Point3(0.0, -12.0 * heightScaleFactor, camHeight + 4.0),
+                                 defLookAt,
+                                 Point3(0.0, 1.5, camHeight * 4.0),
+                                 Point3(0.0, 1.5, camHeight * -1.0),
+                                 0)] + self.auxCameraPositions
+
+    def setCameraPositionByIndex(self, index):
+        self.setCameraSettings(self.cameraPositions[index])
+
+    def setIdealCameraPos(self, pos):
+        self.__idealCameraPos = Point3(pos)
+        self.updateSmartCameraCollisionLineSegment()
+
+    def getIdealCameraPos(self):
+        return Point3(self.__idealCameraPos)
+
+    def getVisibilityPoint(self):
+        return Point3(0.0, 0.0, self.getHeight())
+
+    def putCameraFloorRayOnAvatar(self):
+        self.camFloorRayNode.setPos(self, 0, 0, 5)
+
+    def updateSmartCameraCollisionLineSegment(self):
+        pointB = self.getIdealCameraPos()
+        pointA = self.getVisibilityPoint()
+        vectorAB = Vec3(pointB - pointA)
+        lengthAB = vectorAB.length()
+        if lengthAB > 0.001:
+            self.ccLine.setPointA(pointA)
+            self.ccLine.setPointB(pointB)
+
+    def setCameraSettings(self, camSettings):
+        self.setIdealCameraPos(camSettings[0])
+        if self.isPageUp and self.isPageDown or not self.isPageUp and not self.isPageDown:
+            self.__cameraHasBeenMoved = 1
+            self.setLookAtPoint(camSettings[1])
+        elif self.isPageUp:
+            self.__cameraHasBeenMoved = 1
+            self.setLookAtPoint(camSettings[2])
+        elif self.isPageDown:
+            self.__cameraHasBeenMoved = 1
+            self.setLookAtPoint(camSettings[3])
+        else:
+            pass
+        self.__disableSmartCam = camSettings[4]
+        if self.__disableSmartCam:
+            self.putCameraFloorRayOnAvatar()
+            self.cameraZOffset = 0.0
+
+    def startUpdateSmartCamera(self, push=1):
+        if self._smartCamEnabled:
+            return
+        self._smartCamEnabled = True
+        self.__floorDetected = 0
+        self.__cameraHasBeenMoved = 0
+        self.recalcCameraSphere()
+        self.initCameraPositions()
+        self.setCameraPositionByIndex(self.cameraIndex)
+        self.posCamera(0, 0.0)
+        self.__instantaneousCamPos = camera.getPos()
+        if push:
+            self.cTrav.addCollider(self.ccSphereNodePath, self.camPusher)
+            self.ccTravOnFloor.addCollider(self.ccRay2NodePath, self.camFloorCollisionBroadcaster)
+            self.__disableSmartCam = 0
+        else:
+            self.__disableSmartCam = 1
+        self.__lastPosWrtRender = camera.getPos(render)
+        self.__lastHprWrtRender = camera.getHpr(render)
+        taskName = 'updateSmartCamera'
+        taskMgr.remove(taskName)
+        taskMgr.add(self.updateSmartCamera, taskName, priority=47)
+        self.enableSmartCameraViews()
+
+    def enableSmartCameraViews(self):
+        self.accept('tab', self.nextCameraPos, [1])
+        self.accept('shift-tab', self.nextCameraPos, [0])
+        self.accept('page_up', self.pageUp)
+        self.accept('page_down', self.pageDown)
+
+    def positionCameraWithPusher(self, pos, lookAt):
+        camera.setPos(pos)
+        self.ccPusherTrav.traverse(self.__geom)
+        camera.lookAt(lookAt)
+
+    def lerpCameraFov(self, fov, time):
+        taskMgr.remove('cam-fov-lerp-play')
+        oldFov = base.camLens.getHfov()
+        if abs(fov - oldFov) > 0.1:
+            def setCamFov(fov):
+                base.camLens.setMinFov(fov / (4. / 3.))
+
+            self.camLerpInterval = LerpFunctionInterval(setCamFov, fromData=oldFov, toData=fov, duration=time,
+                                                        name='cam-fov-lerp')
+            self.camLerpInterval.start()
+
+    def pageUp(self):
+        if not self.avatarControlsEnabled:
+            return
+        self.wakeUp()
+        if not self.isPageUp:
+            self.isPageDown = 0
+            self.isPageUp = 1
+            self.lerpCameraFov(70, 0.6)
+            self.setCameraPositionByIndex(self.cameraIndex)
+        else:
+            self.clearPageUpDown()
+
+    def pageDown(self):
+        if not self.avatarControlsEnabled:
+            return
+        self.wakeUp()
+        if not self.isPageDown:
+            self.isPageUp = 0
+            self.isPageDown = 1
+            self.lerpCameraFov(70, 0.6)
+            self.setCameraPositionByIndex(self.cameraIndex)
+        else:
+            self.clearPageUpDown()
+
+    def clearPageUpDown(self):
+        if self.isPageDown or self.isPageUp:
+            self.lerpCameraFov(self.fov, 0.6)
+            self.isPageDown = 0
+            self.isPageUp = 0
+            self.setCameraPositionByIndex(self.cameraIndex)
+
+    def nextCameraPos(self, forward):
+        if not self.avatarControlsEnabled:
+            return
+        self.wakeUp()
+        self.__cameraHasBeenMoved = 1
+        if forward:
+            self.cameraIndex += 1
+            if self.cameraIndex > len(self.cameraPositions) - 1:
+                self.cameraIndex = 0
+        else:
+            self.cameraIndex -= 1
+            if self.cameraIndex < 0:
+                self.cameraIndex = len(self.cameraPositions) - 1
+        self.setCameraPositionByIndex(self.cameraIndex)
+
+    def getCompromiseCameraPos(self):
+        if self.__idealCameraObstructed == 0:
+            compromisePos = self.getIdealCameraPos()
+        else:
+            visPnt = self.getVisibilityPoint()
+            idealPos = self.getIdealCameraPos()
+            distance = Vec3(idealPos - visPnt).length()
+            ratio = self.closestObstructionDistance / distance
+            compromisePos = idealPos * ratio + visPnt * (1 - ratio)
+            liftMult = 1.0 - ratio * ratio
+            compromisePos = Point3(compromisePos[0], compromisePos[1],
+                                   compromisePos[2] + self.getHeight() * 0.4 * liftMult)
+        compromisePos.setZ(compromisePos[2] + self.cameraZOffset)
+        return compromisePos
+
+    def updateSmartCamera(self, task):
+        if not self.__camCollCanMove and not self.__cameraHasBeenMoved:
+            if self.__lastPosWrtRender == camera.getPos(render):
+                if self.__lastHprWrtRender == camera.getHpr(render):
+                    return Task.cont
+        self.__cameraHasBeenMoved = 0
+        self.__lastPosWrtRender = camera.getPos(render)
+        self.__lastHprWrtRender = camera.getHpr(render)
+        self.__idealCameraObstructed = 0
+        if not self.__disableSmartCam:
+            self.ccTrav.traverse(self.__geom)
+            if self.camCollisionQueue.getNumEntries() > 0:
+                try:
+                    self.camCollisionQueue.sortEntries()
+                    self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
+                except AssertionError:
+                    pass
+            if not self.__onLevelGround:
+                self.handleCameraFloorInteraction()
+        if not self.__idealCameraObstructed:
+            self.nudgeCamera()
+        if not self.__disableSmartCam:
+            self.ccPusherTrav.traverse(self.__geom)
+            self.putCameraFloorRayOnCamera()
+        self.ccTravOnFloor.traverse(self.__geom)
+        return Task.cont
+
+    def handleCameraObstruction(self, camObstrCollisionEntry):
+        collisionPoint = camObstrCollisionEntry.getSurfacePoint(self.ccLineNodePath)
+        collisionVec = Vec3(collisionPoint - self.ccLine.getPointA())
+        distance = collisionVec.length()
+        self.__idealCameraObstructed = 1
+        self.closestObstructionDistance = distance
+        self.popCameraToDest()
+
+    def nudgeCamera(self):
+        CLOSE_ENOUGH = 0.1
+        curCamPos = self.__instantaneousCamPos
+        curCamHpr = camera.getHpr()
+        targetCamPos = self.getCompromiseCameraPos()
+        targetCamLookAt = self.getLookAtPoint()
+        posDone = 0
+        if Vec3(curCamPos - targetCamPos).length() <= CLOSE_ENOUGH:
+            camera.setPos(targetCamPos)
+            posDone = 1
+        camera.setPos(targetCamPos)
+        camera.lookAt(targetCamLookAt)
+        targetCamHpr = camera.getHpr()
+        hprDone = 0
+        if Vec3(curCamHpr - targetCamHpr).length() <= CLOSE_ENOUGH:
+            hprDone = 1
+        if posDone and hprDone:
+            return
+        lerpRatio = 0.15
+        lerpRatio = 1 - pow(1 - lerpRatio, globalClock.getDt() * 30.0)
+        self.__instantaneousCamPos = targetCamPos * lerpRatio + curCamPos * (1 - lerpRatio)
+        if self.__disableSmartCam or not self.__idealCameraObstructed:
+            newHpr = targetCamHpr * lerpRatio + curCamHpr * (1 - lerpRatio)
+        else:
+            newHpr = targetCamHpr
+        camera.setPos(self.__instantaneousCamPos)
+        camera.setHpr(newHpr)
+
+    def putCameraFloorRayOnCamera(self):
+        self.camFloorRayNode.setPos(self.ccSphereNodePath, 0, 0, 0)
+
+    def handleCameraFloorInteraction(self):
+        self.putCameraFloorRayOnCamera()
+        self.ccTravFloor.traverse(self.__geom)
+        if self.__onLevelGround:
+            return
+        if self.camFloorCollisionQueue.getNumEntries() == 0:
+            return
+        self.camFloorCollisionQueue.sortEntries()
+        camObstrCollisionEntry = self.camFloorCollisionQueue.getEntry(0)
+        camHeightFromFloor = camObstrCollisionEntry.getSurfacePoint(self.ccRayNodePath)[2]
+        self.cameraZOffset = camera.getPos()[2] + camHeightFromFloor
+        if self.cameraZOffset < 0:
+            self.cameraZOffset = 0
+        if self.__floorDetected == 0:
+            self.__floorDetected = 1
+            self.popCameraToDest()
+
+    def popCameraToDest(self):
+        newCamPos = self.getCompromiseCameraPos()
+        newCamLookAt = self.getLookAtPoint()
+        self.positionCameraWithPusher(newCamPos, newCamLookAt)
+        self.__instantaneousCamPos = camera.getPos()
+
+    def posCamera(self, lerp, time):
+        if not lerp:
+            self.positionCameraWithPusher(self.getCompromiseCameraPos(), self.getLookAtPoint())
+        else:
+            camPos = self.getCompromiseCameraPos()
+            savePos = camera.getPos()
+            saveHpr = camera.getHpr()
+            self.positionCameraWithPusher(camPos, self.getLookAtPoint())
+            x = camPos[0]
+            y = camPos[1]
+            z = camPos[2]
+            destHpr = camera.getHpr()
+            h = destHpr[0]
+            p = destHpr[1]
+            r = destHpr[2]
+            camera.setPos(savePos)
+            camera.setHpr(saveHpr)
+            taskMgr.remove('posCamera')
+            camera.lerpPosHpr(x, y, z, h, p, r, time, task='posCamera')
+
+    def setLookAtPoint(self, la):
+        self.__curLookAt = Point3(la)
+
+    def getLookAtPoint(self):
+        return Point3(self.__curLookAt)
+
+    def recalcCameraSphere(self):
+        nearPlaneDist = base.camLens.getNear()
+        hFov = base.camLens.getHfov()
+        vFov = base.camLens.getVfov()
+        hOff = nearPlaneDist * math.tan(deg2Rad(hFov / 2.0))
+        vOff = nearPlaneDist * math.tan(deg2Rad(vFov / 2.0))
+        camPnts = [Point3(hOff, nearPlaneDist, vOff),
+                   Point3(-hOff, nearPlaneDist, vOff),
+                   Point3(hOff, nearPlaneDist, -vOff),
+                   Point3(-hOff, nearPlaneDist, -vOff),
+                   Point3(0.0, 0.0, 0.0)]
+        avgPnt = Point3(0.0, 0.0, 0.0)
+        for camPnt in camPnts:
+            avgPnt = avgPnt + camPnt
+
+        avgPnt = avgPnt / len(camPnts)
+        sphereRadius = 0.0
+        for camPnt in camPnts:
+            dist = Vec3(camPnt - avgPnt).length()
+            if dist > sphereRadius:
+                sphereRadius = dist
+
+        avgPnt = Point3(avgPnt)
+        self.ccSphereNodePath.setPos(avgPnt)
+        self.ccSphereNodePath2.setPos(avgPnt)
+        self.ccSphere.setRadius(sphereRadius)
