@@ -39,6 +39,8 @@ class StartMenu(DirectObject.DirectObject):
         self.toon = Toon.Toon()
         self.accept('updateStartMenu', self.update)
         self.accept('finalizeEnter', self.finializeEnter)
+        self.accept('enterGame', self.enterGame)
+        self.accept('enterMAT', self.enterMakeAToon)
 
     def enter(self):
         base.disableMouse()
@@ -49,15 +51,10 @@ class StartMenu(DirectObject.DirectObject):
         self.pickAToonBG.reparentTo(aspect2d)
         base.setBackgroundColor(Vec4(0.145, 0.368, 0.78, 1))
 
-    def fadeOutTrack(self):
-        self.track = Sequence(Func(self.fade), Wait(.5))
-        self.track.start()
-
-    def fade(self):
-        base.transitions.fadeOut(finishIval=EventInterval()
+    def fade(self, *args):
+        base.transitions.fadeOut(finishIval=EventInterval(args[1], [args[0]]))
 
     def enterMakeAToon(self, *args):
-        #self.fadeOutTrack()
         buttonName = ""
         for arg in args:
             buttonName += arg
@@ -66,7 +63,6 @@ class StartMenu(DirectObject.DirectObject):
         self.exit()
 
     def enterGame(self, *args):
-        self.fadeOutTrack()
         self.exit()
         buttonName = ""
         for arg in args:
@@ -142,10 +138,11 @@ class StartMenu(DirectObject.DirectObject):
         else:
             self.ac.createButtons()
         for button in self.ac.buttonList:
+            button['command'] = self.fade
             if "-" in button.getName():
-                button['command'] = self.enterGame
+                button['extraArgs'] = [button.getName(), 'enterGame']
             else:
-                button['command'] = self.enterMakeAToon
+                button['extraArgs'] = [button.getName(), 'enterMAT']
         gui.removeNode()
         gui2.removeNode()
         newGui.removeNode()
