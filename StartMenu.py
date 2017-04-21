@@ -1,7 +1,6 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 import Globals
-import os.path
 import json
 from direct.showbase import DirectObject
 from direct.interval.IntervalGlobal import *
@@ -55,24 +54,20 @@ class StartMenu(DirectObject.DirectObject):
         base.transitions.fadeOut(finishIval=EventInterval(args[1], [args[0]]))
 
     def enterMakeAToon(self, *args):
-        buttonName = ""
-        for arg in args:
-            buttonName += arg
-        base.buttonPressed = buttonName
+        base.buttonPressed = args[0]
         messenger.send('enterMAT')
         self.exit()
 
     def enterGame(self, *args):
         self.exit()
-        buttonName = ""
-        for arg in args:
-            buttonName += arg
+        buttonName = args[0].replace("-filled", "")
         messenger.send('getData', [buttonName])
 
     def finializeEnter(self, species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name):
         self.toon.createToonWithData(species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom,
                                      name)
         base.toon = self.toon
+        base.transitions.noFade()
         messenger.send('enterGameFromStart')
 
     def quit(self):
@@ -217,6 +212,7 @@ class AvatarChoice:
                         head.getGeomNode().setDepthTest(1)
                         head.reparentTo(self.head)
                         head.flattenLight()
+                        base.head = head
                         trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
                         deleteButton = DirectButton(parent=button, image=(
                         trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'),
