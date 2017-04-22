@@ -2,8 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 import random
 import Globals
 from dna.DNADoor import DNADoor
-from dna.DNALoader import *
-from gui import Sky
+from gui import SkyUtil
 from gui.LoadingScreen import LoadingScreen
 from hood.places.estate import HouseGlobals
 from gui.nametag.NametagGroup import NametagGroup
@@ -43,7 +42,7 @@ class Estate(DirectObject):
         self.loadAirplane()
         self.estate.reparentTo(render)
         self.ls.tick()
-        self.sky = Sky.Sky()
+        self.sky = SkyUtil.Sky()
         self.sky.setupSky(self.skyFile)
         self.ls.tick()
         self.music = base.loadMusic("phase_4/audio/bgm/TC_nbrhood.ogg")
@@ -97,7 +96,7 @@ class Estate(DirectObject):
             houseModel = self.houseModels[0]
             self.house = houseModel.copyTo(self.houseNode[x])
             try:
-                self.name = Globals.allUserToonNames[x]
+                self.name = base.localData.allUserToonNames[x]
             except:
                 self.name = ''
             self.__setHouseColor()
@@ -119,7 +118,6 @@ class Estate(DirectObject):
         nameText.setWordwrap(16.0)
         xScale = 1.0
         numLines = 0
-        print self.name
         if self.name is None:
             return
         else:

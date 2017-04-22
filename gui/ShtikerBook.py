@@ -1,6 +1,7 @@
 from direct.gui.DirectGui import *
 import Globals
 from direct.interval.IntervalGlobal import *
+from panda3d.core import Vec4
 
 class ShtikerBook(DirectFrame):
 
@@ -109,12 +110,95 @@ class ShtikerBook(DirectFrame):
             text_scale=.06,
             text_pos=(0, 0),
             text_wordwrap=14)
+        cloudModel = loader.loadModel('phase_3.5/models/gui/cloud')
+        cloudImage = cloudModel.find('**/cloud')
+        for hood in Globals.HoodsForTeleportAll:
+            fullname = hood
+            hoodIndex = Globals.HoodsForTeleportAll.index(hood)
+            label = DirectButton(
+                parent=self.map,
+                relief=None,
+                pos=self.labelPosList[hoodIndex],
+                pad=(0.2, 0.16),
+                text=('', fullname, fullname),
+                text_bg=Vec4(1, 1, 1, 0.4),
+                text_scale=0.055,
+                text_wordwrap=8,
+                rolloverSound=None,
+                clickSound=None,
+                pressEffect=0,
+                sortOrder=1,
+                command=self.teleportToZone,
+                extraArgs=fullname)
+            label.resetFrameSize()
+            self.labels.append(label)
+            hoodClouds = []
+            for cloudScale, cloudPos in zip(self.cloudScaleList[hoodIndex], self.cloudPosList[hoodIndex]):
+                cloud = DirectFrame(
+                    parent=self.map,
+                    relief=None,
+                    state=DGG.DISABLED,
+                    image=cloudImage,
+                    scale=(cloudScale[0], cloudScale[1], cloudScale[2]),
+                    pos=(cloudPos[0], cloudPos[1], cloudPos[2]))
+                cloud.hide()
+                hoodClouds.append(cloud)
+
+            self.clouds.append(hoodClouds)
+
+        self.resetFrameSize()
         self.hoodLabel.hide()
         self.map.resetFrameSize()
         self.map.hide()
         self.safeZoneButton.hide()
         self.hide()
         self.estate = None
+
+    def teleportToZone(self, *args):
+        self.zone = ""
+        for arg in args:
+            self.zone += arg
+        track = Sequence(Func(self.closeBook), Wait(2), Func(base.toon.enterTeleportOut), Wait(4),
+                         Func(self.loadNewZone))
+        track.start()
+
+    def loadNewZone(self):
+        self.unloadCurrentPlayground()
+
+        def ttc():
+            messenger.send('loadTTC')
+
+        def dock():
+            messenger.send('loadDock')
+
+        def garden():
+            messenger.send('loadGardens')
+
+        def melody():
+            messenger.send('loadMelody')
+
+        def brrrgh():
+            messenger.send('loadBrrrgh')
+
+        def dreamland():
+            messenger.send('loadDreamland')
+
+        def speedway():
+            messenger.send('loadSpeedway')
+
+        def oz():
+            messenger.send('loadOutdoorZone')
+
+        options = {Globals.TTCZone: ttc,
+                   Globals.DDZone: dock,
+                   Globals.DGZone: garden,
+                   Globals.MMZone: melody,
+                   Globals.BRZone: brrrgh,
+                   Globals.DLZone: dreamland,
+                   Globals.GSZone: speedway,
+                   Globals.OZZone: oz}
+        options[self.zone]()
+        messenger.send('teleportIn')
 
     def startOpenBook(self):
         self.track = Sequence(Func(base.toon.enterBook), Wait(.6), Func(self.openBook), Func(base.toon.enterReadBook),
@@ -139,6 +223,7 @@ class ShtikerBook(DirectFrame):
         else:
             self.safeZoneButton.hide()
             self.goHomeButton.show()
+        messenger.send('hideFriendsListButton')
 
     def finishOpenBook(self):
         self.track.finish()
@@ -147,6 +232,7 @@ class ShtikerBook(DirectFrame):
         self.track = Sequence(Func(base.toon.enterCloseBook), Wait(2), Func(base.toon.exitCloseBook), Wait(0),
                               Func(self.finishCloseBook))
         self.track.start()
+        messenger.send('showFriendsListButton')
         base.playSfx(self.closeSound)
         base.render.show()
         base.setBackgroundColor(Globals.defaultBackgroundColor)
@@ -179,12 +265,7 @@ class ShtikerBook(DirectFrame):
 
     def goBackToPlayground(self):
         self.unloadCurrentPlayground()
-
-        def ttc():
-            messenger.send('backToPlayground')
-
-        options = {Globals.TTCZone: ttc}
-        options[base.lastPlayground]()
+        messenger.send('backToPlayground')
 
     def finishBackToPlayground(self):
         self.finishCloseBook()

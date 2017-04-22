@@ -1,145 +1,206 @@
-from direct.task.Task import Task
-from pandac.PandaModules import VBase4, PandaNode
-
-from gui.margins.MarginVisible import MarginVisible
-from gui.nametag import NametagGlobals
-from gui.nametag.Nametag2d import Nametag2d
-from gui.nametag.Nametag3d import Nametag3d
-
+from pandac.PandaModules import *
+from NametagConstants import *
+from Nametag3d import *
+from Nametag2d import *
 
 class NametagGroup:
-    CHAT_TIMEOUT_MIN = 4.0
+    CCNormal = CCNormal
+    CCNoChat = CCNoChat
+    CCNonPlayer = CCNonPlayer
+    CCSuit = CCSuit
+    CCToonBuilding = CCToonBuilding
+    CCSuitBuilding = CCSuitBuilding
+    CCHouseBuilding = CCHouseBuilding
+    CCSpeedChat = CCSpeedChat
+    CCFreeChat = CCFreeChat
+
     CHAT_TIMEOUT_MAX = 12.0
-    CHAT_STOMP_DELAY = 0.2
+    CHAT_TIMEOUT_MIN = 4.0
+    CHAT_TIMEOUT_PROP = 0.5
 
     def __init__(self):
-        self.avatar = None
-        self.active = True
-        self.objectCode = None
-
-        self.chatButton = NametagGlobals.noButton
-        self.chatReversed = False
-
-        self.font = None
-        self.chatFont = None
-
-        self.shadow = None
-
-        self.marginManager = None
-        self.visible3d = True
-
-        self.chatType = NametagGlobals.CHAT
-        self.chatBalloonType = NametagGlobals.CHAT_BALLOON
-
-        self.nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCNormal]
-        self.chatColor = NametagGlobals.ChatColors[NametagGlobals.CCNormal]
-        self.speedChatColor = VBase4(1, 1, 1, 1)
-
-        self.wordWrap = 8
-        self.chatWordWrap = 12
-
-        self.text = ''
-
-        self.chatPages = []
-        self.chatPageIndex = 0
-        self.chatTimeoutTask = None
-        self.chatTimeoutTaskName = self.getUniqueName() + '-timeout'
-
-        self.stompChatText = ''
-        self.stompTask = None
-        self.stompTaskName = self.getUniqueName() + '-stomp'
-
-        self.icon = PandaNode('icon')
-
         self.nametag2d = Nametag2d()
         self.nametag3d = Nametag3d()
+        self.icon = PandaNode('icon')
 
-        self.nametags = set()
-        self.add(self.nametag2d)
-        self.add(self.nametag3d)
+        self.chatTimeoutTask = None
 
-        # Add the tick task:
-        self.tickTaskName = self.getUniqueName() + '-tick'
-        self.tickTask = taskMgr.add(self.tick, self.tickTaskName, sort=45)
+        self.font = None
+        self.speechFont = None
+        self.name = ''
+        self.displayName = ''
+        self.wordWrap = None
+        self.qtColor = VBase4(1,1,1,1)
+        self.colorCode = CCNormal
+        self.avatar = None
+        self.active = True
+
+        self.chatPages = []
+        self.chatPage = 0
+        self.chatFlags = 0
+
+        self.objectCode = None
+
+        self.manager = None
+
+        self.nametags = []
+        self.addNametag(self.nametag2d)
+        self.addNametag(self.nametag3d)
+
+        self.visible3d = True # Is a 3D nametag visible, or do we need a 2D popup?
+
+        self.tickTask = taskMgr.add(self.__tickTask, self.getUniqueId(), sort=45)
+
+        self.stompTask = None
+        self.stompText = None
+        self.stompFlags = 0
 
     def destroy(self):
-        if self.marginManager is not None:
-            self.unmanage(self.marginManager)
-
-        if self.tickTask is not None:
-            taskMgr.remove(self.tickTask)
-            self.tickTask = None
-
-        self.clearChatText()
-
+        taskMgr.remove(self.tickTask)
+        if self.manager is not None:
+            self.unmanage(self.manager)
         for nametag in list(self.nametags):
-            self.remove(nametag)
+            self.removeNametag(nametag)
+        if self.stompTask:
+            self.stompTask.remove()
 
-        self.nametag2d = None
-        self.nametag3d = None
+    def getNametag2d(self):
+        return self.nametag2d
 
-        if self.icon is not None:
-            self.icon.removeAllChildren()
-            self.icon = None
+    def getNametag3d(self):
+        return self.nametag3d
 
-        self.chatFont = None
-        self.font = None
+    def getNameIcon(self):
+        return self.icon
 
-        self.chatButton = NametagGlobals.noButton
+    def getNumChatPages(self):
+        if not self.chatFlags & (CFSpeech|CFThought):
+            return 0
 
-        self.avatar = None
+        return len(self.chatPages)
 
-    def getUniqueName(self):
-        return 'NametagGroup-' + str(id(self))
+    def setPageNumber(self, page):
+        self.chatPage = page
+        self.updateTags()
 
-    def tick(self, task):
-        if (self.avatar is None) or (self.avatar.isEmpty()):
-            return Task.cont
+    def getChatStomp(self):
+        return bool(self.stompTask)
 
-        chatText = self.getChatText()
-        if (NametagGlobals.forceOnscreenChat and
-            chatText and
-            self.chatBalloonType == NametagGlobals.CHAT_BALLOON):
-            visible3d = False
-        elif self.avatar == NametagGlobals.me:
-            if (chatText and
-                self.chatBalloonType == NametagGlobals.CHAT_BALLOON and
-                not base.cam.node().isInView(self.avatar.getPos(base.cam))):
-                visible3d = False
-            else:
-                visible3d = True
-        elif NametagGlobals.force2dNametags:
-            visible3d = False
-        elif (not NametagGlobals.want2dNametags and
-              ((not chatText) or (self.chatBalloonType != NametagGlobals.CHAT_BALLOON))):
-            visible3d = True
-        elif self.avatar.isHidden():
-            visible3d = False
+    def getChat(self):
+        if self.chatPage >= len(self.chatPages):
+            return ''
         else:
-            visible3d = base.cam.node().isInView(self.avatar.getPos(base.cam))
+            return self.chatPages[self.chatPage]
 
-        if visible3d != self.visible3d:
-            self.visible3d = visible3d
-            if self.nametag2d is not None:
-                self.nametag2d.setVisible(not visible3d)
+    def getStompText(self):
+        return self.stompText
 
-        return Task.cont
+    def getStompDelay(self):
+        return 0.2
 
-    def setAvatar(self, avatar):
-        self.avatar = avatar
-        for nametag in self.nametags:
-            nametag.setAvatar(self.avatar)
+    def getUniqueId(self):
+        return 'Nametag-%d' % id(self)
 
-    def getAvatar(self):
-        return self.avatar
+    def hasButton(self):
+        return bool(self.getButtons())
+
+    def getButtons(self):
+        if self.getNumChatPages() < 2:
+            # Either only one page or no pages displayed. This means no button,
+            # unless the game code specifically requests one.
+            if self.chatFlags & CFQuitButton:
+                return NametagGlobals.quitButtons
+            elif self.chatFlags & CFPageButton:
+                return NametagGlobals.pageButtons
+            else:
+                return None
+        elif self.chatPage == self.getNumChatPages()-1:
+            # Last page of a multiple-page chat. This calls for a quit button,
+            # unless the game says otherwise.
+            if not self.chatFlags & CFNoQuitButton:
+                return NametagGlobals.quitButtons
+            else:
+                return None
+        else:
+            # Non-last page of a multiple-page chat. This calls for a page
+            # button, but only if the game requests it:
+            if self.chatFlags & CFPageButton:
+                return NametagGlobals.pageButtons
+            else:
+                return None
 
     def setActive(self, active):
         self.active = active
-        for nametag in self.nametags:
-            nametag.setActive(self.active)
 
-    def getActive(self):
+    def isActive(self):
         return self.active
+
+    def setAvatar(self, avatar):
+        self.avatar = avatar
+
+    def setFont(self, font):
+        self.font = font
+        self.updateTags()
+
+    def setSpeechFont(self, font):
+        self.speechFont = font
+        self.updateTags()
+
+    def setWordwrap(self, wrap):
+        self.wordWrap = wrap
+        self.updateTags()
+
+    def setColorCode(self, cc):
+        self.colorCode = cc
+        self.updateTags()
+
+    def setName(self, name):
+        self.name = name
+        self.updateTags()
+
+    def setDisplayName(self, name):
+        self.displayName = name
+        self.updateTags()
+
+    def setQtColor(self, color):
+        self.qtColor = color
+        self.updateTags()
+
+    def setChat(self, chatString, chatFlags):
+        if not self.chatFlags&CFSpeech:
+            # We aren't already displaying some chat. Therefore, we don't have
+            # to stomp.
+            self._setChat(chatString, chatFlags)
+        else:
+            # Stomp!
+            self.clearChat()
+            self.stompText = chatString
+            self.stompFlags = chatFlags
+            self.stompTask = taskMgr.doMethodLater(self.getStompDelay(), self.__updateStomp,
+                                                   'ChatStomp-' + self.getUniqueId())
+
+    def _setChat(self, chatString, chatFlags):
+        if chatString:
+            self.chatPages = chatString.split('\x07')
+            self.chatFlags = chatFlags
+        else:
+            self.chatPages = []
+            self.chatFlags = 0
+        self.setPageNumber(0) # Calls updateTags() for us.
+
+        self._stopChatTimeout()
+        if chatFlags&CFTimeout:
+            self._startChatTimeout()
+
+    def __updateStomp(self, task):
+        self._setChat(self.stompText, self.stompFlags)
+        self.stompTask = None
+
+    def setContents(self, contents):
+        # This function is a little unique, it's meant to override contents on
+        # EXISTING nametags only:
+        for tag in self.nametags:
+            tag.setContents(contents)
 
     def setObjectCode(self, objectCode):
         self.objectCode = objectCode
@@ -147,295 +208,113 @@ class NametagGroup:
     def getObjectCode(self):
         return self.objectCode
 
-    def setChatButton(self, chatButton):
-        self.chatButton = chatButton
-        for nametag in self.nametags:
-            nametag.setChatButton(self.chatButton)
+    def _startChatTimeout(self):
+        length = len(self.getChat())
+        timeout = min(max(length*self.CHAT_TIMEOUT_PROP, self.CHAT_TIMEOUT_MIN), self.CHAT_TIMEOUT_MAX)
+        self.chatTimeoutTask = taskMgr.doMethodLater(timeout, self.__doChatTimeout,
+                                                     'ChatTimeout-' + self.getUniqueId())
 
-    def getChatButton(self):
-        return self.chatButton
+    def __doChatTimeout(self, task):
+        self._setChat('', 0)
+        return task.done
 
-    def hasChatButton(self):
-        return self.chatButton != NametagGlobals.noButton
-
-    def setChatReversed(self, reversed):
-        self.chatReversed = reversed
-        for nametag in self.nametags:
-            nametag.setChatReversed(reversed)
-
-    def getChatReversed(self):
-        return self.chatReversed
-
-    def setFont(self, font):
-        self.font = font
-        for nametag in self.nametags:
-            nametag.setFont(self.font)
-
-    def getFont(self):
-        return self.font
-
-    def setChatFont(self, chatFont):
-        self.chatFont = chatFont
-        for nametag in self.nametags:
-            nametag.setChatFont(self.chatFont)
-
-    def getChatFont(self):
-        return self.chatFont
-
-    def setShadow(self, shadow):
-        self.shadow = shadow
-        for nametag in self.nametags:
-            nametag.setShadow(self.shadow)
-
-    def getShadow(self):
-        return self.shadow
+    def _stopChatTimeout(self):
+        if self.chatTimeoutTask:
+            taskMgr.remove(self.chatTimeoutTask)
 
     def clearShadow(self):
-        self.shadow = None
+        pass
+
+    def clearChat(self):
+        self._setChat('', 0)
+        if self.stompTask:
+            self.stompTask.remove()
+
+    def updateNametag(self, tag):
+        tag.font = self.font
+        tag.speechFont = self.speechFont
+        tag.name = self.name
+        tag.wordWrap = self.wordWrap or DEFAULT_WORDWRAPS[self.colorCode]
+        tag.displayName = self.displayName or self.name
+        tag.qtColor = self.qtColor
+        tag.colorCode = self.colorCode
+        tag.chatString = self.getChat()
+        tag.buttons = self.getButtons()
+        tag.chatFlags = self.chatFlags
+        tag.avatar = self.avatar
+        tag.icon = self.icon
+
+        tag.update()
+
+    def __testVisible3D(self):
+        # We must determine if a 3D nametag is visible or not, since this
+        # affects the visibility state of 2D nametags.
+
+        # Next, we iterate over all of our nametags until we find a visible
+        # one:
         for nametag in self.nametags:
-            nametag.clearShadow()
+            if not isinstance(nametag, Nametag3d):
+                continue # It's not in the 3D system, disqualified.
 
-    def setChatType(self, chatType):
-        self.chatType = chatType
+            if nametag.isOnScreen():
+                return True
+
+        # If we got here, none of the tags were a match...
+        return False
+
+
+    def __tickTask(self, task):
         for nametag in self.nametags:
-            nametag.setChatType(self.chatType)
+            nametag.tick()
+            if (NametagGlobals.masterNametagsActive and self.active) or self.hasButton():
+                nametag.setClickRegionEvent(self.getUniqueId())
+            else:
+                nametag.setClickRegionEvent(None)
 
-    def getChatType(self):
-        return self.chatType
+        if NametagGlobals.onscreenChatForced and self.chatFlags & CFSpeech:
+            # Because we're *forcing* chat onscreen, we skip the visible3d test
+            # and go ahead and display it anyway.
+            visible3d = False
+        elif not NametagGlobals.masterArrowsOn and not self.chatFlags:
+            # We're forcing margins offscreen; therefore, we should pretend
+            # that the 3D nametag is always visible.
+            visible3d = True
+        else:
+            visible3d = self.__testVisible3D()
 
-    def setChatBalloonType(self, chatBalloonType):
-        self.chatBalloonType = chatBalloonType
+        if visible3d ^ self.visible3d:
+            self.visible3d = visible3d
+            for nametag in self.nametags:
+                if isinstance(nametag, MarginPopup):
+                    nametag.setVisible(not visible3d)
+
+        return task.cont
+
+    def updateTags(self):
         for nametag in self.nametags:
-            nametag.setChatBalloonType(self.chatBalloonType)
+            self.updateNametag(nametag)
 
-    def getChatBalloonType(self):
-        return self.chatBalloonType
+    def addNametag(self, nametag):
+        self.nametags.append(nametag)
+        self.updateNametag(nametag)
+        if self.manager is not None and isinstance(nametag, MarginPopup):
+            nametag.manage(manager)
 
-    def setNametagColor(self, nametagColor):
-        self.nametagColor = nametagColor
-        for nametag in self.nametags:
-            nametag.setNametagColor(self.nametagColor)
-
-    def getNametagColor(self):
-        return self.nametagColor
-
-    def setChatColor(self, chatColor):
-        self.chatColor = chatColor
-        for nametag in self.nametags:
-            nametag.setChatColor(self.chatColor)
-
-    def getChatColor(self):
-        return self.chatColor
-
-    def setSpeedChatColor(self, speedChatColor):
-        self.speedChatColor = speedChatColor
-        for nametag in self.nametags:
-            nametag.setSpeedChatColor(self.speedChatColor)
-
-    def getSpeedChatColor(self):
-        return self.speedChatColor
-
-    def setWordWrap(self, wordWrap):
-        self.wordWrap = wordWrap
-        for nametag in self.nametags:
-            nametag.setWordWrap(self.wordWrap)
-
-    def getWordWrap(self):
-        return self.wordWrap
-
-    def setChatWordWrap(self, chatWordWrap):
-        self.chatWordWrap = chatWordWrap
-        for nametag in self.nametags:
-            nametag.setChatWordWrap(self.chatWordWrap)
-
-    def getChatWordWrap(self):
-        return self.chatWordWrap
-
-    def setText(self, text):
-        self.text = text
-        for nametag in self.nametags:
-            nametag.setText(self.text)
-            nametag.update()
-
-    def getText(self):
-        return self.text
-
-    def getNumChatPages(self):
-        return len(self.chatPages)
-
-    def setChatPageIndex(self, chatPageIndex):
-        if chatPageIndex >= self.getNumChatPages():
-            return
-
-        self.chatPageIndex = chatPageIndex
-        for nametag in self.nametags:
-            nametag.setChatText(self.chatPages[self.chatPageIndex])
-            nametag.update()
-
-    def getChatPageIndex(self):
-        return self.chatPageIndex
-
-    def setChatText(self, chatText, timeout=False):
-        # If we are currently displaying chat text, we need to "stomp" it. In
-        # other words, we need to clear the current chat text, pause for a
-        # brief moment, and then display the new chat text:
-        if self.getChatText():
-            self.clearChatText()
-            self.stompChatText = chatText
-            self.stompTask = taskMgr.doMethodLater(
-                self.CHAT_STOMP_DELAY, self.__chatStomp, self.stompTaskName,
-                extraArgs=[timeout])
-            return
-
-        self.clearChatText()
-
-        self.chatPages = chatText.split('\x07')
-        self.setChatPageIndex(0)
-
-        if timeout:
-            delay = len(self.getChatText()) * 0.5
-            if delay < self.CHAT_TIMEOUT_MIN:
-                delay = self.CHAT_TIMEOUT_MIN
-            elif delay > self.CHAT_TIMEOUT_MAX:
-                delay = self.CHAT_TIMEOUT_MAX
-            self.chatTimeoutTask = taskMgr.doMethodLater(
-                delay, self.clearChatText, self.chatTimeoutTaskName)
-
-    def getChatText(self):
-        if self.chatPageIndex >= self.getNumChatPages():
-            return ''
-        return self.chatPages[self.chatPageIndex]
-
-    def clearChatText(self, task=None):
-        if self.stompTask is not None:
-            taskMgr.remove(self.stompTask)
-            self.stompTask = None
-
-        self.stompChatText = ''
-
-        if self.chatTimeoutTask is not None:
-            taskMgr.remove(self.chatTimeoutTask)
-            self.chatTimeoutTask = None
-
-        self.chatPages = []
-        self.chatPageIndex = 0
-
-        for nametag in self.nametags:
-            nametag.setChatText('')
-            nametag.update()
-
-        if task is not None:
-            return Task.done
-
-    def getStompChatText(self):
-        return self.stompChatText
-
-    def setIcon(self, icon):
-        self.icon = icon
-        for nametag in self.nametags:
-            nametag.setIcon(self.icon)
-
-    def getIcon(self):
-        return self.icon
-
-    def setNametag2d(self, nametag2d):
-        if self.nametag2d is not None:
-            self.remove(self.nametag2d)
-            self.nametag2d = None
-
-        if nametag2d is None:
-            return
-
-        self.nametag2d = nametag2d
-        self.add(self.nametag2d)
-
-    def getNametag2d(self):
-        return self.nametag2d
-
-    def setNametag3d(self, nametag3d):
-        if self.nametag3d is not None:
-            self.remove(self.nametag3d)
-            self.nametag3d = None
-
-        if nametag3d is None:
-            return
-
-        self.nametag3d = nametag3d
-        self.add(self.nametag3d)
-
-    def getNametag3d(self):
-        return self.nametag3d
-
-    def add(self, nametag):
-        self.nametags.add(nametag)
-        nametag.setAvatar(self.avatar)
-        nametag.setActive(self.active)
-        nametag.setClickEvent(self.getUniqueName())
-        nametag.setChatButton(self.chatButton)
-        nametag.setFont(self.font)
-        nametag.setChatFont(self.chatFont)
-        nametag.setChatType(self.chatType)
-        nametag.setChatBalloonType(self.chatBalloonType)
-        nametag.setNametagColor(self.nametagColor)
-        nametag.setChatColor(self.chatColor)
-        nametag.setSpeedChatColor(self.speedChatColor)
-        nametag.setWordWrap(self.wordWrap)
-        nametag.setChatWordWrap(self.chatWordWrap)
-        nametag.setText(self.text)
-        nametag.setChatText(self.getChatText())
-        nametag.setIcon(self.icon)
-        nametag.update()
-
-    def remove(self, nametag):
-        nametag.destroy()
+    def removeNametag(self, nametag):
         self.nametags.remove(nametag)
+        if self.manager is not None and isinstance(nametag, MarginPopup):
+            nametag.unmanage(manager)
+        nametag.destroy()
 
-    def updateAll(self):
-        for nametag in self.nametags:
-            nametag.update()
+    def manage(self, manager):
+        self.manager = manager
+        for tag in self.nametags:
+            if isinstance(tag, MarginPopup):
+                tag.manage(manager)
 
-    def manage(self, marginManager):
-        if self.marginManager is not None:
-            self.unmanage(self.marginManager)
-        self.marginManager = marginManager
-        for nametag in self.nametags:
-            if isinstance(nametag, MarginVisible):
-                nametag.manage(self.marginManager)
-
-    def unmanage(self, marginManager):
-        if marginManager != self.marginManager:
-            return
-        if self.marginManager is None:
-            return
-        self.marginManager = marginManager
-        for nametag in self.nametags:
-            if isinstance(nametag, MarginVisible):
-                nametag.unmanage(self.marginManager)
-
-    def hideNametag(self):
-        for nametag in self.nametags:
-            nametag.hideNametag()
-
-    def showNametag(self):
-        for nametag in self.nametags:
-            nametag.showNametag()
-
-    def hideChat(self):
-        for nametag in self.nametags:
-            nametag.hideChat()
-
-    def showChat(self):
-        for nametag in self.nametags:
-            nametag.showChat()
-
-    def hideThought(self):
-        for nametag in self.nametags:
-            nametag.hideThought()
-
-    def showThought(self):
-        for nametag in self.nametags:
-            nametag.showThought()
-
-    def __chatStomp(self, timeout=False):
-        self.setChatText(self.stompChatText, timeout=timeout)
-        self.stompChatText = ''
+    def unmanage(self, manager):
+        self.manager = None
+        for tag in self.nametags:
+            if isinstance(tag, MarginPopup):
+                tag.unmanage(manager)
+                tag.destroy()
