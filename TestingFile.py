@@ -11,10 +11,23 @@ class Window(ShowBase):
         self.transitions = Transitions(self.loader)
         self.transitions.IrisModelName = 'phase_3/models/misc/iris'
         self.transitions.FadeModelName = 'phase_3/models/misc/fade'
-        self.doneEvent = None
+        self.doneEvent = "Match"
+        self.doneStatus = "Match1"
+        self.accept('y', self.fade)
+        self.accept(self.doneStatus, self.fund)
 
     def fade(self):
-        base.transitions.fadeOut(finishIval=EventInterval(self.doneEvent, [self.doneStatus]))
+        self.transitions.fadeOut(finishIval=EventInterval(self.doneEvent, [self.doneStatus]))
+        jim = Sequence(Wait(2), Func(self.match))
+        jim.setAutoFinish(True)
+        jim.start()
+
+    def fund(self, *args):
+        print args
+
+    def match(self):
+        self.doneStatus = "Match"
+        print self.doneStatus
 
 w = Window()
 w.run()

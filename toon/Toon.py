@@ -1095,6 +1095,23 @@ class Toon(Actor, ShadowCaster):
         self.legsType = None
         self.bodyType = None
 
+    def fitAndCenterHead(self, maxDim, forGui=0):
+        p1 = Point3()
+        p2 = Point3()
+        self.head.calcTightBounds(p1, p2)
+        if forGui:
+            h = 180
+            t = p1[0]
+            p1.setX(-p2[0])
+            p2.setX(-t)
+        else:
+            h = 0
+        d = p2 - p1
+        biggest = max(d[0], d[2])
+        s = maxDim / biggest
+        mid = (p1 + d / 2.0) * s
+        self.head.setPosHprScale(-mid[0], -mid[1] + 1, -mid[2], h, 0, 0, s, s, s)
+
     def fixHeadShortShort(self, head, copy=None, gui=None):
         if gui:
             otherParts = head.findAllMatches('**/*long*')
