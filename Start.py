@@ -38,7 +38,7 @@ class MyApp(ShowBase):
         Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
         Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
         Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
-        DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
+        DirectGuiGlobals.setDefaultFontFunc(Globals.getInterfaceFont())
         DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
         DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         self.initNametagGlobals()

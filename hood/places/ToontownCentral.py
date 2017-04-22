@@ -33,6 +33,7 @@ class TTC(DirectObject, Hood):
     def __init__(self, toon, startPosHpr=1):
         DirectObject.__init__(self)
         Hood.__init__(self)
+        self.id = Globals.ToontownCentralId
         self.accept('unloadZone', self.unload)
         self.toon = toon
         self.musicFile = "phase_4/audio/bgm/TC_nbrhood.ogg"
@@ -51,7 +52,7 @@ class TTC(DirectObject, Hood):
         self.titleText = "Toontown Central"
 
     def load(self):
-        self.ls.begin(100, None, None, None)
+        loader.beginBulkLoad('ttc', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         self.loadHood()
         self.createSafeZone(self.szDNAFile)
         self.tick()

@@ -49,20 +49,17 @@ class LoadingScreen:
 
     def begin(self, range, label, gui, tipCategory):
         self.waitBar['range'] = range
-        #self.tip['text'] = self.getTip(tipCategory)
         self.title['text'] = label
         self.__count = 0
         self.__expectedCount = range
         if gui:
             base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
-            if base.localAvatarStyle:
-                from toontown.toon import ToonHead
-                self.toon['text'] = base.localAvatarName
-                self.starring['text'] = TTLocalizer.StarringIn
-                self.head = ToonHead.ToonHead()
-                self.head.setupHead(base.localAvatarStyle, forGui=1)
+            if gui:
+                self.toon['text'] = base.toon.getName()
+                self.starring['text'] = "Starring in..."
+                self.head = base.head
                 self.head.reparentTo(self.gui)
-                self.head.fitAndCenterHead(1, forGui=1)
+                base.toon.fitAndCenterHead(1, forGui=1)
             self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
             self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
