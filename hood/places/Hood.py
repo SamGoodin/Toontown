@@ -24,6 +24,7 @@ class Hood:
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
+        loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         if self.storageDNAFile:
             loader.loadDNA(self.storageDNAFile).store(base.dnaStore)
         self.sky = loader.loadModel(self.skyFile)
@@ -135,6 +136,7 @@ class Hood:
         base.cTrav = CollisionTraverser()
         base.camera.hide()
         self.notify.warning("Hood load successful.")
+        loader.endBulkLoad('hood')
 
     def unload(self):
         self.music.stop()
@@ -151,11 +153,6 @@ class Hood:
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         self.notify.warning('The sky is: %s' % self.sky)
         SkyUtil.startCloudSky(self)
-        self.sky.reparentTo(render)
-        self.sky.setZ(0.0)
-        self.sky.setHpr(0.0, 0.0, 0.0)
-        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
-        self.sky.node().setEffect(ce)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)

@@ -19,6 +19,7 @@ from gui.nametag.NametagGroup import NametagGroup
 import Globals
 from gui.LaffMeter import LaffMeter
 from toon.ShadowCaster import ShadowCaster
+from gui.nametag.Nametag import Nametag
 
 allColorsList = [(1.0, 1.0, 1.0, 1.0),
                  (0.96875, 0.691406, 0.699219, 1.0),
@@ -915,6 +916,7 @@ class Toon(Actor, ShadowCaster):
         }
         legs = LegDict[legType]
         self.legStyle = legType
+        self.headStyle = headType
         self.head = self.handleHead(headType, self.species)
         self.loadModel(self.head, 'head')
         self.loadModel(torso, "torso")
@@ -965,6 +967,8 @@ class Toon(Actor, ShadowCaster):
         self.headColor = tuple(headColor)
         self.torsoColor = tuple(torsoColor)
         self.legColor = tuple(legColor)
+        self.headStyle = headType
+        self.headColor = headColor
         self.head = self.handleHead(headType, self.species, headColor)
         self.loadModel(self.head, 'head')
         self.loadModel(torso, "torso")
@@ -1002,6 +1006,10 @@ class Toon(Actor, ShadowCaster):
             self.laffMeter.setPos(0.133, 0.0, 0.13)
 
         return self.laffMeter
+
+    def handleHeadForLoader(self):
+        head = self.handleHead(self.headStyle, self.species, self.headColor, 1)
+        return head
 
     def handleHead(self, headStyle, species, headColor=None, gui=None):
         head = Actor()
@@ -1268,6 +1276,9 @@ class Toon(Actor, ShadowCaster):
         parts = self.find('**/head*')
         return parts.getColor()
 
+    def getHead(self):
+        return self.head
+
     def setRandomHeadColor(self):
         self.headColor = random.choice(allColorsList)
         parts = self.findAllMatches('**/head*')
@@ -1381,7 +1392,7 @@ class Toon(Actor, ShadowCaster):
     def resetHeight(self):
         bodyScale = Globals.toonBodyScales[self.species]
         headScale = Globals.toonHeadScales[self.species][2]
-        shoulderHeight = Globals.legHeightDict[self.legStyle] * bodyScale +\
+        shoulderHeight = Globals.legHeightDict[self.legStyle] * bodyScale + \
                          Globals.torsoHeightDict[self.torsoStyle] * bodyScale
         height = shoulderHeight + Globals.headHeightDict[self.headStyle] * headScale
         self.shoulderHeight = shoulderHeight
@@ -1398,7 +1409,7 @@ class Toon(Actor, ShadowCaster):
             self.battleTube.setPointB(0, 0, height - self.getRadius())
 
     def adjustNametag3d(self):
-        self.nametag3d.setPos(0, 0, self.height + 1.5)
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
@@ -1413,11 +1424,10 @@ class Toon(Actor, ShadowCaster):
         self.collNode.addSolid(self.collTube)
         self.collNodePath = self.attachNewNode(self.collNode)
         if self.ghostMode:
-            self.collNode.setCollideMask(BitMask32(2048))
+            self.collNode.setCollideMask(Globals.GhostBitmask)
         else:
-            self.collNode.setCollideMask(BitMask32(1))
-        self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | BitMask32(256))'''
-        pass
+            self.collNode.setCollideMask(Globals.WallBitmask)
+        self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | Globals.PieBitmask)'''
 
 
     def setupControls(self, avatarRadius = 1.4, floorOffset = Globals.FloorOffset, reach = 4.0,
@@ -1773,6 +1783,9 @@ class Toon(Actor, ShadowCaster):
                                             extraArgs])
         return
 
+    def showName(self):
+        self.nametag.getNametag3d().setContents(Nametag.CName | Nametag.CSpeech | Nametag.CThought)
+
     #-----------------------------------CAMERA STUFF--------------------------------------------------------------------
 
     def initializeSmartCamera(self):
@@ -1859,7 +1872,8 @@ class Toon(Actor, ShadowCaster):
 
     def initCameraPositions(self):
         camHeight = self.getClampedAvatarHeight()
-        heightScaleFactor = camHeight * 0.3333333333
+        print camHeight
+        heightScaleFactor = (camHeight * 0.3333333333) + .5
         defLookAt = Point3(0.0, 1.5, camHeight)
         scXoffset = 3.0
         scPosition = (Point3(scXoffset - 1, -10.0, camHeight + 5.0), Point3(scXoffset, 2.0, camHeight))
@@ -2168,6 +2182,12 @@ class Toon(Actor, ShadowCaster):
 
     def getLookAtPoint(self):
         return Point3(self.__curLookAt)
+
+    def attachCamera(self):
+        camera.reparentTo(self)
+        base.setMouseOnNode(self.node())
+        self.ignoreMouse = not config.GetBool('want-mouse', 0)
+        self.setWalkSpeedNormal()
 
     def recalcCameraSphere(self):
         nearPlaneDist = base.camLens.getNear()

@@ -56,10 +56,10 @@ class LoadingScreen:
             base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
             if gui:
                 self.toon['text'] = base.toon.getName()
-                self.starring['text'] = "Starring in..."
-                self.head = base.head
+                '''self.starring['text'] = "Starring in..."
+                self.head = base.toon.getHead()
                 self.head.reparentTo(self.gui)
-                base.toon.fitAndCenterHead(1, forGui=1)
+                base.toon.fitAndCenterHead(1, forGui=1)'''
             self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
             self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)

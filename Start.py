@@ -15,6 +15,7 @@ import os
 from direct.showbase.Transitions import Transitions
 import ToontownLoader
 from dna.DNAStorage import DNAStorage
+from panda3d.core import *
 
 
 class MyApp(ShowBase):
@@ -23,6 +24,13 @@ class MyApp(ShowBase):
         ShowBase.__init__(self)
         self.setupVfs()
         Globals.setInterfaceFont(loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
+        Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
+        Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
+        Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
+        DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
+        DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
+        DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
+        DirectGuiGlobals.setDefaultFontFunc('phase_3/models/fonts/ImpressBT.ttf')
         oldLoader = self.loader
         self.loader = ToontownLoader.ToontownLoader(self)
         __builtins__.loader = self.loader
@@ -32,15 +40,11 @@ class MyApp(ShowBase):
         self.DTimer = DTimer()
         self.localData = LocalData()
         self.setCursorAndIcon()
+        self.cam2d.node().setCameraMask(BitMask32.bit(1))
+        self.cam.node().setCameraMask(Globals.MainCameraBitmask | Globals.EnviroCameraBitmask)
         self.transitions = Transitions(self.loader)
         self.transitions.IrisModelName = 'phase_3/models/misc/iris'
         self.transitions.FadeModelName = 'phase_3/models/misc/fade'
-        Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
-        Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
-        Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
-        DirectGuiGlobals.setDefaultFontFunc(Globals.getInterfaceFont())
-        DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
-        DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         self.initNametagGlobals()
         Globals.setDefaultDialogGeom(self.loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.currentZone = None

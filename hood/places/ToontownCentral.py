@@ -52,7 +52,6 @@ class TTC(DirectObject, Hood):
         self.titleText = "Toontown Central"
 
     def load(self):
-        loader.beginBulkLoad('ttc', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         self.loadHood()
         self.createSafeZone(self.szDNAFile)
         self.tick()
