@@ -22,6 +22,10 @@ class MyApp(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.enviroDR = None
+        self.enviroCam = None
+        self.stereoEnabled = True
+        self.setupEnviroCamera()
         self.setupVfs()
         Globals.setInterfaceFont(loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
         Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
@@ -40,6 +44,9 @@ class MyApp(ShowBase):
         self.DTimer = DTimer()
         self.localData = LocalData()
         self.setCursorAndIcon()
+        camera.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.camLens.setMinFov(Globals.DefaultCameraFov / (4. / 3.))
+        self.camLens.setNearFar(Globals.DefaultCameraNear, Globals.DefaultCameraFar)
         self.cam2d.node().setCameraMask(BitMask32.bit(1))
         self.cam.node().setCameraMask(Globals.MainCameraBitmask | Globals.EnviroCameraBitmask)
         self.transitions = Transitions(self.loader)
@@ -164,6 +171,48 @@ class MyApp(ShowBase):
             mm.addGridCell(-0.2 - padding, -0.9, base.a2dTopRight),  # Below the friends list
             mm.addGridCell(-0.2 - padding, -0.45, base.a2dTopRight)  # Behind the friends list
         ]'''
+
+    def setupEnviroCamera(self):
+        clearColor = VBase4(0, 0, 0, 1)
+        if self.enviroDR:
+            clearColor = self.enviroDR.getClearColor()
+            self.win.removeDisplayRegion(self.enviroDR)
+        if not self.enviroCam:
+            self.enviroCam = self.cam.attachNewNode(Camera('enviroCam'))
+        mainDR = self.camNode.getDisplayRegion(0)
+        if self.stereoEnabled == False:
+            self.enviroDR = self.win.makeStereoDisplayRegion()
+            if not mainDR.isStereo():
+                self.win.removeDisplayRegion(mainDR)
+                mainDR = self.win.makeStereoDisplayRegion()
+                mainDR.setCamera(self.cam)
+            ml = mainDR.getLeftEye()
+            mr = mainDR.getRightEye()
+            el = self.enviroDR.getLeftEye()
+            er = self.enviroDR.getRightEye()
+            el.setSort(-8)
+            ml.setSort(-6)
+            er.setSort(-4)
+            er.setClearDepthActive(True)
+            mr.setSort(-2)
+            mr.setClearDepthActive(False)
+        else:
+            self.enviroDR = self.win.makeMonoDisplayRegion()
+            if mainDR.isStereo():
+                self.win.removeDisplayRegion(mainDR)
+                mainDR = self.win.makeMonoDisplayRegion()
+                mainDR.setCamera(self.cam)
+            self.enviroDR.setSort(-10)
+        self.enviroDR.setClearColor(clearColor)
+        self.win.setClearColor(clearColor)
+        self.enviroDR.setCamera(self.enviroCam)
+        self.enviroCamNode = self.enviroCam.node()
+        self.enviroCamNode.setLens(self.cam.node().getLens())
+        self.enviroCamNode.setCameraMask(Globals.EnviroCameraBitmask)
+        render.hide(Globals.EnviroCameraBitmask)
+        self.camList.append(self.enviroCam)
+        self.backgroundDrawable = self.enviroDR
+        self.enviroDR.setTextureReloadPriority(-10)
 
 
 game = MyApp()

@@ -499,6 +499,7 @@ class Toon(Actor, ShadowCaster):
         self.head = None
         self.legs = None
         self.torso = None
+        self.style = None
         self.forceJumpIdle = False
         self.toon = None
         self.__bookActors = []

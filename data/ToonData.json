@@ -67,32 +67,17 @@
     "torsoColor": null
   }, 
   "red": {
-    "head": "pss", 
-    "headColor": [
-      0.460938, 
-      0.378906, 
-      0.824219, 
-      1.0
-    ], 
-    "lastPlayground": "Toontown Central", 
-    "legColor": [
-      0.570312, 
-      0.449219, 
-      0.164062, 
-      1.0
-    ], 
-    "legs": "dgs", 
-    "name": "O", 
-    "shirt": 91, 
-    "shorts": 52, 
-    "species": "pig", 
-    "torso": "dgl", 
-    "torsoColor": [
-      0.550781, 
-      0.824219, 
-      0.324219, 
-      1.0
-    ]
+    "head": null, 
+    "headColor": null, 
+    "lastPlayground": null, 
+    "legColor": null, 
+    "legs": null, 
+    "name": null, 
+    "shirt": null, 
+    "shorts": null, 
+    "species": null, 
+    "torso": null, 
+    "torsoColor": null
   }, 
   "yellow": {
     "head": null, 

@@ -153,6 +153,11 @@ class Hood:
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         self.notify.warning('The sky is: %s' % self.sky)
         SkyUtil.startCloudSky(self)
+        self.sky.reparentTo(camera)
+        self.sky.setZ(0.0)
+        self.sky.setHpr(0.0, 0.0, 0.0)
+        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
+        self.sky.node().setEffect(ce)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)

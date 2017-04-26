@@ -14,6 +14,7 @@ class LocalData(DirectObject):
         self.accept('setLocalData', self.setLocalData)
         self.accept('deleteToon', self.deleteToon)
         self.accept('getData', self.getData)
+        self.accept('getDataMod', self.getDataMod)
 
     def setLocalData(self, species, headStyle, bodyType, legsType, headColor, torsoColor, legColor, name, shirtChoice,
                      shortsChoice):
@@ -87,6 +88,22 @@ class LocalData(DirectObject):
             name = data[buttonName].get('name')
         messenger.send('finalizeEnter', [species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt,
                                          bottom, name])
+
+    def getDataMod(self, buttonName):
+        base.buttonPressed = buttonName
+        with open('data/ToonData.json') as jsonFile:
+            data = json.load(jsonFile)
+            headStyle = data[buttonName].get('head')
+            headColor = data[buttonName].get('headColor')
+            species = data[buttonName].get('species')
+            legs = data[buttonName].get('legs')
+            legColor = data[buttonName].get('legColor')
+            torso = data[buttonName].get('torso')
+            torsoColor = data[buttonName].get('torsoColor')
+            shirt = data[buttonName].get('shirt')
+            bottom = data[buttonName].get('shorts')
+            name = data[buttonName].get('name')
+        base.toon.style = [species, headStyle, torso, legs, headColor, torsoColor, legColor, shirt, bottom, name]
 
     def updateAllUserToonNames(self, names):
         if self.allUserToonNames:

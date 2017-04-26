@@ -31,7 +31,7 @@ class Messenger(DirectObject.DirectObject):
         self.accept('exit', self.exit)
         self.accept('enterMAT', self.enterMakeAToon)
         self.accept('StartMenu', self.enterStartMenu)
-        self.accept('exitMakeAToon', self.unloadMakeAToon)
+        self.accept('exitMakeAToon', self.exitMAT)
         self.accept('exitMAT', self.exitMAT)
         self.accept('loadEstate', self.loadEstate)
         self.accept('enterGameFromStart', self.enterGameFromStart)
@@ -137,6 +137,18 @@ class Messenger(DirectObject.DirectObject):
     def exitMAT(self):
         self.toon = self.MAT.getToon()
         self.toon.setData()
+
+        self.toon.delete()
+        del self.toon
+        print base.buttonPressed
+        messenger.send('getDataMod', [base.buttonPressed])
+        toonData = base.toon.style
+        print toonData
+        from toon import Toon
+        self.toon = Toon.Toon()
+        self.toon.createToonWithData(toonData[0], toonData[1], toonData[2], toonData[3], toonData[4], toonData[5],
+                                     toonData[6], toonData[7], toonData[8], toonData[9])
+
         base.toon = self.toon
         self.MAT.exit()
         self.MAT.unload()
