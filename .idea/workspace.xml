@@ -3,12 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="807afd3e-457b-463f-a582-727ea631000d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Messenger.py" afterPath="$PROJECT_DIR$/Messenger.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Start.py" afterPath="$PROJECT_DIR$/Start.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/LocalData.py" afterPath="$PROJECT_DIR$/data/LocalData.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/ToonData.json" afterPath="$PROJECT_DIR$/data/ToonData.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SecondTestingFile.py" afterPath="$PROJECT_DIR$/SecondTestingFile.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/LoadingScreen.py" afterPath="$PROJECT_DIR$/gui/LoadingScreen.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/Hood.py" afterPath="$PROJECT_DIR$/hood/places/Hood.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toon/Toon.py" afterPath="$PROJECT_DIR$/toon/Toon.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hood/places/ToontownCentral.py" afterPath="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,68 +30,74 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StartMenu.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/StartMenu.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-34">
-              <caret line="43" column="20" lean-forward="true" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#33#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NameShop.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/makeatoon/NameShop.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="448" column="0" lean-forward="true" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#33#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ToontownCentral.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hood/places/ToontownCentral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="53" column="19" lean-forward="false" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+            <state relative-caret-position="435">
+              <caret line="70" column="64" lean-forward="false" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Start.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Start.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Start.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="64" column="4" lean-forward="true" selection-start-line="64" selection-start-column="4" selection-end-line="68" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestingFile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TestingFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="269">
+              <caret line="19" column="92" lean-forward="true" selection-start-line="19" selection-start-column="92" selection-end-line="19" selection-end-column="92" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SecondTestingFile.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SecondTestingFile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SkyUtil.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/SkyUtil.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="163">
-              <caret line="46" column="42" lean-forward="true" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
+              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocalData.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/LocalData.py">
+      <file leaf-file-name="LoadingScreen.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/LoadingScreen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="103" column="51" lean-forward="true" selection-start-line="103" selection-start-column="51" selection-end-line="103" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DNAScale.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dna/DNAScale.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="172">
+              <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
               <folding>
-                <element signature="e#0#49#0" expanded="true" />
+                <element signature="e#0#34#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ToontownLoader.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ToontownLoader.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="38" column="64" lean-forward="true" selection-start-line="38" selection-start-column="64" selection-end-line="38" selection-end-column="64" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,8 +105,8 @@
       <file leaf-file-name="Hood.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="159" column="37" lean-forward="false" selection-start-line="159" selection-start-column="37" selection-end-line="159" selection-end-column="37" />
+            <state relative-caret-position="1190">
+              <caret line="154" column="42" lean-forward="true" selection-start-line="154" selection-start-column="42" selection-end-line="154" selection-end-column="42" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
               </folding>
@@ -133,24 +137,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>s</find>
-      <find>delete</find>
-      <find>setData</find>
-      <find>crea</find>
-      <find>creat</find>
-      <find>create</find>
-      <find>createTo</find>
-      <find>createToon</find>
-      <find>createToonW</find>
-      <find>createToonWith</find>
-      <find>createToonWithD</find>
-      <find>createToonWithDa</find>
-      <find>style</find>
-      <find>createToonWithData</find>
-      <find>S</find>
-      <find>Sh</find>
-      <find>Sha</find>
-      <find>Shado</find>
       <find>Shadow</find>
       <find>ShadowC</find>
       <find>ShadowCas</find>
@@ -158,11 +144,29 @@
       <find>ShadowCaster</find>
       <find>se</find>
       <find>attachCa</find>
-      <find>c</find>
       <find>cam3</find>
-      <find>cam</find>
       <find>cam2</find>
       <find>cam2d</find>
+      <find>S</find>
+      <find>Sk</find>
+      <find>Sky</find>
+      <find>SkyU</find>
+      <find>SkyUti</find>
+      <find>startSky</find>
+      <find>SkyUtil</find>
+      <find>c</find>
+      <find>cam</find>
+      <find>camera.</find>
+      <find>camera.re</find>
+      <find>camera.repar</find>
+      <find>camera.reparent</find>
+      <find>camera.reparentTo</find>
+      <find>camera.reparentTo(</find>
+      <find>camera.reparentTo(r</find>
+      <find>camera.reparentTo(re</find>
+      <find>camera.reparentTo(rend</find>
+      <find>camera.reparentTo(render</find>
+      <find>camera.reparentTo(render)</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\goodisam000\Desktop\Toontown\Toontown\data</dir>
@@ -180,7 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/dna/DNALandmarkBuilding.py" />
         <option value="$PROJECT_DIR$/dna/DNAModel.py" />
         <option value="$PROJECT_DIR$/dna/DNANhpr.py" />
         <option value="$PROJECT_DIR$/dna/DNATitle.py" />
@@ -221,16 +224,17 @@
         <option value="$PROJECT_DIR$/gui/Sky.py" />
         <option value="$PROJECT_DIR$/TestingFile.py" />
         <option value="$PROJECT_DIR$/ToontownLoader.py" />
-        <option value="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
-        <option value="$PROJECT_DIR$/gui/LoadingScreen.py" />
         <option value="$PROJECT_DIR$/gui/SkyUtil.py" />
         <option value="$PROJECT_DIR$/Globals.py" />
         <option value="$PROJECT_DIR$/StartMenu.py" />
         <option value="$PROJECT_DIR$/data/LocalData.py" />
-        <option value="$PROJECT_DIR$/hood/places/Hood.py" />
         <option value="$PROJECT_DIR$/Messenger.py" />
         <option value="$PROJECT_DIR$/toon/Toon.py" />
         <option value="$PROJECT_DIR$/Start.py" />
+        <option value="$PROJECT_DIR$/gui/LoadingScreen.py" />
+        <option value="$PROJECT_DIR$/hood/places/ToontownCentral.py" />
+        <option value="$PROJECT_DIR$/hood/places/Hood.py" />
+        <option value="$PROJECT_DIR$/SecondTestingFile.py" />
       </list>
     </option>
   </component>
@@ -270,6 +274,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Toontown" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hood" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -288,7 +306,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Start">
+  <component name="RunManager" selected="Python.SecondTestingFile">
     <configuration default="false" name="Start" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -430,9 +448,9 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.Start" />
-        <item index="1" class="java.lang.String" itemvalue="Python.TestingFile" />
-        <item index="2" class="java.lang.String" itemvalue="Python.SecondTestingFile" />
+        <item index="0" class="java.lang.String" itemvalue="Python.SecondTestingFile" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Start" />
+        <item index="2" class="java.lang.String" itemvalue="Python.TestingFile" />
         <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in SecondTestingFile.py" />
       </list>
     </recent_temporary>
@@ -525,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493126960355</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Sky to Camera ugh">
+      <created>1493213365688</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1493213365688</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -576,7 +601,8 @@
     <MESSAGE value="TODO: finish Fade startmenu" />
     <MESSAGE value="TODO: finish LoadingScreen" />
     <MESSAGE value="Stable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Stable" />
+    <MESSAGE value="Sky to Camera ugh" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sky to Camera ugh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -590,13 +616,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dna/DNASpawnerAI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="76" column="21" lean-forward="false" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dna/DNAStorageRoot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -734,6 +753,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="39" lean-forward="true" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -839,28 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TestingFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="19" column="92" lean-forward="true" selection-start-line="19" selection-start-column="92" selection-end-line="19" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ToontownLoader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/LoadingScreen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="60" column="46" lean-forward="true" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gui/nametag/Nametag.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2363">
@@ -884,14 +882,6 @@
           <folding>
             <element signature="e#0#49#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/ToontownCentral.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="53" column="19" lean-forward="false" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -940,24 +930,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/SkyUtil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="23" column="22" lean-forward="true" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="159" column="37" lean-forward="false" selection-start-line="159" selection-start-column="37" selection-end-line="159" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Messenger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
@@ -978,10 +950,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Start.py">
+    <entry file="file://$PROJECT_DIR$/gui/SkyUtil.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
-          <caret line="46" column="42" lean-forward="true" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestingFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="19" column="92" lean-forward="true" selection-start-line="19" selection-start-column="92" selection-end-line="19" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/LoadingScreen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ToontownLoader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="38" column="64" lean-forward="true" selection-start-line="38" selection-start-column="64" selection-end-line="38" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Start.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="64" column="4" lean-forward="true" selection-start-line="64" selection-start-column="4" selection-end-line="68" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/ToontownCentral.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="70" column="64" lean-forward="false" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hood/places/Hood.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="154" column="42" lean-forward="true" selection-start-line="154" selection-start-column="42" selection-end-line="154" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SecondTestingFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>

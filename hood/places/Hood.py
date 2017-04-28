@@ -24,13 +24,13 @@ class Hood:
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
-        loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
+        #loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         if self.storageDNAFile:
             loader.loadDNA(self.storageDNAFile).store(base.dnaStore)
-        self.sky = loader.loadModel(self.skyFile)
+        '''self.sky = loader.loadModel(self.skyFile)
         self.sky.setTag('sky', 'Regular')
         self.sky.setScale(1.0)
-        self.sky.setFogOff()
+        self.sky.setFogOff()'''
         self.music = base.loadMusic(self.musicFile)
 
     def createSafeZone(self, dnaFile):
@@ -125,18 +125,20 @@ class Hood:
     def enterHood(self):
         base.playMusic(self.music, looping=1, volume=0.8)
         self.playground.reparentTo(render)
+        lightsOn = LerpColorScaleInterval(self.playground, 0.1, Vec4(1, 1, 1, 1))
+        lightsOn.start()
         for i in self.nodeList:
             self.enterAnimatedProps(i)
-        self.startSky()
+        #self.startSky()
         base.lastPlayground = self.titleText
-        base.localData.updateLastPlayground()
+        #base.localData.updateLastPlayground()
         self.titleText = OnscreenText.OnscreenText(self.titleText, fg=self.titleColor, font=Globals.getSignFont(),
                                                    pos=(0, -0.5), scale=0.16, drawOrder=0, mayChange=1)
         self.doSpawnTitleText()
         base.cTrav = CollisionTraverser()
         base.camera.hide()
         self.notify.warning("Hood load successful.")
-        loader.endBulkLoad('hood')
+        #loader.endBulkLoad('hood')
 
     def unload(self):
         self.music.stop()
@@ -150,10 +152,14 @@ class Hood:
         self.notify.warning("Hood unload successful.")
 
     def startSky(self):
+        self.sky = loader.loadModel(self.skyFile)
+        self.sky.setTag('sky', 'Regular')
+        self.sky.setScale(1.0)
+        self.sky.setFogOff()
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         self.notify.warning('The sky is: %s' % self.sky)
         SkyUtil.startCloudSky(self)
-        self.sky.reparentTo(camera)
+        self.sky.reparentTo(base.cam)
         self.sky.setZ(0.0)
         self.sky.setHpr(0.0, 0.0, 0.0)
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)

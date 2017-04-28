@@ -55,7 +55,7 @@ class LoadingScreen:
         if gui:
             base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
             if gui:
-                self.toon['text'] = base.toon.getName()
+                #self.toon['text'] = base.toon.getName()
                 '''self.starring['text'] = "Starring in..."
                 self.head = base.toon.getHead()
                 self.head.reparentTo(self.gui)
