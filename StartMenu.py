@@ -39,7 +39,7 @@ class StartMenu(DirectObject.DirectObject):
         self.accept('updateStartMenu', self.update)
         self.accept('finalizeEnter', self.finializeEnter)
         self.accept('enterGame', self.enterGame)
-        self.accept('enterMAT', self.enterMakeAToon)
+        self.accept('enterMakeAToon', self.enterMakeAToon)
 
     def enter(self):
         base.disableMouse()
@@ -137,7 +137,7 @@ class StartMenu(DirectObject.DirectObject):
             if "-" in button.getName():
                 button['extraArgs'] = [button.getName(), 'enterGame']
             else:
-                button['extraArgs'] = [button.getName(), 'enterMAT']
+                button['extraArgs'] = [button.getName(), 'enterMakeAToon']
         gui.removeNode()
         gui2.removeNode()
         newGui.removeNode()
@@ -212,7 +212,6 @@ class AvatarChoice:
                         head.getGeomNode().setDepthTest(1)
                         head.reparentTo(self.head)
                         head.flattenLight()
-                        base.head = head
                         trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
                         deleteButton = DirectButton(parent=button, image=(
                         trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'),

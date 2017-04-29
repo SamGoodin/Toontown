@@ -28,11 +28,15 @@ toonHeadScales = {'mouse': Point3(1.0),
 legHeightDict = {'dgs': 1.5,
  'dgm': 2.0,
  'dgl': 2.75}
-
 torsoHeightDict = {'dgs': 1.5,
  'dgm': 1.75,
- 'dgl': 2.25,}
-
+ 'dgl': 2.25,
+ 'ss': 1.5,
+ 'ms': 1.75,
+ 'ls': 2.25,
+ 'sd': 1.5,
+ 'md': 1.75,
+ 'ld': 2.25}
 headHeightDict = {'dls': 0.75,
  'dss': 0.5,
  'dsl': 0.5,
@@ -448,7 +452,19 @@ MAILBOXES_BUFF_BATTLES = 65
 TRASHCANS_BUFF_BATTLES = 66
 WallBitmask = BitMask32(1)
 FloorBitmask = BitMask32(2)
+CameraBitmask = BitMask32(4)
+EnviroCameraBitmask = BitMask32.bit(5)
+MainCameraBitmask = BitMask32.bit(0)
+CameraTransparentBitmask = BitMask32(8)
+SafetyNetBitmask = BitMask32(512)
+SafetyGateBitmask = BitMask32(1024)
 GhostBitmask = BitMask32(2048)
+PathFindingBitmask = BitMask32.bit(29)
+PieBitmask = BitMask32(256)
+OriginalCameraFov = 52.0
+DefaultCameraFov = 52.0
+DefaultCameraFar = 400.0
+DefaultCameraNear = 1.0
 FloorOffset = 0.025
 ToonSpeedFactor = 1.25
 ToonForwardSpeed = 16.0 * ToonSpeedFactor
