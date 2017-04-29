@@ -27,10 +27,10 @@ class Hood:
         #loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         if self.storageDNAFile:
             loader.loadDNA(self.storageDNAFile).store(base.dnaStore)
-        '''self.sky = loader.loadModel(self.skyFile)
+        self.sky = loader.loadModel(self.skyFile)
         self.sky.setTag('sky', 'Regular')
         self.sky.setScale(1.0)
-        self.sky.setFogOff()'''
+        self.sky.setFogOff()
         self.music = base.loadMusic(self.musicFile)
 
     def createSafeZone(self, dnaFile):
@@ -152,14 +152,10 @@ class Hood:
         self.notify.warning("Hood unload successful.")
 
     def startSky(self):
-        self.sky = loader.loadModel(self.skyFile)
-        self.sky.setTag('sky', 'Regular')
-        self.sky.setScale(1.0)
-        self.sky.setFogOff()
         self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         self.notify.warning('The sky is: %s' % self.sky)
         SkyUtil.startCloudSky(self)
-        self.sky.reparentTo(base.cam)
+        self.sky.reparentTo(camera)
         self.sky.setZ(0.0)
         self.sky.setHpr(0.0, 0.0, 0.0)
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)

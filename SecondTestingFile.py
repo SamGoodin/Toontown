@@ -12,10 +12,15 @@ class Window(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
 
-        self.cam.node().setCameraMask(BitMask32.bit(0))
-        self.cam2d.node().setCameraMask(BitMask32.bit(0))
-        self.cam.node().getLens().setFilmSize(1280, 720)
-        # TODO: stupid bitmask stuff idek
+        cbm = CullBinManager.getGlobalPtr()
+        cbm.addBin('ground', CullBinManager.BTUnsorted, 18)
+        cbm.addBin('shadow', CullBinManager.BTBackToFront, 19)
+        cbm.addBin('gui-popup', CullBinManager.BTFixed, 60)
+
+        camera.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.camLens.setMinFov(Globals.DefaultCameraFov / (4. / 3.))
+        self.camLens.setNearFar(Globals.DefaultCameraNear, Globals.DefaultCameraFar)
+        self.cam2d.node().setCameraMask(BitMask32.bit(1))
 
         # Keep VFS here to use files
         self.vfs = VirtualFileSystem.getGlobalPtr()
