@@ -31,7 +31,8 @@ class Messenger(DirectObject.DirectObject):
         self.accept('exit', self.exit)
         self.accept('enterMAT', self.enterMakeAToon)
         self.accept('StartMenu', self.enterStartMenu)
-        self.accept('exitMakeAToon', self.unloadMakeAToon)
+        self.accept('exitMakeAToon', self.exitMAT)
+        self.accept('exitMAT', self.exitMAT)
         self.accept('loadEstate', self.loadEstate)
         self.accept('enterGameFromStart', self.enterGameFromStart)
         self.accept('closeFriendsList', self.closeFriendsList)
@@ -131,8 +132,23 @@ class Messenger(DirectObject.DirectObject):
         self.startMenu.loadStartMenu()
 
     def unloadMakeAToon(self):
+        base.transitions.fadeOut(finishIval=EventInterval('exitMAT'))
+
+    def exitMAT(self):
         self.toon = self.MAT.getToon()
         self.toon.setData()
+
+        self.toon.delete()
+        del self.toon
+        print base.buttonPressed
+        messenger.send('getDataMod', [base.buttonPressed])
+        toonData = base.toon.style
+        print toonData
+        from toon import Toon
+        self.toon = Toon.Toon()
+        self.toon.createToonWithData(toonData[0], toonData[1], toonData[2], toonData[3], toonData[4], toonData[5],
+                                     toonData[6], toonData[7], toonData[8], toonData[9])
+
         base.toon = self.toon
         self.MAT.exit()
         self.MAT.unload()
@@ -146,6 +162,17 @@ class Messenger(DirectObject.DirectObject):
 
     def enterGameTrack(self):
         self.enterGame()
+        base.localAvatar.attachCamera()
+        shouldPush = 1
+        if len(base.localAvatar.cameraPositions) > 0:
+            shouldPush = not base.localAvatar.cameraPositions[base.localAvatar.cameraIndex][4]
+        base.localAvatar.startUpdateSmartCamera(shouldPush)
+        base.localAvatar.showName()
+        #base.localAvatar.collisionsOn()
+        #base.localAvatar.startGlitchKiller()
+        base.localAvatar.enableAvatarControls()
+        base.localAvatar.startTrackAnimToSpeed()
+        base.localAvatar.setWalkSpeedNormal()
         #self.teleportInSequence()
 
     def teleportInSequence(self):
@@ -157,7 +184,6 @@ class Messenger(DirectObject.DirectObject):
     def enterGame(self):
         base.lastPlayground = base.localData.getLastPlayground()
         self.backToPlayground()
-        base.camera.reparentTo(self.toon)
         self.toon.reparentTo(render)
         self.toon.initializeBodyCollisions()
         self.toon.initializeDropShadow()

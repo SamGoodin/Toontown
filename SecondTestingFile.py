@@ -1,28 +1,56 @@
 from pandac.PandaModules import *
-loadPrcFile(
-    'config/Config.prc'
-)
+loadPrcFile('config/Config.prc')
+
 from direct.showbase.ShowBase import ShowBase
 import Globals
+import ToontownLoader
+from dna.DNAStorage import DNAStorage
 
 
 class Window(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
-        #Keep VFS here to use files
+
+        self.cam.node().setCameraMask(BitMask32.bit(0))
+        self.cam2d.node().setCameraMask(BitMask32.bit(0))
+        self.cam.node().getLens().setFilmSize(1280, 720)
+        # TODO: stupid bitmask stuff idek
+
+        # Keep VFS here to use files
         self.vfs = VirtualFileSystem.getGlobalPtr()
         for mount in Globals.mounts:
-            self.vfs.mount("multifiles/" + mount, "resources", 0)
+            self.vfs.mount("multifiles/" + mount, "/", 0)
 
-        from direct.showbase.Transitions import Transitions
+        oldLoader = self.loader
+        self.loader = ToontownLoader.ToontownLoader(self)
+        __builtins__.loader = self.loader
+        oldLoader.destroy()
 
-        transition = Transitions(self.loader)
-        transition.IrisModelName = 'phase_3/models/misc/iris'
-        transition.FadeModelName = 'phase_3/models/misc/fade'
+        self.loadDnaStore()
 
-        base.accept("1", transition.irisIn)
-        base.accept("2", transition.irisOut)
+        from hood.places.ToontownCentral import TTC
+        self.ttc = TTC(None)
+        self.ttc.load()
+        self.ttc.startSky()
+
+    def loadDnaStore(self):
+        if not hasattr(self, 'dnaStore'):
+            self.dnaStore = DNAStorage()
+
+            self.loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
+
+            '''self.dnaStore.storeFont(Globals.getInterfaceFont(), 'humanist')
+            self.dnaStore.storeFont(Globals.getSignFont(), 'mickey')
+            self.dnaStore.storeFont(ToontownGlobals.getSuitFont(), 'suit')'''
+
+            self.loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
+
+    def setCurrentZone(self, zone):
+        self.currentZone = zone
+
+    def setLastPlayground(self, zone):
+        self.lastPlayground = zone
 
 T = Window()
 T.run()

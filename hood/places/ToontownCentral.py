@@ -47,12 +47,11 @@ class TTC(DirectObject, Hood):
             spawn = random.choice(SpawnPoints)
         else:
             spawn = startPosHpr
-        self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
+        #self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
         self.titleColor = (1.0, 0.5, 0.4, 1.0)
         self.titleText = "Toontown Central"
 
     def load(self):
-        loader.beginBulkLoad('ttc', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
         self.loadHood()
         self.createSafeZone(self.szDNAFile)
         self.tick()
@@ -66,10 +65,10 @@ class TTC(DirectObject, Hood):
         bank = self.playground.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
         doorTrigger.setY(doorTrigger.getY() - 1.5)
-        base.taskMgr.add(self.sillyStreet, 'sillyStreet')
+        '''base.taskMgr.add(self.sillyStreet, 'sillyStreet')
         base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
         base.taskMgr.add(self.loopyLane, 'loopyLane')
-        base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')
+        base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')'''
         self.birdSound = map(base.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird2.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird3.ogg'])

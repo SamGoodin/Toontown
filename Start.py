@@ -15,14 +15,26 @@ import os
 from direct.showbase.Transitions import Transitions
 import ToontownLoader
 from dna.DNAStorage import DNAStorage
+from panda3d.core import *
 
 
 class MyApp(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+        self.enviroDR = None
+        self.enviroCam = None
+        self.stereoEnabled = True
+        self.setupEnviroCamera()
         self.setupVfs()
         Globals.setInterfaceFont(loader.loadFont('phase_3/models/fonts/ImpressBT.ttf'))
+        Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
+        Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
+        Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
+        DirectGuiGlobals.setDefaultFont(Globals.getInterfaceFont())
+        DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
+        DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
+        DirectGuiGlobals.setDefaultFontFunc('phase_3/models/fonts/ImpressBT.ttf')
         oldLoader = self.loader
         self.loader = ToontownLoader.ToontownLoader(self)
         __builtins__.loader = self.loader
@@ -32,15 +44,14 @@ class MyApp(ShowBase):
         self.DTimer = DTimer()
         self.localData = LocalData()
         self.setCursorAndIcon()
+        camera.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.camLens.setMinFov(Globals.DefaultCameraFov / (4. / 3.))
+        self.camLens.setNearFar(Globals.DefaultCameraNear, Globals.DefaultCameraFar)
+        self.cam2d.node().setCameraMask(BitMask32.bit(1))
+        self.cam.node().setCameraMask(Globals.MainCameraBitmask | Globals.EnviroCameraBitmask)
         self.transitions = Transitions(self.loader)
         self.transitions.IrisModelName = 'phase_3/models/misc/iris'
         self.transitions.FadeModelName = 'phase_3/models/misc/fade'
-        Globals.setSignFont(loader.loadFont('phase_3/models/fonts/MickeyFont'))
-        Globals.setRolloverSound(loader.loadSfx("phase_3/audio/sfx/GUI_rollover.ogg"))
-        Globals.setClickSound(loader.loadSfx("phase_3/audio/sfx/GUI_create_toon_fwd.ogg"))
-        DirectGuiGlobals.setDefaultFontFunc(Globals.getInterfaceFont())
-        DirectGuiGlobals.setDefaultClickSound(Globals.getClickSound())
-        DirectGuiGlobals.setDefaultRolloverSound(Globals.getRolloverSound())
         self.initNametagGlobals()
         Globals.setDefaultDialogGeom(self.loader.loadModel('phase_3/models/gui/dialog_box_gui'))
         self.currentZone = None
@@ -160,6 +171,48 @@ class MyApp(ShowBase):
             mm.addGridCell(-0.2 - padding, -0.9, base.a2dTopRight),  # Below the friends list
             mm.addGridCell(-0.2 - padding, -0.45, base.a2dTopRight)  # Behind the friends list
         ]'''
+
+    def setupEnviroCamera(self):
+        clearColor = VBase4(0, 0, 0, 1)
+        if self.enviroDR:
+            clearColor = self.enviroDR.getClearColor()
+            self.win.removeDisplayRegion(self.enviroDR)
+        if not self.enviroCam:
+            self.enviroCam = self.cam.attachNewNode(Camera('enviroCam'))
+        mainDR = self.camNode.getDisplayRegion(0)
+        if self.stereoEnabled == False:
+            self.enviroDR = self.win.makeStereoDisplayRegion()
+            if not mainDR.isStereo():
+                self.win.removeDisplayRegion(mainDR)
+                mainDR = self.win.makeStereoDisplayRegion()
+                mainDR.setCamera(self.cam)
+            ml = mainDR.getLeftEye()
+            mr = mainDR.getRightEye()
+            el = self.enviroDR.getLeftEye()
+            er = self.enviroDR.getRightEye()
+            el.setSort(-8)
+            ml.setSort(-6)
+            er.setSort(-4)
+            er.setClearDepthActive(True)
+            mr.setSort(-2)
+            mr.setClearDepthActive(False)
+        else:
+            self.enviroDR = self.win.makeMonoDisplayRegion()
+            if mainDR.isStereo():
+                self.win.removeDisplayRegion(mainDR)
+                mainDR = self.win.makeMonoDisplayRegion()
+                mainDR.setCamera(self.cam)
+            self.enviroDR.setSort(-10)
+        self.enviroDR.setClearColor(clearColor)
+        self.win.setClearColor(clearColor)
+        self.enviroDR.setCamera(self.enviroCam)
+        self.enviroCamNode = self.enviroCam.node()
+        self.enviroCamNode.setLens(self.cam.node().getLens())
+        self.enviroCamNode.setCameraMask(Globals.EnviroCameraBitmask)
+        render.hide(Globals.EnviroCameraBitmask)
+        self.camList.append(self.enviroCam)
+        self.backgroundDrawable = self.enviroDR
+        self.enviroDR.setTextureReloadPriority(-10)
 
 
 game = MyApp()
