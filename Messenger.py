@@ -140,10 +140,8 @@ class Messenger(DirectObject.DirectObject):
 
         self.toon.delete()
         del self.toon
-        print base.buttonPressed
         messenger.send('getDataMod', [base.buttonPressed])
         toonData = base.toon.style
-        print toonData
         from toon import Toon
         self.toon = Toon.Toon()
         self.toon.createToonWithData(toonData[0], toonData[1], toonData[2], toonData[3], toonData[4], toonData[5],

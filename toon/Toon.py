@@ -628,6 +628,9 @@ class Toon(Actor, ShadowCaster):
             self.nametag3d.show()
         return
 
+    def tunnelIn(self, startTime, endX, x, y, z, h):
+        pass
+
     def getHoleActors(self):
         if self.__holeActors:
             return self.__holeActors
@@ -1809,6 +1812,12 @@ class Toon(Actor, ShadowCaster):
         self._smartCamEnabled = False
         self.startUpdateSmartCamera()
 
+    def setGeom(self, geom):
+        self.__geom = geom
+
+    def setOnLevelGround(self, flag):
+        self.__onLevelGround = flag
+
     def initializeSmartCameraCollisions(self):
         self.ccTrav = CollisionTraverser('LocalAvatar.ccTrav')
         self.ccLine = CollisionSegment(0.0, 0.0, 0.0, 1.0, 0.0, 0.0)
@@ -1873,7 +1882,6 @@ class Toon(Actor, ShadowCaster):
 
     def initCameraPositions(self):
         camHeight = self.getClampedAvatarHeight()
-        print camHeight
         heightScaleFactor = (camHeight * 0.3333333333) + .5
         defLookAt = Point3(0.0, 1.5, camHeight)
         scXoffset = 3.0

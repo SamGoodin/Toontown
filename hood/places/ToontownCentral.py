@@ -5,6 +5,7 @@ import Globals
 from gui import SkyUtil
 from gui.LoadingScreen import LoadingScreen
 from direct.task.Task import Task
+from hood.places.Town import Town
 
 SpawnPoints = [
     [-60, -8, 1.3, -90, 0, 0],
@@ -33,13 +34,13 @@ class TTC(DirectObject, Hood):
     def __init__(self, toon, startPosHpr=1):
         DirectObject.__init__(self)
         Hood.__init__(self)
-        self.id = Globals.ToontownCentralId
         self.accept('unloadZone', self.unload)
         self.toon = toon
         self.musicFile = "phase_4/audio/bgm/TC_nbrhood.ogg"
         self.sky = None
         self.skyFile = "phase_3.5/models/props/TT_sky"
         self.dna = None
+        self.zoneId = Globals.ToontownCentralId
         self.storageDNAFile = 'phase_4/dna/storage_TT.xml'
         self.safeZoneStorageDNAFile = 'phase_4/dna/storage_TT_sz.xml'
         self.szDNAFile = 'phase_4/dna/toontown_central_sz.xml'
@@ -47,28 +48,23 @@ class TTC(DirectObject, Hood):
             spawn = random.choice(SpawnPoints)
         else:
             spawn = startPosHpr
-        #self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
+        self.toon.setPosHpr(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4], spawn[5])
         self.titleColor = (1.0, 0.5, 0.4, 1.0)
         self.titleText = "Toontown Central"
+        self.accept('loadStreet', self.loadStreet)
 
     def load(self):
         self.loadHood()
         self.createSafeZone(self.szDNAFile)
-        self.tick()
+        self.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
         self.loadHoodSpecifics()
-        self.tick()
         base.setCurrentZone(Globals.TTCZone)
-        self.ls.end()
         self.enterHood()
 
     def loadHoodSpecifics(self):
         bank = self.playground.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
         doorTrigger.setY(doorTrigger.getY() - 1.5)
-        '''base.taskMgr.add(self.sillyStreet, 'sillyStreet')
-        base.taskMgr.add(self.punchlinePlace, 'punchlinePlace')
-        base.taskMgr.add(self.loopyLane, 'loopyLane')
-        base.taskMgr.add(self.goofySpeedway, 'goofySpeedway')'''
         self.birdSound = map(base.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird2.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
@@ -82,16 +78,28 @@ class TTC(DirectObject, Hood):
 
     def unload(self):
         Hood.unload(self)
-        base.taskMgr.remove('sillyStreet')
-        base.taskMgr.remove('punchlinePlace')
-        base.taskMgr.remove('loopyLane')
-        base.taskMgr.remove('goofySpeedway')
         taskMgr.remove('TT-birds')
         del self.birdSound
         self.ignoreAll()
-        self.dna.unload()
-        del self.dna
-        self.ignore('unloadZone')
+
+    def loadStreet(self, streetId):
+        if streetId == 2100:
+            self.street = SillyStreet(self.toon)
+            self.street.load()
+            self.unload()
+            self.toon.setPosHpr(-91.9644, -100.045, -0.47204, 82.325, 0, 0)
+        elif streetId == 2200:
+            self.street = LoopyLane(self.toon)
+            self.street.load()
+            self.unload()
+            self.toon.setPosHpr(-76.0011, 96.14, -0.47921, -271.592, 0, 0)
+        elif streetId == 2300:
+            self.street = PunchlinePlace(self.toon)
+            self.street.load()
+            self.unload()
+            self.toon.setPosHpr(4.39313, 22.2804, -0.478364, 269.45, 0, 0)
+        else:
+            print streetId
 
     def goofySpeedway(self, task):
         if self.toon.getX() <= 33.4 and self.toon.getX() >= 20.9:
@@ -101,208 +109,116 @@ class TTC(DirectObject, Hood):
                 return task.done
         return task.cont
 
-    def sillyStreet(self, task):
-        if self.toon.getX() <= 35 and self.toon.getX() >= 21:
-            if self.toon.getY() <= -155 and self.toon.getY() >= -164:
-                SillyStreet(self.toon).load()
-                self.unload()
-                self.toon.setPosHpr(-91.9644, -100.045, -0.47204, 82.325, 0, 0)
-                return task.done
-        return task.cont
 
-    def punchlinePlace(self, task):
-        if self.toon.getX() <= -36 and self.toon.getX() >= -54:
-            if self.toon.getY() <= 102 and self.toon.getY() >= 99:
-                PunchlinePlace(self.toon).load()
-                self.unload()
-                self.toon.setPos(4.39313, 22.2804, -0.478364)
-                self.toon.setHpr(269.45, 0, 0)
-                return task.done
-        return task.cont
-
-    def loopyLane(self, task):
-        if self.toon.getX() <= -152 and self.toon.getX() >= -154:
-            if self.toon.getY() <= 12.5 and self.toon.getY() >= -4.3:
-                LoopyLane(self.toon).load()
-                self.unload()
-                self.toon.setPos(-76.0011, 96.14, -0.47921)
-                self.toon.setHpr(-271.592, 0, 0)
-                return task.done
-        return task.cont
-
-class SillyStreet(DirectObject):
+class SillyStreet(DirectObject, Town):
 
     def __init__(self, toon):
         DirectObject.__init__(self)
-        self.ls = LoadingScreen()
+        Town.__init__(self)
+        self.zoneId = Globals.SillyStreetId
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
-        self.music = None
-        self.sky = None
+        self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
         self.skyFile = "phase_3.5/models/props/TT_sky"
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorage = 'Resources/phase_4/dna/storage_TT.pdna'
-        self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
-        self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
-        self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2100.pdna'
+        self.townStorageDNAFile = 'phase_5/dna/storage_TT_town.xml'
+        self.streetDnaFile = 'phase_5/dna/toontown_central_2100.xml'
         self.accept('unloadZone', self.unload)
-
-    def tick(self):
-        self.ls.tick()
+        self.accept('loadHood', self.loadPlayground)
 
     def load(self):
-        self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
-        self.street = self.dna.returnGeom()
-        self.street.reparentTo(render)
-        self.ls.tick()
-        self.sky = SkyUtil.Sky()
-        self.sky.setupSky(self.skyFile)
-        self.ls.tick()
-        self.music = loader.loadMusic(self.musicFile)
-        base.playMusic(self.music, looping=1)
-        self.ls.tick()
-        base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.loadHood()
+        self.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
+        self.enter()
         base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
-        self.ls.end()
 
     def unload(self):
-        base.taskMgr.remove('ttcTunnel')
+        Town.unload(self)
         self.ignoreAll()
-        self.music.stop()
-        del self.music
-        self.sky.unload()
-        del self.sky
-        self.street.removeNode()
-        del self.street
-        self.dna.unload()
-        del self.dna
-        self.ls.destroy()
-        del self.ls
-        self.ignore('unloadZone')
+        del self.zoneId
+        del self.musicFile
+        del self.activityMusicFile
+        del self.skyFile
+        del self.townStorageDNAFile
+        del self.streetDnaFile
 
-    def ttc(self, task):
-        if self.toon.getX() <= -82 and self.toon.getX() >= -84:
-            if self.toon.getY() <= -90 and self.toon.getY() >= -109:
-                TTC(self.toon, (33.7737, -151.822, 3.02757, -24.1596, 0, 0)).load()
-                self.unload()
-                return task.done
-        return task.cont
+    def loadPlayground(self, id):
+        if id == Globals.ToontownCentralId:
+            self.playground = TTC(self.toon)
+            self.playground.load()
+            self.unload()
 
-class PunchlinePlace(DirectObject):
+
+class PunchlinePlace(DirectObject, Town):
 
     def __init__(self, toon):
         DirectObject.__init__(self)
-        self.ls = LoadingScreen()
+        Town.__init__(self)
+        self.zoneId = Globals.PunchlinePlaceId
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
-        self.music = None
-        self.sky = None
+        self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
         self.skyFile = "phase_3.5/models/props/TT_sky"
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorage = 'Resources/phase_4/dna/storage_TT.pdna'
-        self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
-        self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
-        self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2300.pdna'
+        self.townStorageDNAFile = 'phase_5/dna/storage_TT_town.xml'
+        self.streetDnaFile = 'phase_5/dna/toontown_central_2300.xml'
         self.accept('unloadZone', self.unload)
-
-    def tick(self):
-        self.ls.tick()
+        self.accept('loadHood', self.loadPlayground)
 
     def load(self):
-        self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
-        self.street = self.dna.returnGeom()
-        self.street.reparentTo(render)
-        self.ls.tick()
-        self.sky = SkyUtil.Sky()
-        self.sky.setupSky(self.skyFile)
-        self.ls.tick()
-        self.music = loader.loadMusic(self.musicFile)
-        base.playMusic(self.music, looping=1)
-        self.ls.tick()
-        base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.loadHood()
+        self.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
+        self.enter()
         base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
-        self.ls.end()
 
     def unload(self):
-        base.taskMgr.remove('ttcTunnel')
+        Town.unload(self)
         self.ignoreAll()
-        self.music.stop()
-        del self.music
-        self.sky.unload()
-        del self.sky
-        self.street.removeNode()
-        del self.street
-        self.dna.unload()
-        del self.dna
-        self.ls.destroy()
-        del self.ls
-        self.ignore('unloadZone')
+        del self.zoneId
+        del self.musicFile
+        del self.activityMusicFile
+        del self.skyFile
+        del self.townStorageDNAFile
+        del self.streetDnaFile
 
-    def ttc(self, task):
-        if self.toon.getX() <= -5 and self.toon.getX() >= -6:
-            if self.toon.getY() <= 28 and self.toon.getY() >= 12:
-                TTC(self.toon, (-47.3624, 92.1697, 0.527566, 172.46, 0, 0)).load()
-                self.unload()
-                return task.done
-        return task.cont
+    def loadPlayground(self, id):
+        if id == Globals.ToontownCentralId:
+            self.playground = TTC(self.toon)
+            self.playground.load()
+            self.unload()
 
-class LoopyLane(DirectObject):
+
+class LoopyLane(DirectObject, Town):
 
     def __init__(self, toon):
         DirectObject.__init__(self)
-        self.ls = LoadingScreen()
+        Town.__init__(self)
+        self.zoneId = Globals.LoopyLaneId
         self.toon = toon
         self.musicFile = "phase_3.5/audio/bgm/TC_SZ.ogg"
-        self.music = None
-        self.sky = None
+        self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
         self.skyFile = "phase_3.5/models/props/TT_sky"
-        self.storageFile = 'Resources/phase_4/dna/storage.pdna'
-        self.pgStorage = 'Resources/phase_4/dna/storage_TT.pdna'
-        self.townStorage = 'Resources/phase_5/dna/storage_town.pdna'
-        self.streetStorage = 'Resources/phase_5/dna/storage_TT_town.pdna'
-        self.streetDNAFile = 'Resources/phase_5/dna/toontown_central_2200.pdna'
+        self.townStorageDNAFile = 'phase_5/dna/storage_TT_town.xml'
+        self.streetDnaFile = 'phase_5/dna/toontown_central_2200.xml'
         self.accept('unloadZone', self.unload)
-
-    def tick(self):
-        self.ls.tick()
+        self.accept('loadHood', self.loadPlayground)
 
     def load(self):
-        self.ls.begin(100)
-        self.dna = DNALoader(self.storageFile, self.pgStorage, self.townStorage, self.streetStorage, self.streetDNAFile, 2200)
-        self.street = self.dna.returnGeom()
-        self.street.reparentTo(render)
-        self.ls.tick()
-        self.sky = SkyUtil.Sky()
-        self.sky.setupSky(self.skyFile)
-        self.ls.tick()
-        self.music = loader.loadMusic(self.musicFile)
-        base.playMusic(self.music, looping=1)
-        self.ls.tick()
-        base.taskMgr.add(self.ttc, 'ttcTunnel')
+        self.loadHood()
+        self.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
+        self.enter()
         base.setCurrentZone(Globals.TTCZone + Globals.StreetZone)
-        self.ls.end()
 
     def unload(self):
-        base.taskMgr.remove('ttcTunnel')
+        Town.unload(self)
         self.ignoreAll()
-        self.music.stop()
-        del self.music
-        self.sky.unload()
-        del self.sky
-        self.street.removeNode()
-        del self.street
-        self.dna.unload()
-        del self.dna
-        self.ls.destroy()
-        del self.ls
-        self.ignore('unloadZone')
+        del self.zoneId
+        del self.musicFile
+        del self.activityMusicFile
+        del self.skyFile
+        del self.townStorageDNAFile
+        del self.streetDnaFile
 
-    def ttc(self, task):
-        if self.toon.getX() <= -69 and self.toon.getX() >= -70.1:
-            if self.toon.getY() <= 103 and self.toon.getY() >= 87:
-                TTC(self.toon, (-145.759, 4.73623, 0.527567, -86.817, 0, 0)).load()
-                self.unload()
-                return task.done
-        return task.cont
+    def loadPlayground(self, id):
+        if id == Globals.ToontownCentralId:
+            self.playground = TTC(self.toon)
+            self.playground.load()
+            self.unload()

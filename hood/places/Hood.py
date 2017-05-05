@@ -5,9 +5,25 @@ import Globals
 from gui.LoadingScreen import LoadingScreen
 from gui import SkyUtil
 from pandac.PandaModules import *
+from hood.folder import ZoneUtil
 
 
 class Hood:
+    hoodName2Id = {
+        'dd': Globals.DDZone,
+        'tt': Globals.TTCZone,
+        'br': Globals.BRZone,
+        'mm': Globals.MMZone,
+        'dg': Globals.DGZone,
+        'oz': Globals.OZZone,
+        'gs': Globals.GSZone,
+        'dl': Globals.DLZone,
+        'bosshq': Globals.BBHQ,
+        'sellhq': Globals.SBHQ,
+        'cashhq': Globals.CBHQ,
+        'lawhq': Globals.LBHQ,
+        'gz': Globals.GZone
+    }
 
     def __init__(self):
         self.ls = LoadingScreen()
@@ -24,13 +40,13 @@ class Hood:
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
 
     def loadHood(self):
-        #loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.id], 1, Globals.TIP_GENERAL)
+        loader.beginBulkLoad('hood', 'Toontown', Globals.safeZoneCountMap[self.zoneId], 1, Globals.TIP_GENERAL)
         if self.storageDNAFile:
             loader.loadDNA(self.storageDNAFile).store(base.dnaStore)
-        '''self.sky = loader.loadModel(self.skyFile)
+        self.sky = loader.loadModel(self.skyFile)
         self.sky.setTag('sky', 'Regular')
         self.sky.setScale(1.0)
-        self.sky.setFogOff()'''
+        self.sky.setFogOff()
         self.music = base.loadMusic(self.musicFile)
 
     def createSafeZone(self, dnaFile):
@@ -129,21 +145,90 @@ class Hood:
         lightsOn.start()
         for i in self.nodeList:
             self.enterAnimatedProps(i)
-        #self.startSky()
+        self.startSky()
         base.lastPlayground = self.titleText
-        #base.localData.updateLastPlayground()
+        base.localData.updateLastPlayground()
         self.titleText = OnscreenText.OnscreenText(self.titleText, fg=self.titleColor, font=Globals.getSignFont(),
                                                    pos=(0, -0.5), scale=0.16, drawOrder=0, mayChange=1)
         self.doSpawnTitleText()
         base.cTrav = CollisionTraverser()
         base.camera.hide()
         self.notify.warning("Hood load successful.")
-        #loader.endBulkLoad('hood')
+        base.toon.setGeom(self.playground)
+        loader.endBulkLoad('hood')
+
+    def addLinkTunnelHooks(self, hoodPart, nodeList, currentZoneId):
+        tunnelOriginList = []
+        for i in nodeList:
+            linkTunnelNPC = i.findAllMatches('**/linktunnel*')
+            for p in range(linkTunnelNPC.getNumPaths()):
+                linkTunnel = linkTunnelNPC.getPath(p)
+                name = linkTunnel.getName()
+                nameParts = name.split('_')
+                hoodStr = nameParts[1]
+                zoneStr = nameParts[2]
+                hoodId = self.getIdFromName(hoodStr)
+                zoneId = int(zoneStr)
+                hoodId = ZoneUtil.getTrueZoneId(hoodId, currentZoneId)
+                zoneId = ZoneUtil.getTrueZoneId(zoneId, currentZoneId)
+                linkSphere = linkTunnel.find('**/tunnel_trigger')
+                if linkSphere.isEmpty():
+                    linkSphere = linkTunnel.find('**/tunnel_sphere')
+                if not linkSphere.isEmpty():
+                    cnode = linkSphere.node()
+                    cnode.setName('tunnel_trigger_' + hoodStr + '_' + zoneStr)
+                    cnode.setCollideMask(Globals.WallBitmask | Globals.GhostBitmask)
+                else:
+                    linkSphere = linkTunnel.find('**/tunnel_trigger_' + hoodStr + '_' + zoneStr)
+                    if linkSphere.isEmpty():
+                        self.notify.error('tunnel_trigger not found')
+                tunnelOrigin = linkTunnel.find('**/tunnel_origin')
+                if tunnelOrigin.isEmpty():
+                    self.notify.error('tunnel_origin not found')
+                tunnelOriginPlaceHolder = render.attachNewNode('toph_' + hoodStr + '_' + zoneStr)
+                tunnelOriginList.append(tunnelOriginPlaceHolder)
+                tunnelOriginPlaceHolder.setPos(tunnelOrigin.getPos(render))
+                tunnelOriginPlaceHolder.setHpr(tunnelOrigin.getHpr(render))
+                #hood = base.localAvatar.cr.playGame.hood
+                if ZoneUtil.tutorialDict:
+                    how = 'teleportIn'
+                    tutorialFlag = 1
+                else:
+                    how = 'tunnelIn'
+                    tutorialFlag = 0
+                hoodPart.accept('enter' + linkSphere.getName(), hoodPart.handleEnterTunnel,
+                                [{'loader': ZoneUtil.getLoaderName(zoneId),
+                                  'where': ZoneUtil.getToonWhereName(zoneId),
+                                  'how': how,
+                                  'hoodId': hoodId,
+                                  'zoneId': zoneId,
+                                  'shardId': None,
+                                  'tunnelOrigin': tunnelOriginPlaceHolder,
+                                  'tutorial': tutorialFlag}])
+
+        return tunnelOriginList
+
+    def getIdFromName(self, hoodName):
+        id = self.hoodName2Id.get(hoodName)
+        if id:
+            return id
+        else:
+            self.notify.error('No such hood name as: %s' % hoodName)
+            return None
+        return None
+
+    def handleEnterTunnel(self, requestStatus, collEntry):
+        streetId = ZoneUtil.getCanonicalBranchZone(requestStatus['zoneId'])
+        messenger.send('loadStreet', [streetId])
+
+    def getPhaseFromHood(self, hoodId):
+        hoodId = ZoneUtil.getStreetName(hoodId)
+        return hoodId
 
     def unload(self):
         self.music.stop()
         del self.music
-        self.sky.unload()
+        self.stopSky()
         del self.sky
         self.playground.removeNode()
         del self.playground
@@ -165,6 +250,10 @@ class Hood:
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
         self.sky.node().setEffect(ce)
 
+    def stopSky(self):
+        taskMgr.remove('skyTrack')
+        self.sky.reparentTo(hidden)
+
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
 
@@ -181,6 +270,3 @@ class Hood:
                        Func(self.titleText.hide))
         seq.start()
         seq.setAutoFinish(True)
-
-    def tick(self):
-        self.ls.tick()

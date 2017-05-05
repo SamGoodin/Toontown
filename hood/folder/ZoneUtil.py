@@ -23,9 +23,9 @@ def isDynamicZone(zoneId):
 def getStreetName(branchId):
     global tutorialDict
     if tutorialDict:
-        return StreetNames[20000][-1]
+        return GlobalStreetNames[20000][-1]
     else:
-        return StreetNames[branchId][-1]
+        return GlobalStreetNames[branchId][-1]
 
 
 def getLoaderName(zoneId):

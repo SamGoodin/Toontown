@@ -109,6 +109,9 @@ WelcomeValleyBegin = 22000
 WelcomeValleyEnd = 61000
 DonaldsDockId = 1000
 ToontownCentralId = 2000
+SillyStreetId = 2100
+LoopyLaneId = 2200
+PunchlinePlaceId = 2300
 TheBrrrghId = 3000
 MinniesMelodylandId = 4000
 DaisyGardensId = 5000
@@ -125,6 +128,52 @@ TutorialId = 15000
 MyEstateId = 16000
 GolfZoneId = 17000
 PartyHoodId = 18000
+GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
+ 1000: ('to the', 'in the', 'Playground'),
+ 1100: ('to', 'on', 'Barnacle Boulevard'),
+ 1200: ('to', 'on', 'Seaweed Street'),
+ 1300: ('to', 'on', 'Lighthouse Lane'),
+ 2000: ('to the', 'in the', 'Playground'),
+ 2100: ('to', 'on', 'Silly Street'),
+ 2200: ('to', 'on', 'Loopy Lane'),
+ 2300: ('to', 'on', 'Punchline Place'),
+ 3000: ('to the', 'in the', 'Playground'),
+ 3100: ('to', 'on', 'Walrus Way'),
+ 3200: ('to', 'on', 'Sleet Street'),
+ 3300: ('to', 'on', 'Polar Place'),
+ 4000: ('to the', 'in the', 'Playground'),
+ 4100: ('to', 'on', 'Alto Avenue'),
+ 4200: ('to', 'on', 'Baritone Boulevard'),
+ 4300: ('to', 'on', 'Tenor Terrace'),
+ 5000: ('to the', 'in the', 'Playground'),
+ 5100: ('to', 'on', 'Elm Street'),
+ 5200: ('to', 'on', 'Maple Street'),
+ 5300: ('to', 'on', 'Oak Street'),
+ 9000: ('to the', 'in the', 'Playground'),
+ 9100: ('to', 'on', 'Lullaby Lane'),
+ 9200: ('to', 'on', 'Pajama Place'),
+ 10000: ('to', 'in', 'Bossbot HQ Country Club'),
+ 10100: ('to the', 'in the', 'Bossbot HQ Lobby'),
+ 10200: ('to the', 'in the', 'The Clubhouse'),
+ 10500: ('to the', 'in the', 'The Front Three'),
+ 10600: ('to the', 'in the', 'The Middle Six'),
+ 10700: ('to the', 'in the', 'The Back Nine'),
+ 11000: ('to the', 'in the', 'Sellbot HQ Courtyard'),
+ 11100: ('to the', 'in the', 'Sellbot HQ Lobby'),
+ 11200: ('to the', 'in the', 'Sellbot Factory'),
+ 11500: ('to the', 'in the', 'Sellbot Factory'),
+ 12000: ('to', 'in', 'Cashbot Train Yard'),
+ 12100: ('to the', 'in the', 'Cashbot HQ Lobby'),
+ 12500: ('to the', 'in the', 'Cashbot Coin Mint'),
+ 12600: ('to the', 'in the', 'Cashbot Dollar Mint'),
+ 12700: ('to the', 'in the', 'Cashbot Bullion Mint'),
+ 13000: ('to', 'in', 'Lawbot HQ Courtyard'),
+ 13100: ('to the', 'in the', 'Courthouse Lobby'),
+ 13200: ('to the', 'in the', "DA's Office Lobby"),
+ 13300: ('to the', 'in the', 'Lawbot A Office'),
+ 13400: ('to the', 'in the', 'Lawbot B Office'),
+ 13500: ('to the', 'in the', 'Lawbot C Office'),
+ 13600: ('to the', 'in the', 'Lawbot D Office')}
 EstateZone = "Estate"
 TTCZone = "Toontown Central"
 DDZone = "Donald's Dock"

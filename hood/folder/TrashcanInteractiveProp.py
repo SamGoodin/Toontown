@@ -6,8 +6,8 @@ import Globals
 
 class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
     notify = DirectNotifyGlobal.directNotify.newCategory('TrashcanInteractiveProp')
-    BattleCheerText = Globals.InteractivePropTrackBonusTerms[0]
-    ZoneToIdles = {Globals.ToontownCentral: (('tt_a_ara_ttc_trashcan_idleTake2',
+    #BattleCheerText = TTLocalizer.InteractivePropTrackBonusTerms[ToontownBattleGlobals.HEAL_TRACK]
+    ZoneToIdles = {Globals.ToontownCentralId: (('tt_a_ara_ttc_trashcan_idleTake2',
                                         1,
                                         1,
                                         None,
@@ -31,7 +31,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                         None,
                                         3,
                                         10)),
-     Globals.DonaldsDock: (('tt_a_ara_dod_trashcan_idleBounce2',
+     Globals.DonaldsDockId: (('tt_a_ara_dod_trashcan_idleBounce2',
                                     3,
                                     10,
                                     'tt_a_ara_dod_trashcan_idle0settle',
@@ -55,7 +55,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                     None,
                                     3,
                                     10)),
-     Globals.DaisyGardens: (('tt_a_ara_dga_trashcan_idleTake2',
+     Globals.DaisyGardensId: (('tt_a_ara_dga_trashcan_idleTake2',
                                      1,
                                      1,
                                      None,
@@ -79,7 +79,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                      None,
                                      3,
                                      10)),
-     Globals.MinniesMelodyland: (('tt_a_ara_mml_trashcan_idleBounce0',
+     Globals.MinniesMelodylandId: (('tt_a_ara_mml_trashcan_idleBounce0',
                                           3,
                                           10,
                                           'tt_a_ara_mml_trashcan_idle0settle',
@@ -103,7 +103,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                           None,
                                           3,
                                           10)),
-     Globals.TheBrrrgh: (('tt_a_ara_tbr_trashcan_idleShiver1',
+     Globals.TheBrrrghId: (('tt_a_ara_tbr_trashcan_idleShiver1',
                                   1,
                                   1,
                                   None,
@@ -127,7 +127,7 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                   None,
                                   3,
                                   10)),
-     Globals.DonaldsDreamland: (('tt_a_ara_ddl_trashcan_idleSleep0',
+     Globals.DonaldsDreamlandId: (('tt_a_ara_ddl_trashcan_idleSleep0',
                                          3,
                                          10,
                                          None,
@@ -151,34 +151,34 @@ class TrashcanInteractiveProp(InteractiveAnimatedProp.InteractiveAnimatedProp):
                                          None,
                                          0,
                                          0))}
-    ZoneToIdleIntoFightAnims = {Globals.ToontownCentral: 'tt_a_ara_ttc_trashcan_idleIntoFight',
-     Globals.DonaldsDock: 'tt_a_ara_dod_trashcan_idleIntoFight',
-     Globals.DaisyGardens: 'tt_a_ara_dga_trashcan_idleIntoFight',
-     Globals.MinniesMelodyland: 'tt_a_ara_mml_trashcan_idleIntoFight',
-     Globals.TheBrrrgh: 'tt_a_ara_tbr_trashcan_idleIntoFight',
-     Globals.DonaldsDreamland: 'tt_a_ara_ddl_trashcan_idleIntoFight'}
-    ZoneToVictoryAnims = {Globals.ToontownCentral: 'tt_a_ara_ttc_trashcan_victoryDance',
-     Globals.DonaldsDock: 'tt_a_ara_dod_trashcan_victoryDance',
-     Globals.DaisyGardens: 'tt_a_ara_dga_trashcan_victoryDance',
-     Globals.MinniesMelodyland: 'tt_a_ara_mml_trashcan_victoryDance',
-     Globals.TheBrrrgh: 'tt_a_ara_tbr_trashcan_victoryDance',
-     Globals.DonaldsDreamland: 'tt_a_ara_ddl_trashcan_victoryDance'}
-    ZoneToSadAnims = {Globals.ToontownCentral: 'tt_a_ara_ttc_trashcan_fightSad',
-     Globals.DonaldsDock: 'tt_a_ara_dod_trashcan_fightSad',
-     Globals.DaisyGardens: 'tt_a_ara_dga_trashcan_fightSad',
-     Globals.MinniesMelodyland: 'tt_a_ara_mml_trashcan_fightSad',
-     Globals.TheBrrrgh: 'tt_a_ara_tbr_trashcan_fightSad',
-     Globals.DonaldsDreamland: 'tt_a_ara_ddl_trashcan_fightSad'}
-    ZoneToFightAnims = {Globals.ToontownCentral: ('tt_a_ara_ttc_trashcan_fightBoost', 'tt_a_ara_ttc_trashcan_fightCheer', 'tt_a_ara_ttc_trashcan_fightIdle'),
-     Globals.DonaldsDock: ('tt_a_ara_dod_trashcan_fightBoost', 'tt_a_ara_dod_trashcan_fightCheer', 'tt_a_ara_dod_trashcan_fightIdle'),
-     Globals.DaisyGardens: ('tt_a_ara_dga_trashcan_fightBoost', 'tt_a_ara_dga_trashcan_fightCheer', 'tt_a_ara_dga_trashcan_fightIdle'),
-     Globals.MinniesMelodyland: ('tt_a_ara_mml_trashcan_fightBoost',
+    ZoneToIdleIntoFightAnims = {Globals.ToontownCentralId: 'tt_a_ara_ttc_trashcan_idleIntoFight',
+     Globals.DonaldsDockId: 'tt_a_ara_dod_trashcan_idleIntoFight',
+     Globals.DaisyGardensId: 'tt_a_ara_dga_trashcan_idleIntoFight',
+     Globals.MinniesMelodylandId: 'tt_a_ara_mml_trashcan_idleIntoFight',
+     Globals.TheBrrrghId: 'tt_a_ara_tbr_trashcan_idleIntoFight',
+     Globals.DonaldsDreamlandId: 'tt_a_ara_ddl_trashcan_idleIntoFight'}
+    ZoneToVictoryAnims = {Globals.ToontownCentralId: 'tt_a_ara_ttc_trashcan_victoryDance',
+     Globals.DonaldsDockId: 'tt_a_ara_dod_trashcan_victoryDance',
+     Globals.DaisyGardensId: 'tt_a_ara_dga_trashcan_victoryDance',
+     Globals.MinniesMelodylandId: 'tt_a_ara_mml_trashcan_victoryDance',
+     Globals.TheBrrrghId: 'tt_a_ara_tbr_trashcan_victoryDance',
+     Globals.DonaldsDreamlandId: 'tt_a_ara_ddl_trashcan_victoryDance'}
+    ZoneToSadAnims = {Globals.ToontownCentralId: 'tt_a_ara_ttc_trashcan_fightSad',
+     Globals.DonaldsDockId: 'tt_a_ara_dod_trashcan_fightSad',
+     Globals.DaisyGardensId: 'tt_a_ara_dga_trashcan_fightSad',
+     Globals.MinniesMelodylandId: 'tt_a_ara_mml_trashcan_fightSad',
+     Globals.TheBrrrghId: 'tt_a_ara_tbr_trashcan_fightSad',
+     Globals.DonaldsDreamlandId: 'tt_a_ara_ddl_trashcan_fightSad'}
+    ZoneToFightAnims = {Globals.ToontownCentralId: ('tt_a_ara_ttc_trashcan_fightBoost', 'tt_a_ara_ttc_trashcan_fightCheer', 'tt_a_ara_ttc_trashcan_fightIdle'),
+     Globals.DonaldsDockId: ('tt_a_ara_dod_trashcan_fightBoost', 'tt_a_ara_dod_trashcan_fightCheer', 'tt_a_ara_dod_trashcan_fightIdle'),
+     Globals.DaisyGardensId: ('tt_a_ara_dga_trashcan_fightBoost', 'tt_a_ara_dga_trashcan_fightCheer', 'tt_a_ara_dga_trashcan_fightIdle'),
+     Globals.MinniesMelodylandId: ('tt_a_ara_mml_trashcan_fightBoost',
                                          'tt_a_ara_mml_trashcan_fightCheer0',
                                          'tt_a_ara_mml_trashcan_fightCheer1',
                                          'tt_a_ara_mml_trashcan_fightIdle'),
-     Globals.TheBrrrgh: ('tt_a_ara_tbr_trashcan_fightBoost', 'tt_a_ara_tbr_trashcan_fightCheer', 'tt_a_ara_tbr_trashcan_fightIdle'),
-     Globals.DonaldsDreamland: ('tt_a_ara_ddl_trashcan_fightBoost', 'tt_a_ara_ddl_trashcan_fightCheer', 'tt_a_ara_ddl_trashcan_fightIdle')}
-    IdlePauseTime = base.config.GetFloat('prop-idle-pause-time', 0.0)
+     Globals.TheBrrrghId: ('tt_a_ara_tbr_trashcan_fightBoost', 'tt_a_ara_tbr_trashcan_fightCheer', 'tt_a_ara_tbr_trashcan_fightIdle'),
+     Globals.DonaldsDreamlandId: ('tt_a_ara_ddl_trashcan_fightBoost', 'tt_a_ara_ddl_trashcan_fightCheer', 'tt_a_ara_ddl_trashcan_fightIdle')}
+    IdlePauseTime = config.GetFloat('prop-idle-pause-time', 0.0)
 
     def __init__(self, node):
         InteractiveAnimatedProp.InteractiveAnimatedProp.__init__(self, node, Globals.TRASHCANS_BUFF_BATTLES)
